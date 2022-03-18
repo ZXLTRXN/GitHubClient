@@ -3,8 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/drawable/circular.xml" value="0.15" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/drawable/ic_github.xml" value="0.15" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/drawable/ic_github_circular.xml" value="0.15" />
         <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/activity_main.xml" value="0.1734375" />
-        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_login.xml" value="0.159375" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_auth.xml" value="0.264" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_detail_info.xml" value="0.1734375" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_login.xml" value="0.12" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_repositories.xml" value="0.17239583333333333" />
+        <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_repositories_list.xml" value="0.1734375" />
       </map>
     </option>
   </component>
