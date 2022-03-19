@@ -45,6 +45,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:${Dependencies.fragmentVersion}")
     implementation("androidx.annotation:annotation:1.3.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${Dependencies.lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Dependencies.lifecycleVersion}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Dependencies.lifecycleVersion}")
 
     implementation("com.google.android.material:material:1.5.0")

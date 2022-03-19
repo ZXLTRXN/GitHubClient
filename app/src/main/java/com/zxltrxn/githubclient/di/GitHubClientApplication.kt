@@ -1,4 +1,4 @@
-package com.zxltrxn.githubclient.app
+package com.zxltrxn.githubclient.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

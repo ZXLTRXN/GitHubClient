@@ -5,5 +5,6 @@
     <string name="btn_sign_in">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="logo_description">GitHub logo</string>
+    <string name="log_out">Log out</string>
 
 </resources>

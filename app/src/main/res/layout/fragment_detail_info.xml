@@ -5,7 +5,7 @@
     android:id="@+id/detail_info_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".detailInfo.DetailInfoFragment">
+    tools:context=".presentation.detailInfo.DetailInfoFragment">
 
     <TextView
         android:layout_width="wrap_content"
