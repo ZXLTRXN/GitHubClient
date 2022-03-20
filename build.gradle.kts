@@ -8,6 +8,7 @@ plugins {
 buildscript {
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Dependencies.hiltVersion}")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Dependencies.navigationVersion}")
     }
 }
 

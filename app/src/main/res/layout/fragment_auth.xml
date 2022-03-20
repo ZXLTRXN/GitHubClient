@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
+        <import type="com.zxltrxn.githubclient.presentation.auth.AuthViewModel.State"/>
+        <import type="com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action"/>
         <variable
             name="vm"
             type="com.zxltrxn.githubclient.presentation.auth.AuthViewModel" />
@@ -39,31 +41,45 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_git_logo">
+            app:layout_constraintTop_toBottomOf="@+id/iv_git_logo"
+            app:errorEnabled="true"
+            app:errorText="@{vm.state.getErrorReason()}">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"
-                android:text="@={vm.token}" />
-            <!--                android:imeOptions="actionNext"-->
+                android:text="@={vm.token}"
+                />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btn_sign_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:enabled="true"
-            android:text="@string/btn_sign_in"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_sign_in_height"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{v -> vm.onSignButtonPressed()}"/>
+            app:layout_constraintStart_toStartOf="parent">
 
-<!--        <com.google.android.material.progressindicator.CircularProgressIndicator-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:indeterminate="true" />-->
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="@dimen/btn_sign_in_height"
+                android:layout_height="@dimen/btn_sign_in_height"
+                android:layout_gravity="center"
+                android:elevation="@dimen/elevation"
+                app:indicatorColor="@color/white"
+                android:visibility="@{(vm.state instanceof State.Loading) ? View.VISIBLE : View.GONE}"
+                android:indeterminate="true" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="@dimen/elevation"
+                android:backgroundTint="@color/green"
+                app:cornerRadius="@dimen/corner_radius"
+                android:enabled="@{!(vm.state instanceof State.Loading) }"
+                android:onClick="@{v -> vm.onSignButtonPressed()}"
+                android:text='@{(vm.state instanceof State.Loading) ? "": @string/btn_sign_in}' />
+        </FrameLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

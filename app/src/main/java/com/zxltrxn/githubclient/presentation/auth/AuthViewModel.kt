@@ -8,6 +8,7 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.UserInfo
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,12 +31,12 @@ class AuthViewModel @Inject constructor(
     fun onSignButtonPressed() {
         Log.d(TAG, "onSignButtonPressed: ${token.value}")
 
-        when (token.value.validateToken()){
+        when (val validationResult = token.value.validateToken()){
             ValidationState.INVALID ->{
-                _state.value = (State.InvalidInput("Invalid"))
+                _state.value = (State.InvalidInput(validationResult.reason))
             }
             ValidationState.EMPTY ->{
-                _state.value = (State.InvalidInput("Empty"))
+                _state.value = (State.InvalidInput(validationResult.reason))
             }
             ValidationState.VALID ->{
                 trySignIn()
@@ -48,8 +49,9 @@ class AuthViewModel @Inject constructor(
             _state.value = State.Loading
             when (val res = repository.signIn(token.value)){
                 is Resource.Success -> {
-                    _state.value = State.Idle
                     _actions.emit(Action.RouteToMain)
+                    delay(1000)
+                    _state.value = State.Idle
                 }
                 is Resource.Error -> {
                     val msg = res.message ?: "unknown error"
@@ -64,17 +66,18 @@ class AuthViewModel @Inject constructor(
         object Idle : State
         object Loading : State
         data class InvalidInput(val reason: String) : State
-    }
 
+        fun getErrorReason(): String? = if (this is InvalidInput) this.reason else null
+    }
 
     sealed interface Action {
         data class ShowError(val message: String) : Action
         object RouteToMain : Action
     }
 
-    enum class ValidationState{
-        EMPTY,
-        INVALID,
-        VALID
+    enum class ValidationState(val reason: String){
+        EMPTY("Empty input"),
+        INVALID("Invalid input"),
+        VALID("Valid input")
     }
 }

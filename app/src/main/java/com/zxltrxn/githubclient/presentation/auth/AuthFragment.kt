@@ -6,22 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputLayout
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
-import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.State
 import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action
+
 import com.zxltrxn.githubclient.utils.Constants.TAG
+import com.zxltrxn.githubclient.utils.collectLifecycleFlow
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+
+
 
 @AndroidEntryPoint
 class AuthFragment : Fragment(R.layout.fragment_auth) {
@@ -55,13 +56,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun observe(){
-        collectLatestLifecycleFlow(viewModel.state){ state ->
-            when (state){
-                is State.Loading -> setLoadingState()
-                is State.InvalidInput -> setInputError(state.reason)
-                is State.Idle -> setDefaultState()
-            }
-        }
         collectLifecycleFlow(viewModel.actions){ action ->
             when (action){
                 is Action.ShowError -> showToast(action.message)
@@ -71,39 +65,12 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun navigateToRepositoriesList(){
-//        findNavController().navigate(FragmentAuth)
-        Log.d(TAG, "navigateToRepositoriesList")
-    }
-
-    private fun setLoadingState(){
-        Log.d(TAG, "setLoadingState")
-    }
-
-    private fun setDefaultState(){
-        Log.d(TAG, "setDefaultState")
-    }
-
-    private fun setInputError(reason: String){
-        Log.d(TAG, "setInputError: $reason")
+        val action = AuthFragmentDirections
+            .authFragmentToRepositoriesListFragment()
+        this.findNavController().navigate(action)
     }
 
     private fun showToast(message: String){
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-}
-
-fun <T> Fragment.collectLatestLifecycleFlow(flow: Flow<T>, collect: suspend (T)->Unit){
-    viewLifecycleOwner.lifecycleScope.launch{
-        repeatOnLifecycle(Lifecycle.State.STARTED){
-            flow.collectLatest(collect)
-        }
-    }
-}
-
-fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collect: FlowCollector<T>){
-    viewLifecycleOwner.lifecycleScope.launch{
-        repeatOnLifecycle(Lifecycle.State.STARTED){
-            flow.collect(collect)
-        }
     }
 }
