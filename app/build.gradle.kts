@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    kotlin("plugin.serialization") version Dependencies.kotlinVersion
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
 }
@@ -56,10 +57,11 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
-
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Dependencies.coroutineVersion}")
 
     implementation("com.squareup.retrofit2:retrofit:${Dependencies.retrofitVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Dependencies.serializationVersion}")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Dependencies.serializationConverterVersion}")
 
     implementation("com.google.dagger:hilt-android:${Dependencies.hiltVersion}")
     kapt("com.google.dagger:hilt-android-compiler:${Dependencies.hiltVersion}")
@@ -67,6 +69,4 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${Dependencies.navigationVersion}")
     implementation("androidx.navigation:navigation-ui-ktx:${Dependencies.navigationVersion}")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:${Dependencies.navigationVersion}")
-
-
 }

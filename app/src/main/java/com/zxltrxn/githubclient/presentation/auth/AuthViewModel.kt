@@ -3,9 +3,8 @@ package com.zxltrxn.githubclient.presentation.auth
 import android.util.Log
 import androidx.lifecycle.*
 import com.zxltrxn.githubclient.utils.Constants.TAG
-import com.zxltrxn.githubclient.data.AppRepository
+import com.zxltrxn.githubclient.data.AuthMediator
 import com.zxltrxn.githubclient.data.Resource
-import com.zxltrxn.githubclient.data.model.UserInfo
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository : AppRepository
+    private val mediator : AuthMediator
     ) : ViewModel() {
 
     val token = MutableStateFlow("")
@@ -47,16 +46,15 @@ class AuthViewModel @Inject constructor(
     private fun trySignIn(){
         viewModelScope.launch {
             _state.value = State.Loading
-            when (val res = repository.signIn(token.value)){
+            when (val res = mediator.signIn(token.value)){
                 is Resource.Success -> {
                     _actions.emit(Action.RouteToMain)
                     delay(1000)
                     _state.value = State.Idle
                 }
                 is Resource.Error -> {
-                    val msg = res.message ?: "unknown error"
                     _state.value = State.Idle
-                    _actions.emit(Action.ShowError(msg))
+                    _actions.emit(Action.ShowError(res.message!!))
                 }
             }
         }

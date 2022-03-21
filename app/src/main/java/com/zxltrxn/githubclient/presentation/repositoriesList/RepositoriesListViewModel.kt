@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepositoriesListViewModel @Inject constructor(
-    private val repository: AppRepository) : ViewModel() {
+    private val repository: AppRepository
+) : ViewModel() {
 
     val state: StateFlow<State> = MutableStateFlow(State.Loading)
 
