@@ -2,6 +2,7 @@ package com.zxltrxn.githubclient.utils
 
 import android.util.Log
 import com.zxltrxn.githubclient.data.NetworkResource
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
 import retrofit2.Response
 import java.lang.Exception
@@ -25,8 +26,10 @@ object NetworkUtils {
             NetworkResource.Error("Data from server unreadable")
         }catch (e: UnknownHostException){
             NetworkResource.Error("No internet connection")
+        }catch (e: CancellationException){
+            NetworkResource.Error("Cancelled")
         }catch (e: Exception){
-            Log.e(Constants.TAG, "AuthMediator.tryRequest: ${e}" )
+            Log.e(Constants.TAG, "NetworkUtils.tryRequest: ${e}" )
             NetworkResource.Error("Unknown error")
         }
     }

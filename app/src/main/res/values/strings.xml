@@ -6,5 +6,7 @@
     <string name="welcome">"Welcome!"</string>
     <string name="logo_description">GitHub logo</string>
     <string name="log_out">Log out</string>
+    <string name="sign_out">Sign out</string>
+    <string name="repositories_list_header">Repositories</string>
 
 </resources>

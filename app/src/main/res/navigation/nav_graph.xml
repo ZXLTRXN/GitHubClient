@@ -3,7 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/authFragment">
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.zxltrxn.githubclient.presentation.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/splashFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/splashFragment_to_repositoriesListFragment"
+            app:destination="@id/repositoriesListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/authFragment"
@@ -15,23 +36,27 @@
             app:destination="@id/repositoriesListFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/authFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
     <fragment
         android:id="@+id/repositoriesListFragment"
         android:name="com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragment"
         android:label="fragment_repositories_list"
         tools:layout="@layout/fragment_repositories_list" >
-<!--        <argument-->
-<!--            android:name="user"-->
-<!--            app:argType="integer"/>-->
+        <!--        <argument-->
+        <!--            android:name="user"-->
+        <!--            app:argType="integer"/>-->
         <action
-            android:id="@+id/action_repositoriesListFragment_to_detailInfoFragment"
+            android:id="@+id/repositoriesListFragment_to_detailInfoFragment"
             app:destination="@id/detailInfoFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
+
     <fragment
         android:id="@+id/detailInfoFragment"
         android:name="com.zxltrxn.githubclient.presentation.detailInfo.DetailInfoFragment"

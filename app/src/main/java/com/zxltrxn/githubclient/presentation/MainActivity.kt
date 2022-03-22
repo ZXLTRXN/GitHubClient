@@ -1,28 +1,76 @@
 package com.zxltrxn.githubclient.presentation
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.zxltrxn.githubclient.R
-import com.zxltrxn.githubclient.presentation.auth.AuthFragment
+import com.zxltrxn.githubclient.data.AuthMediator
+import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.presentation.splash.SplashFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    @Inject lateinit var authMediator: AuthMediator
+    private val navController:NavController by lazy{ getNavigationController() }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-//        val navHostFragment = supportFragmentManager
-//            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//        val navController = navHostFragment.navController
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+
+        if(navController.currentDestination == navController.findDestination(R.id.splashFragment)) {
+            authenticationWithRouting(navController)
+        }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.action_sign_out){
+            lifecycleScope.launch{
+                authMediator.signOut()
+            }
+            navController.navigate(R.id.authFragment)
+        }
+        return true
+    }
+
+    private fun getNavigationController(): NavController{
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        return navHostFragment.navController
+    }
+
+    private fun authenticationWithRouting(navController: NavController){
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                when(authMediator.signIn()){
+                    is Resource.Success -> {
+                        val action = SplashFragmentDirections
+                            .splashFragmentToRepositoriesListFragment()
+                        navController.navigate(action)
+                    }
+                    is Resource.Error ->{
+                        val action = SplashFragmentDirections
+                            .splashFragmentToAuthFragment()
+                        navController.navigate(action)
+                    }
+                }
+            }
+        }
+    }
 }

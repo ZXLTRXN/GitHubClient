@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
+import com.zxltrxn.githubclient.presentation.MainActivity
+import com.zxltrxn.githubclient.presentation.MainActivity_MembersInjector
 import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action
 
 import com.zxltrxn.githubclient.utils.Constants.TAG
@@ -42,6 +44,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
         }
+        (requireActivity() as MainActivity).supportActionBar?.hide()
         return view.root
     }
 
