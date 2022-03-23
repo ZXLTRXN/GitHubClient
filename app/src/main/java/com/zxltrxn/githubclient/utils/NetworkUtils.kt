@@ -17,12 +17,13 @@ object NetworkUtils {
                     NetworkResource.Success(it)
                 } ?: return NetworkResource.Error("Empty data from server")
             }
-            Log.d(Constants.TAG, "tryRequest: ${response.code()}")
+//            Log.d(Constants.TAG, "tryRequest: ${response.code()}")
             when (response.code()){
                 Constants.WRONG_TOKEN_CODE -> NetworkResource.Error("Wrong token", code = Constants.WRONG_TOKEN_CODE)
                 else -> NetworkResource.Error("Service Unavailable")
             }
         }catch (e: SerializationException){
+            Log.e(Constants.TAG, "NetworkUtils.tryRequest: ${e}" )
             NetworkResource.Error("Data from server unreadable")
         }catch (e: UnknownHostException){
             NetworkResource.Error("No internet connection")

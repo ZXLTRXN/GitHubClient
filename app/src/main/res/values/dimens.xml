@@ -1,7 +1,7 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="fragment_horizontal_margin">16dp</dimen>
-    <dimen name="fragment_vertical_margin">20dp</dimen>
+    <dimen name="fragment_horizontal_padding">16dp</dimen>
+    <dimen name="fragment_vertical_padding">20dp</dimen>
 
     <dimen name="vertical_logo_margin">48dp</dimen>
 
@@ -11,5 +11,6 @@
     <dimen name="elevation">10dp</dimen>
     <dimen name="corner_radius">8dp</dimen>
     <dimen name="iv_splash_padding">50dp</dimen>
+    <dimen name="rv_element_vertical_padding">10dp</dimen>
 
 </resources>
