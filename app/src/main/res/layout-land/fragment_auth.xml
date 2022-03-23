@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.zxltrxn.githubclient.presentation.auth.AuthViewModel.State"/>
+        <import type="com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action"/>
+        <variable
+            name="vm"
+            type="com.zxltrxn.githubclient.presentation.auth.AuthViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/fragment_horizontal_margin"
+        android:paddingTop="@dimen/fragment_vertical_margin"
+        android:paddingRight="@dimen/fragment_horizontal_margin"
+        android:paddingBottom="@dimen/fragment_vertical_margin"
+        tools:context=".presentation.auth.AuthFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/et_token"
+            app:errorEnabled="true"
+            app:errorText="@{vm.state.getErrorReason()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:text="@={vm.token}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_sign_in_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="@dimen/btn_sign_in_height"
+                android:layout_height="@dimen/btn_sign_in_height"
+                android:layout_gravity="center"
+                android:elevation="@dimen/elevation"
+                android:indeterminate="true"
+                android:visibility="@{(vm.state instanceof State.Loading) ? View.VISIBLE : View.GONE}"
+                app:indicatorColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/green"
+                android:elevation="@dimen/elevation"
+                android:enabled="@{!(vm.state instanceof State.Loading) }"
+                android:onClick="@{v -> vm.onSignButtonPressed()}"
+                android:text='@{(vm.state instanceof State.Loading) ? "": @string/btn_sign_in}'
+                app:cornerRadius="@dimen/corner_radius" />
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
