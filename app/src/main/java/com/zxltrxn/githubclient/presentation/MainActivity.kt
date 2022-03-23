@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 //        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         setSupportActionBar(findViewById(R.id.my_toolbar))
-
         if(navController.currentDestination == navController.findDestination(R.id.splashFragment)) {
             authenticationWithRouting(navController)
         }
@@ -44,6 +43,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             lifecycleScope.launch{
                 authMediator.signOut()
             }
+            navController.popBackStack(R.id.repositoriesListFragment,true)
             navController.navigate(R.id.authFragment)
         }
         return true
