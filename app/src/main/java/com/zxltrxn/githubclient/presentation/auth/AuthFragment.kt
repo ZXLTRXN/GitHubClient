@@ -1,29 +1,19 @@
 package com.zxltrxn.githubclient.presentation.auth
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputLayout
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
 import com.zxltrxn.githubclient.presentation.MainActivity
-import com.zxltrxn.githubclient.presentation.MainActivity_MembersInjector
 import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action
-
-import com.zxltrxn.githubclient.utils.Constants.TAG
 import com.zxltrxn.githubclient.utils.collectLifecycleFlow
+import com.zxltrxn.githubclient.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-
 
 
 @AndroidEntryPoint
@@ -71,9 +61,5 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         val action = AuthFragmentDirections
             .authFragmentToRepositoriesListFragment()
         this.findNavController().navigate(action)
-    }
-
-    private fun showToast(message: String){
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

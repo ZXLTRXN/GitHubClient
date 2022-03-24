@@ -28,8 +28,6 @@ class AuthViewModel @Inject constructor(
 
 
     fun onSignButtonPressed() {
-        Log.d(TAG, "onSignButtonPressed: ${token.value}")
-
         when (val validationResult = token.value.validateToken()){
             ValidationState.INVALID ->{
                 _state.value = (State.InvalidInput(validationResult.reason))

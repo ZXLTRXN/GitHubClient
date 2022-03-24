@@ -46,9 +46,6 @@
         android:name="com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragment"
         android:label="fragment_repositories_list"
         tools:layout="@layout/fragment_repositories_list" >
-        <!--        <argument-->
-        <!--            android:name="user"-->
-        <!--            app:argType="integer"/>-->
         <action
             android:id="@+id/repositoriesListFragment_to_detailInfoFragment"
             app:destination="@id/detailInfoFragment"
@@ -61,6 +58,10 @@
         android:id="@+id/detailInfoFragment"
         android:name="com.zxltrxn.githubclient.presentation.detailInfo.DetailInfoFragment"
         android:label="fragment_detail_info"
-        tools:layout="@layout/fragment_detail_info" />
+        tools:layout="@layout/fragment_detail_info">
+        <argument
+            android:name="repoId"
+            app:argType="integer"/>
+    </fragment>
 
 </navigation>

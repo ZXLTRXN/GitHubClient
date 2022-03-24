@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="@dimen/rv_element_vertical_padding"
+    android:paddingHorizontal="@dimen/fragment_horizontal_padding"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/rv_element_vertical_padding"
         android:orientation="horizontal">
 
         <TextView
@@ -18,8 +19,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="22sp"
-            />
+            android:textSize="16sp"
+            android:textColor="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/rv_element_repo_language"

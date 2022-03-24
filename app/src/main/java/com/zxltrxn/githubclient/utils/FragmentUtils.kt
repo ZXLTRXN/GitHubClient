@@ -1,5 +1,6 @@
 package com.zxltrxn.githubclient.utils
 
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -30,4 +31,8 @@ fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collect: FlowCollector<T>){
             flow.collect(collect)
         }
     }
+}
+
+fun Fragment.showToast(message: String){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
