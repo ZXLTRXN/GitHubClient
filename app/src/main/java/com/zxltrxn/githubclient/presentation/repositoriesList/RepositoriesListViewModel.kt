@@ -1,12 +1,10 @@
 package com.zxltrxn.githubclient.presentation.repositoriesList
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zxltrxn.githubclient.data.AppRepository
 import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
-import com.zxltrxn.githubclient.utils.Constants.TAG
+import com.zxltrxn.githubclient.data.repository.IDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepositoriesListViewModel @Inject constructor(
-    private val repository: AppRepository
+    private val repository: IDataRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)

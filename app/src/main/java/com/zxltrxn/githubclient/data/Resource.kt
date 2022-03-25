@@ -14,8 +14,13 @@ sealed class NetworkResource<T>(val data:T? = null, val message:String? = null, 
             is Success -> Resource.Success(data = data!!)
             is Error -> Resource.Error(message = message!!)
         }
-
-
-
     }
+
+    fun toUnitResource():Resource<Unit>{
+        return when(this){
+            is Success -> Resource.Success(Unit)
+            is Error -> Resource.Error(message = message!!)
+        }
+    }
+
 }

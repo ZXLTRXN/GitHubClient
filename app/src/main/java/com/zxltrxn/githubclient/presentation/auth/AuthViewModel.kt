@@ -1,10 +1,8 @@
 package com.zxltrxn.githubclient.presentation.auth
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.zxltrxn.githubclient.utils.Constants.TAG
-import com.zxltrxn.githubclient.data.AuthMediator
 import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -15,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val mediator : AuthMediator
+    private val authRepo : IAuthRepository
     ) : ViewModel() {
 
     val token = MutableStateFlow("")
@@ -44,7 +42,7 @@ class AuthViewModel @Inject constructor(
     private fun trySignIn(){
         viewModelScope.launch {
             _state.value = State.Loading
-            when (val res = mediator.signIn(token.value)){
+            when (val res = authRepo.signIn(token.value)){
                 is Resource.Success -> {
                     _actions.emit(Action.RouteToMain)
                     delay(1000)

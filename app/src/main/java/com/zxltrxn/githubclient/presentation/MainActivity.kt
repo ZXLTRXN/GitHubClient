@@ -10,8 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.zxltrxn.githubclient.R
-import com.zxltrxn.githubclient.data.AuthMediator
 import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.presentation.splash.SplashFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    @Inject lateinit var authMediator: AuthMediator
+    @Inject lateinit var authRepo: IAuthRepository
     private val navController:NavController by lazy{ getNavigationController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.action_sign_out){
             lifecycleScope.launch{
-                authMediator.signOut()
+                authRepo.signOut()
             }
             navController.popBackStack(R.id.repositoriesListFragment,true)
             navController.navigate(R.id.authFragment)
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun authenticationWithRouting(navController: NavController){
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                when(authMediator.signIn()){
+                when(authRepo.signIn()){
                     is Resource.Success -> {
                         val action = SplashFragmentDirections
                             .splashFragmentToRepositoriesListFragment()
