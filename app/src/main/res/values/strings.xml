@@ -8,5 +8,6 @@
     <string name="log_out">Log out</string>
     <string name="sign_out">Sign out</string>
     <string name="repositories_list_header">Repositories</string>
+    <string name="empty_repositories_list">Nothing to show, no repositories available</string>
 
 </resources>

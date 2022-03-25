@@ -49,13 +49,9 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:layout_width="@dimen/btn_sign_in_height"
-                android:layout_height="@dimen/btn_sign_in_height"
-                android:layout_gravity="center"
-                android:elevation="@dimen/elevation"
-                android:indeterminate="true"
+                style="@style/ProgressIndicator"
                 android:visibility="@{(vm.state instanceof State.Loading) ? View.VISIBLE : View.GONE}"
-                app:indicatorColor="@color/white" />
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"

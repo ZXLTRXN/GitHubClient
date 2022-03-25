@@ -2,20 +2,17 @@ package com.zxltrxn.githubclient.data.repository
 
 import android.content.Context
 import android.util.Log
-import com.zxltrxn.githubclient.data.NetworkResource
 import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.data.storage.UserInfo
 import com.zxltrxn.githubclient.data.storage.UserStorage
-import com.zxltrxn.githubclient.utils.Constants
 import com.zxltrxn.githubclient.utils.Constants.TAG
 import com.zxltrxn.githubclient.utils.Constants.WRONG_TOKEN_CODE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.zxltrxn.githubclient.utils.NetworkUtils.tryRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.serialization.json.Json
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -29,11 +26,11 @@ class AppRepository @Inject constructor(
     private val api: APIService
 ) : IAuthRepository, IDataRepository {
 
-    private var repos:List<Repo> = listOf()
+    private var requestResult: Resource<List<Repo>> = Resource.Error("")
 
     ////////////IDataRepository
     override suspend fun getRepositories(): Resource<List<Repo>> = withContext(Dispatchers.IO){
-        return@withContext Resource.Success(data = repos)
+        return@withContext requestResult
     }
 
     //    suspend fun getRepository(repoId: String): RepoDetails {
@@ -48,7 +45,7 @@ class AppRepository @Inject constructor(
         return try{
             context.assets.open("github_colors.json").bufferedReader().use { it.readText() }
         }catch (e: IOException){
-            Log.e(TAG, "AppRepository.addLanguageColor: $e")
+            Log.e(TAG, "AppRepository.readFromAssets: $e")
             null
         }
     }
@@ -73,25 +70,25 @@ class AppRepository @Inject constructor(
 
     ////////////IAuthRepository
     override suspend fun signIn(token: String?): Resource<Unit> = withContext(Dispatchers.IO){
-        if (token == null){
-            if (userStorage.getUser().token == null)
-                return@withContext Resource.Error(message = "No saved token")
-        }else{
+        if (token != null){
             userStorage.saveUser(UserInfo(token = token))
         }
         val res = tryRequest{ api.getRepos() }
-        return@withContext if (res is NetworkResource.Success){
-            repos = addLanguageColor(res.data.orEmpty())
-            Resource.Success(Unit)
+        requestResult = if (res is Resource.Success){
+            Resource.Success(addLanguageColor(res.data.orEmpty()))
         }else{
-            if(res.code == WRONG_TOKEN_CODE) userStorage.saveUser(UserInfo(token = null, name = null))
-            repos = listOf()
-            res.toUnitResource()
+            if(res.code == WRONG_TOKEN_CODE) clearUser()
+            res
         }
+        return@withContext res.toUnitResource()
     }
 
     override suspend fun signOut() = withContext(Dispatchers.IO){
-        userStorage.saveUser(UserInfo(token = null, name = null))
+        clearUser()
+    }
+
+    private fun clearUser(){
+        userStorage.saveUser(UserInfo())
     }
 
 }

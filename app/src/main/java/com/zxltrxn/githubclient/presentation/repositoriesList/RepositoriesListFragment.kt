@@ -35,17 +35,18 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentRepositoriesListBinding.inflate(inflater,container,false)
+        val view = binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            vm = viewModel
+            rvRepositoriesList.addItemDecoration(DividerItemDecoration(context, VERTICAL))
+        }
 
         (requireActivity() as MainActivity).supportActionBar?.run{
             show()
             title = getString(R.string.repositories_list_header)
         }
 
-        binding.rvRepositoriesList.addItemDecoration(
-            DividerItemDecoration(context, VERTICAL)
-        )
-
-        return binding.root
+        return view.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,17 +71,16 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
     private fun observe(){
         collectLatestLifecycleFlow(viewModel.state){ state ->
             when(state){
-                is State.Loading -> {}
-                is State.Empty -> {
-                    adapter.submitList(listOf())
-                }
                 is State.Loaded -> {
                     adapter.submitList(state.repos)
                 }
-                is State.Error ->{
-                    adapter.submitList(listOf())
-                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                is State.Error -> {
+                    binding.tvRepositoriesError.text = state.error
                 }
+                is State.Empty -> {
+                    binding.tvRepositoriesError.text = getString(R.string.empty_repositories_list)
+                }
+                else -> {}
             }
         }
     }
