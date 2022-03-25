@@ -45,7 +45,6 @@ class AuthViewModel @Inject constructor(
             when (val res = authRepo.signIn(token.value)){
                 is Resource.Success -> {
                     _actions.emit(Action.RouteToMain)
-                    delay(1000)
                     _state.value = State.Idle
                 }
                 is Resource.Error -> {

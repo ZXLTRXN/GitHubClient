@@ -15,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.zxltrxn.githubclient.utils.NetworkUtils.tryRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.serialization.json.Json
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,18 +44,30 @@ class AppRepository @Inject constructor(
 //        // TODO:
 //    }
 
-    private fun addLanguageColor(repos: List<Repo>):List<Repo> {
+    private fun readFromAssets(): String?{
         return try{
-//            val json = context.assets.open("github_colors.json")
-//                .bufferedReader().use { it.readText() }
-
-            repos.map {
-                it.languageColor ="#38761D"
-                it
-            }
+            context.assets.open("github_colors.json").bufferedReader().use { it.readText() }
         }catch (e: IOException){
             Log.e(TAG, "AppRepository.addLanguageColor: $e")
-            repos
+            null
+        }
+    }
+
+    private fun addLanguageColor(repos: List<Repo>):List<Repo> {
+        val colorsString: String = readFromAssets() ?: return repos
+        val colors = try{
+            JSONObject(colorsString)
+        }catch (e: JSONException){
+            Log.e(TAG, "AppRepository.addLanguageColor: $e")
+            return repos
+        }
+        return repos.map {
+            if (it.language != null){
+                try{
+                    it.languageColor = colors.getString(it.language)
+                }catch (e:JSONException){  }
+            }
+            it
         }
     }
 
@@ -67,7 +82,6 @@ class AppRepository @Inject constructor(
         val res = tryRequest{ api.getRepos() }
         return@withContext if (res is NetworkResource.Success){
             repos = addLanguageColor(res.data.orEmpty())
-
             Resource.Success(Unit)
         }else{
             if(res.code == WRONG_TOKEN_CODE) userStorage.saveUser(UserInfo(token = null, name = null))

@@ -33,7 +33,10 @@ class RepositoriesAdapter(
         private fun bindLanguage(text: String?, color: String?) {
             binding.rvElementRepoLanguage.let{
                 it.text = text
-                it.setTextColor(Color.parseColor(color))
+                color?.let{ color ->
+                    it.setTextColor(Color.parseColor(color))
+                }
+
             }
         }
 
