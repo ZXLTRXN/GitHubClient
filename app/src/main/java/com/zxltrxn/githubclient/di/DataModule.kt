@@ -1,7 +1,6 @@
 package com.zxltrxn.githubclient.di
 
 import android.content.Context
-import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.data.repository.AppRepository
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.data.repository.IDataRepository
@@ -21,22 +20,14 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideIDataRepository(
-        @ApplicationContext  context: Context,
-        userStorage: UserStorage,
-        api: APIService
-    ): IDataRepository{
-        return AppRepository(context = context, userStorage = userStorage, api = api)
+    fun provideIDataRepository(appRepository: AppRepository): IDataRepository{
+        return appRepository
     }
 
     @Singleton
     @Provides
-    fun provideIAuthRepository(
-        @ApplicationContext  context: Context,
-        userStorage: UserStorage,
-        api: APIService
-    ): IAuthRepository {
-        return AppRepository(context = context, userStorage = userStorage, api = api)
+    fun provideIAuthRepository(appRepository: AppRepository): IAuthRepository {
+        return appRepository
     }
 
     @Singleton

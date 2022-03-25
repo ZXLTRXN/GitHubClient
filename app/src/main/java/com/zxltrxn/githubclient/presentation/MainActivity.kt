@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject lateinit var authRepo: IAuthRepository
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         setSupportActionBar(findViewById(R.id.my_toolbar))
         if(navController.currentDestination == navController.findDestination(R.id.splashFragment)) {
             authenticationWithRouting(navController)
