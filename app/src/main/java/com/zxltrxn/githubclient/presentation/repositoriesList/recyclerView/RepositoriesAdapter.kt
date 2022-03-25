@@ -36,7 +36,6 @@ class RepositoriesAdapter(
                 color?.let{ color ->
                     it.setTextColor(Color.parseColor(color))
                 }
-
             }
         }
 

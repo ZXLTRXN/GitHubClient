@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,6 @@ import com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListVi
 import com.zxltrxn.githubclient.presentation.repositoriesList.recyclerView.RepositoriesAdapter
 import com.zxltrxn.githubclient.utils.Constants.TAG
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
-import com.zxltrxn.githubclient.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,7 +56,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        releaseAdapter()
+        binding.rvRepositoriesList.adapter = null
         _binding = null
     }
 
@@ -65,10 +65,6 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
             navigateToDetailInfo(id)
         }
         binding.rvRepositoriesList.adapter = adapter
-    }
-
-    private fun releaseAdapter(){
-        binding.rvRepositoriesList.adapter = null
     }
 
     private fun observe(){
@@ -83,7 +79,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
                 }
                 is State.Error ->{
                     adapter.submitList(listOf())
-                    showToast(state.error)
+                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
                 }
             }
         }

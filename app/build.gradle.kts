@@ -70,4 +70,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${Dependencies.navigationVersion}")
     implementation("androidx.navigation:navigation-ui-ktx:${Dependencies.navigationVersion}")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:${Dependencies.navigationVersion}")
+
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:${Dependencies.leakCanaryVersion}")
 }

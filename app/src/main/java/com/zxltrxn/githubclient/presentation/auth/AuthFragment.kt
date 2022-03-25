@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,9 +13,7 @@ import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
 import com.zxltrxn.githubclient.presentation.MainActivity
 import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action
 import com.zxltrxn.githubclient.utils.collectLifecycleFlow
-import com.zxltrxn.githubclient.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class AuthFragment : Fragment(R.layout.fragment_auth) {
@@ -51,7 +50,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private fun observe(){
         collectLifecycleFlow(viewModel.actions){ action ->
             when (action){
-                is Action.ShowError -> showToast(action.message)
+                is Action.ShowError ->
+                    Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
                 is Action.RouteToMain -> navigateToRepositoriesList()
             }
         }

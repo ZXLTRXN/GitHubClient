@@ -33,6 +33,6 @@ fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collect: FlowCollector<T>){
     }
 }
 
-fun Fragment.showToast(message: String){
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-}
+//fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT){
+//    Toast.makeText(context, message, duration).show()
+//}

@@ -1,6 +1,7 @@
 package com.zxltrxn.githubclient.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.presentation.splash.SplashFragmentDirections
+import com.zxltrxn.githubclient.utils.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,18 +58,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun authenticationWithRouting(navController: NavController){
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                when(authRepo.signIn()){
-                    is Resource.Success -> {
-                        val action = SplashFragmentDirections
-                            .splashFragmentToRepositoriesListFragment()
-                        navController.navigate(action)
+                try{
+                    when(authRepo.signIn()){
+                        is Resource.Success -> {
+                            val action = SplashFragmentDirections
+                                .splashFragmentToRepositoriesListFragment()
+                            navController.navigate(action)
+                        }
+                        is Resource.Error ->{
+                            val action = SplashFragmentDirections
+                                .splashFragmentToAuthFragment()
+                            navController.navigate(action)
+                        }
                     }
-                    is Resource.Error ->{
-                        val action = SplashFragmentDirections
-                            .splashFragmentToAuthFragment()
-                        navController.navigate(action)
-                    }
-                }
+                }catch (e:IllegalArgumentException){ }
             }
         }
     }
