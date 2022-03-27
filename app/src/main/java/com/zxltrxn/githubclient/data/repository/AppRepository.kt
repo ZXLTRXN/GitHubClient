@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
+import com.zxltrxn.githubclient.data.model.RepoDetails
 import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.data.storage.UserInfo
 import com.zxltrxn.githubclient.data.storage.UserStorage
@@ -33,13 +34,14 @@ class AppRepository @Inject constructor(
         return@withContext requestResult
     }
 
-    //    suspend fun getRepository(repoId: String): RepoDetails {
-//        // TODO:
-//    }
-//
-//    suspend fun getRepositoryReadme(ownerName: String, repositoryName: String, branchName: String): String {
-//        // TODO:
-//    }
+    override suspend fun getRepository(repoId: String): Resource<RepoDetails> {
+        return Resource.Success(RepoDetails(Repo(),"hey"))
+    }
+
+    override suspend fun getRepositoryReadme(ownerName: String, repositoryName: String,
+                                             branchName: String) : Resource<String> {
+        return Resource.Success("hey")
+    }
 
     private fun readFromAssets(): String?{
         return try{
