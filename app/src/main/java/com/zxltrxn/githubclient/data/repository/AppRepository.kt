@@ -7,12 +7,16 @@ import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.model.RepoDetails
 import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.data.storage.KeyValueStorage
+import com.zxltrxn.githubclient.utils.Constants.BASE_URL_README
+import com.zxltrxn.githubclient.utils.Constants.COLORS_FILE_NAME
 import com.zxltrxn.githubclient.utils.Constants.TAG
 import com.zxltrxn.githubclient.utils.Constants.WRONG_TOKEN_CODE
+import com.zxltrxn.githubclient.utils.NetworkUtils.okHttpRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.zxltrxn.githubclient.utils.NetworkUtils.tryRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -23,7 +27,8 @@ import javax.inject.Singleton
 class AppRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val userStorage: KeyValueStorage,
-    private val api: APIService
+    private val api: APIService,
+    private val client: OkHttpClient
 ) : IAuthRepository, IDataRepository {
 
     private var repositoriesRequestResult: Resource<List<Repo>> = Resource.Error("")
@@ -50,14 +55,15 @@ class AppRepository @Inject constructor(
 
     override suspend fun getRepositoryReadme(ownerName: String, repositoryName: String,
                                              branchName: String) : Resource<String> {
-        val res = tryRequest{ api.getReadme(ownerName = ownerName,
-        repositoryName = repositoryName, branchName = branchName) }
-        return Resource.Error("SSSS")
+        val fileName = "README.md"
+        val url = BASE_URL_README +
+                "$ownerName/$repositoryName/$branchName/$fileName"
+        return okHttpRequest(client, url)
     }
 
     private fun readFromAssets(): String?{
         return try{
-            context.assets.open("github_colors.json").bufferedReader().use { it.readText() }
+            context.assets.open(COLORS_FILE_NAME).bufferedReader().use { it.readText() }
         }catch (e: IOException){
             Log.e(TAG, "AppRepository.readFromAssets: $e")
             null

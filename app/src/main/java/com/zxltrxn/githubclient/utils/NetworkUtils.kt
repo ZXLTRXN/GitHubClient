@@ -2,11 +2,18 @@ package com.zxltrxn.githubclient.utils
 
 import android.util.Log
 import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.utils.Constants.TAG
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Response
+import java.io.IOException
 import java.lang.Exception
 import java.net.UnknownHostException
+import javax.inject.Inject
 
 object NetworkUtils {
     suspend fun <T>tryRequest(request: suspend () -> Response<T>): Resource<T> {
@@ -22,15 +29,33 @@ object NetworkUtils {
                 else -> Resource.Error("Service Unavailable")
             }
         }catch (e: SerializationException){
-            Log.e(Constants.TAG, "NetworkUtils.tryRequest: ${e}" )
+            Log.e(TAG, "NetworkUtils.tryRequest: ${e}" )
             Resource.Error("Data from server unreadable")
         }catch (e: UnknownHostException){
             Resource.Error("No internet connection")
         }catch (e: CancellationException){
             Resource.Error("Cancelled")
         }catch (e: Exception){
-            Log.e(Constants.TAG, "NetworkUtils.tryRequest: ${e}" )
+            Log.e(TAG, "NetworkUtils.tryRequest: ${e}" )
             Resource.Error("Unknown error")
         }
+    }
+
+    fun okHttpRequest(client: OkHttpClient, url: String): Resource<String>{
+        val request = Request.Builder()
+            .url(url)
+            .build()
+        val call = client.newCall(request)
+        try{
+            val response = call.execute()
+            response.body()?.let{
+                return Resource.Success(it.string())
+            }
+            return Resource.Error("Empty readme")
+        }catch (e:IOException){
+            Log.e(TAG, "okHttpRequest: $e")
+            return Resource.Error("Readme missing")
+        }
+
     }
 }
