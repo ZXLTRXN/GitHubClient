@@ -7,10 +7,12 @@
 
     <dimen name="et_min_height">48dp</dimen>
     <dimen name="iv_logo_size">180dp</dimen>
+    <dimen name="iv_splash_padding">50dp</dimen>
     <dimen name="btn_sign_in_height">55dp</dimen>
     <dimen name="elevation">6dp</dimen>
     <dimen name="corner_radius">8dp</dimen>
-    <dimen name="iv_splash_padding">50dp</dimen>
-    <dimen name="rv_element_vertical_padding">10dp</dimen>
+
+    <dimen name="rv_element_vertical_margin">10dp</dimen>
+    <dimen name="rv_element_horizontal_margin">8dp</dimen>
 
 </resources>
