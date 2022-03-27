@@ -9,5 +9,9 @@
     <string name="sign_out">Sign out</string>
     <string name="repositories_list_header">Repositories</string>
     <string name="empty_repositories_list">Nothing to show, no repositories available</string>
+    <string name="tv_watchers_title">watchers</string>
+    <string name="tv_forks_title">forks</string>
+    <string name="tv_stars_title">stars</string>
+    <string name="tv_license_label">License</string>
 
 </resources>

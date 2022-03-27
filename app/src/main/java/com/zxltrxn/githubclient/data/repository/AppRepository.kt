@@ -6,8 +6,7 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.model.RepoDetails
 import com.zxltrxn.githubclient.data.network.APIService
-import com.zxltrxn.githubclient.data.storage.UserInfo
-import com.zxltrxn.githubclient.data.storage.UserStorage
+import com.zxltrxn.githubclient.data.storage.KeyValueStorage
 import com.zxltrxn.githubclient.utils.Constants.TAG
 import com.zxltrxn.githubclient.utils.Constants.WRONG_TOKEN_CODE
 import kotlinx.coroutines.Dispatchers
@@ -23,24 +22,37 @@ import javax.inject.Singleton
 @Singleton
 class AppRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val userStorage: UserStorage,
+    private val userStorage: KeyValueStorage,
     private val api: APIService
 ) : IAuthRepository, IDataRepository {
 
-    private var requestResult: Resource<List<Repo>> = Resource.Error("")
+    private var repositoriesRequestResult: Resource<List<Repo>> = Resource.Error("")
 
     ////////////IDataRepository
     override suspend fun getRepositories(): Resource<List<Repo>> = withContext(Dispatchers.IO){
-        return@withContext requestResult
+        return@withContext repositoriesRequestResult
     }
 
-    override suspend fun getRepository(repoId: String): Resource<RepoDetails> {
-        return Resource.Success(RepoDetails(Repo(),"hey"))
+    override suspend fun getRepository(repoId: Int): Resource<RepoDetails> = withContext(Dispatchers.IO) {
+        val repo = repositoriesRequestResult.data!!.find{ it.id == repoId }
+        repo?.let {
+            val ownerName: String = repo.owner?.name ?: ""
+            val repoName: String = repo.name ?: ""
+            val branchName: String = repo.branch ?: ""
+
+            val readme = getRepositoryReadme(ownerName = ownerName,
+                repositoryName = repoName, branchName = branchName)
+
+            return@withContext Resource.Success(RepoDetails(repo,readme))
+        }
+        return@withContext Resource.Error("No repository with current id")
     }
 
     override suspend fun getRepositoryReadme(ownerName: String, repositoryName: String,
                                              branchName: String) : Resource<String> {
-        return Resource.Success("hey")
+        val res = tryRequest{ api.getReadme(ownerName = ownerName,
+        repositoryName = repositoryName, branchName = branchName) }
+        return Resource.Error("SSSS")
     }
 
     private fun readFromAssets(): String?{
@@ -73,24 +85,30 @@ class AppRepository @Inject constructor(
     ////////////IAuthRepository
     override suspend fun signIn(token: String?): Resource<Unit> = withContext(Dispatchers.IO){
         if (token != null){
-            userStorage.saveUser(UserInfo(token = token))
+            userStorage.authToken = token
         }
         val res = tryRequest{ api.getRepos() }
-        requestResult = if (res is Resource.Success){
+        repositoriesRequestResult = if (res is Resource.Success){
             Resource.Success(addLanguageColor(res.data.orEmpty()))
         }else{
-            if(res.code == WRONG_TOKEN_CODE) clearUser()
+            if(res.code == WRONG_TOKEN_CODE) userStorage.clearUserData()
             res
         }
         return@withContext res.toUnitResource()
     }
 
     override suspend fun signOut() = withContext(Dispatchers.IO){
-        clearUser()
-    }
-
-    private fun clearUser(){
-        userStorage.saveUser(UserInfo())
+        userStorage.clearUserData()
     }
 
 }
+
+//    private var userNameRequestResult: Resource<Unit> = Resource.Error("initial")
+//    private suspend fun saveUserNameFromApi(){
+//        val res = tryRequest{ api.getUser() }
+//        if (res is Resource.Success){
+//            userStorage.userName = res.data!!.name
+//        }
+//        userNameRequestResult = res.toUnitResource()
+//        Log.d(TAG, "saveUserNameFromApi: ${res.data?.name}")
+//    }

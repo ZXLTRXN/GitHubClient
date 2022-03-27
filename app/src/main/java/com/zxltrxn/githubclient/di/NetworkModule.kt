@@ -4,7 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.data.network.interceptor.AcceptInterceptor
 import com.zxltrxn.githubclient.data.network.interceptor.AuthInterceptor
-import com.zxltrxn.githubclient.data.storage.UserStorage
+import com.zxltrxn.githubclient.data.storage.KeyValueStorage
 import com.zxltrxn.githubclient.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -24,7 +24,7 @@ class NetworkModule {
     @AuthInterceptorOkHttpClient
     @Singleton
     @Provides
-    fun providesAuthInterceptor(userStorage: UserStorage): Interceptor = AuthInterceptor(userStorage)
+    fun providesAuthInterceptor(userStorage: KeyValueStorage): Interceptor = AuthInterceptor(userStorage)
 
     @AcceptInterceptorOkHttpClient
     @Singleton

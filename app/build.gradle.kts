@@ -71,5 +71,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:${Dependencies.navigationVersion}")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:${Dependencies.navigationVersion}")
 
+    implementation("io.noties.markwon:core:${Dependencies.markwonVersion}")
+
     debugImplementation("com.squareup.leakcanary:leakcanary-android:${Dependencies.leakCanaryVersion}")
 }

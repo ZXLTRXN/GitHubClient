@@ -1,5 +1,4 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="fragment_horizontal_padding">16dp</dimen>
     <dimen name="fragment_vertical_padding">20dp</dimen>
 
@@ -14,5 +13,10 @@
 
     <dimen name="rv_element_vertical_margin">10dp</dimen>
     <dimen name="rv_element_horizontal_margin">8dp</dimen>
+
+<!--    detail info fragment-->
+    <dimen name="sections_vertical_margin">20dp</dimen>
+    <dimen name="margin_between_iv_tv">8dp</dimen>
+
 
 </resources>

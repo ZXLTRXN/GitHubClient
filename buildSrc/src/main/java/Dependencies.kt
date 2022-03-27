@@ -10,6 +10,7 @@ object Dependencies {
     const val coroutineVersion = "1.6.0"
     const val hiltVersion = "2.41"
     const val navigationVersion = "2.4.1"
+    const val markwonVersion = "4.6.2"
 
     const val  truthVersion = "1.1.3"
 
