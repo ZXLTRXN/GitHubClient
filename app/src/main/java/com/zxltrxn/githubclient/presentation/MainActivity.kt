@@ -1,6 +1,7 @@
 package com.zxltrxn.githubclient.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -14,9 +15,11 @@ import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.presentation.splash.SplashFragmentDirections
 import com.zxltrxn.githubclient.utils.Constants
 import com.zxltrxn.githubclient.utils.Constants.IS_ENTERED_KEY
+import com.zxltrxn.githubclient.utils.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -28,11 +31,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         val isEntered = savedInstanceState?.getBoolean(IS_ENTERED_KEY)
-        if (isEntered == null) authenticationWithRouting()
+        if (isEntered == null || isEntered == false) authenticationWithRouting()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(IS_ENTERED_KEY, true)
+        if (navController.currentDestination != navController.findDestination(R.id.splashFragment)) {
+            outState.putBoolean(IS_ENTERED_KEY, true)
+        }
         super.onSaveInstanceState(outState)
     }
 
