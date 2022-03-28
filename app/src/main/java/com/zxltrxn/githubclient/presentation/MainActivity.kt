@@ -59,13 +59,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 onBackPressed()
             }
         }
-//        if(item.itemId == R.id.action_sign_out){
-//            lifecycleScope.launch{
-//                authRepo.signOut()
-//            }
-//            navController.popBackStack(R.id.repositoriesListFragment,true)
-//            navController.navigate(R.id.authFragment)
-//        }
         return super.onOptionsItemSelected(item)
     }
 

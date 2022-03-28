@@ -5,7 +5,6 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,20 +23,49 @@ class AuthViewModel @Inject constructor(
     private val _actions = MutableSharedFlow<Action>()
     val actions = _actions.asSharedFlow()
 
-
-    fun onSignButtonPressed() {
-        when (val validationResult = token.value.validateToken()){
-            ValidationState.INVALID ->{
-                _state.value = (State.InvalidInput(validationResult.reason))
-            }
-            ValidationState.EMPTY ->{
-                _state.value = (State.InvalidInput(validationResult.reason))
-            }
-            ValidationState.VALID ->{
-                trySignIn()
+    init {
+        viewModelScope.launch {
+            token.collectLatest {
+                validate()
             }
         }
     }
+
+    fun onSignButtonPressed() {
+        when(val validationResult = validate()){
+            ValidationState.VALID ->{ trySignIn() }
+            ValidationState.EMPTY ->{
+            _state.value = (State.InvalidInput(validationResult.reason))
+            }
+            else ->{}
+        }
+    }
+
+    private fun validate(): ValidationState{
+        val validationResult = token.value.validateToken()
+        when (validationResult){
+            ValidationState.INVALID ->{
+                _state.value = (State.InvalidInput(validationResult.reason))
+            }
+            ValidationState.VALID -> {
+                _state.value = State.Idle
+            }
+            ValidationState.EMPTY ->{}
+        }
+        return validationResult
+    }
+
+//    when (val validationResult = token.value.validateToken()){
+//        ValidationState.INVALID ->{
+//            _state.value = (State.InvalidInput(validationResult.reason))
+//        }
+//        ValidationState.EMPTY ->{
+//            _state.value = (State.InvalidInput(validationResult.reason))
+//        }
+//        ValidationState.VALID ->{
+//            trySignIn()
+//        }
+//    }
 
     private fun trySignIn(){
         viewModelScope.launch {
