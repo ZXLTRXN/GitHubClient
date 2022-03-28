@@ -73,5 +73,5 @@ dependencies {
 
     implementation("io.noties.markwon:core:${Dependencies.markwonVersion}")
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:${Dependencies.leakCanaryVersion}")
+//    debugImplementation("com.squareup.leakcanary:leakcanary-android:${Dependencies.leakCanaryVersion}")
 }

@@ -33,7 +33,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentDetailInfoBinding.inflate(inflater,container,false)
         val view = binding.apply {

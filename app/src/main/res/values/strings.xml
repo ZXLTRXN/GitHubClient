@@ -14,5 +14,10 @@
     <string name="tv_stars_title">stars</string>
     <string name="tv_license_label">License</string>
     <string name="empty_readme">Readme is empty</string>
+    <string name="link_icon">link icon</string>
+    <string name="license_icon">license icon</string>
+    <string name="star_icon">star icon</string>
+    <string name="fork_icon">fork icon</string>
+    <string name="eye_icon">eye icon</string>
 
 </resources>

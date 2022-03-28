@@ -26,7 +26,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentAuthBinding.inflate(inflater,container,false)
         val view = binding.apply {

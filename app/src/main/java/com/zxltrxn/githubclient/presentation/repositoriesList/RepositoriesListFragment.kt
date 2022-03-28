@@ -32,7 +32,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentRepositoriesListBinding.inflate(inflater,container,false)
         val view = binding.apply {
