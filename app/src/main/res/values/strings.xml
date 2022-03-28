@@ -13,5 +13,6 @@
     <string name="tv_forks_title">forks</string>
     <string name="tv_stars_title">stars</string>
     <string name="tv_license_label">License</string>
+    <string name="empty_readme">Readme is empty</string>
 
 </resources>

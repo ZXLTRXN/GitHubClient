@@ -13,7 +13,7 @@ import com.zxltrxn.githubclient.utils.Constants.TAG
 
 
 class RepositoriesAdapter(
-    private val onItemClick:(Int)->Unit
+    private val onItemClick:(Int, String)->Unit
 ) : ListAdapter<Repo, RepositoriesAdapter.RepoViewHolder>(RepoDiffUtilCallback()) {
 
     class RepoViewHolder(
@@ -58,7 +58,7 @@ class RepositoriesAdapter(
         getItem(position).let{ repo ->
             holder.bind(repo)
             holder.itemView.setOnClickListener{
-                onItemClick(repo.id!!)
+                onItemClick(repo.id!!, repo.name!!)
             }
         }
     }

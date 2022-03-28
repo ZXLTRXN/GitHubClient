@@ -17,6 +17,7 @@
 <!--    detail info fragment-->
     <dimen name="sections_vertical_margin">20dp</dimen>
     <dimen name="margin_between_iv_tv">8dp</dimen>
+    <dimen name="margin_between_one_statistic">4dp</dimen>
 
 
 </resources>

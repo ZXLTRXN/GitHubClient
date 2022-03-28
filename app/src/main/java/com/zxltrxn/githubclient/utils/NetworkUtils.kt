@@ -5,15 +5,12 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.utils.Constants.TAG
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Response
 import java.io.IOException
 import java.lang.Exception
 import java.net.UnknownHostException
-import javax.inject.Inject
 
 object NetworkUtils {
     suspend fun <T>tryRequest(request: suspend () -> Response<T>): Resource<T> {
@@ -48,14 +45,21 @@ object NetworkUtils {
         val call = client.newCall(request)
         try{
             val response = call.execute()
-            response.body()?.let{
-                return Resource.Success(it.string())
+            if (response.isSuccessful){
+                response.body()?.let{
+                    return Resource.Success(it.string())
+                }
+                return Resource.Error("Empty readme")
             }
-            return Resource.Error("Empty readme")
+            return Resource.Error("No README file", code = response.code())
+        }catch (e:UnknownHostException){
+            return Resource.Error("No internet connection to get README")
         }catch (e:IOException){
             Log.e(TAG, "okHttpRequest: $e")
-            return Resource.Error("Readme missing")
+            return Resource.Error("No README file")
+        }catch (e:OutOfMemoryError){
+            Log.e(TAG, "okHttpRequest: $e")
+            return Resource.Error("No README file")
         }
-
     }
 }

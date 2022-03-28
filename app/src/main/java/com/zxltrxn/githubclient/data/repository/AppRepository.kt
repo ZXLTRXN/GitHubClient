@@ -47,17 +47,15 @@ class AppRepository @Inject constructor(
 
             val readme = getRepositoryReadme(ownerName = ownerName,
                 repositoryName = repoName, branchName = branchName)
-
             return@withContext Resource.Success(RepoDetails(repo,readme))
         }
         return@withContext Resource.Error("No repository with current id")
     }
 
-    override suspend fun getRepositoryReadme(ownerName: String, repositoryName: String,
-                                             branchName: String) : Resource<String> {
+    private fun getRepositoryReadme(ownerName: String, repositoryName: String,
+                                    branchName: String) : Resource<String> {
         val fileName = "README.md"
-        val url = BASE_URL_README +
-                "$ownerName/$repositoryName/$branchName/$fileName"
+        val url = BASE_URL_README + "$ownerName/$repositoryName/$branchName/$fileName"
         return okHttpRequest(client, url)
     }
 
@@ -108,13 +106,3 @@ class AppRepository @Inject constructor(
     }
 
 }
-
-//    private var userNameRequestResult: Resource<Unit> = Resource.Error("initial")
-//    private suspend fun saveUserNameFromApi(){
-//        val res = tryRequest{ api.getUser() }
-//        if (res is Resource.Success){
-//            userStorage.userName = res.data!!.name
-//        }
-//        userNameRequestResult = res.toUnitResource()
-//        Log.d(TAG, "saveUserNameFromApi: ${res.data?.name}")
-//    }

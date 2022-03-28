@@ -51,7 +51,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         collectLifecycleFlow(viewModel.actions){ action ->
             when (action){
                 is Action.ShowError ->
-                    Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), action.message, Toast.LENGTH_SHORT).show()
                 is Action.RouteToMain -> navigateToRepositoriesList()
             }
         }
