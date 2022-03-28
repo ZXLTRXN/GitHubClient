@@ -42,8 +42,9 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         }
 
         (requireActivity() as MainActivity).supportActionBar?.run{
-            show()
             title = getString(R.string.repositories_list_header)
+            setDisplayHomeAsUpEnabled(false)
+            show()
         }
 
         return view.root

@@ -43,9 +43,10 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         markwon = Markwon.create(requireContext())
         viewModel.getInfo(args.repoId)
 
-        (requireActivity() as MainActivity).supportActionBar?.let{
-            it.title = args.repoName
-            it.show()
+        (requireActivity() as MainActivity).supportActionBar?.run{
+            title = args.repoName
+            setDisplayHomeAsUpEnabled(true)
+            show()
         }
         return view.root
     }

@@ -47,14 +47,26 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.action_sign_out){
-            lifecycleScope.launch{
-                authRepo.signOut()
+        when (item.itemId){
+            R.id.action_sign_out ->{
+                lifecycleScope.launch{
+                    authRepo.signOut()
+                }
+                navController.popBackStack(R.id.repositoriesListFragment,true)
+                navController.navigate(R.id.authFragment)
             }
-            navController.popBackStack(R.id.repositoriesListFragment,true)
-            navController.navigate(R.id.authFragment)
+            android.R.id.home ->{
+                onBackPressed()
+            }
         }
-        return true
+//        if(item.itemId == R.id.action_sign_out){
+//            lifecycleScope.launch{
+//                authRepo.signOut()
+//            }
+//            navController.popBackStack(R.id.repositoriesListFragment,true)
+//            navController.navigate(R.id.authFragment)
+//        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getNavigationController(): NavController{
