@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface APIService {
 //    @GET("/user")
 //    suspend fun getUser(): Response<User>
-
-    @GET("/user/repos")
+    @GET("/users/icerockdev/repos") //for test
+//    @GET("/user/repos")
     suspend fun getRepos(
         @Query("sort") sort:String = "updated",
         @Query("per_page") amount:Int = REPOSITORIES_AMOUNT
