@@ -1,10 +1,8 @@
 package com.zxltrxn.githubclient.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -15,16 +13,15 @@ import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.presentation.splash.SplashFragmentDirections
 import com.zxltrxn.githubclient.utils.Constants
 import com.zxltrxn.githubclient.utils.Constants.IS_ENTERED_KEY
-import com.zxltrxn.githubclient.utils.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    @Inject lateinit var authRepo: IAuthRepository
-    private val navController:NavController by lazy{ getNavigationController() }
+    @Inject
+    lateinit var authRepo: IAuthRepository
+    private val navController: NavController by lazy { getNavigationController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,42 +39,42 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu,menu)
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.action_sign_out ->{
-                lifecycleScope.launch{
+        when (item.itemId) {
+            R.id.action_sign_out -> {
+                lifecycleScope.launch {
                     authRepo.signOut()
                 }
-                navController.popBackStack(R.id.repositoriesListFragment,true)
+                navController.popBackStack(R.id.repositoriesListFragment, true)
                 navController.navigate(R.id.authFragment)
             }
-            android.R.id.home ->{
+            android.R.id.home -> {
                 onBackPressed()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getNavigationController(): NavController{
+    private fun getNavigationController(): NavController {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         return navHostFragment.navController
     }
 
-    private fun authenticationWithRouting(){
-        lifecycleScope.launch{
-            when(val res = authRepo.signIn()){
+    private fun authenticationWithRouting() {
+        lifecycleScope.launch {
+            when (val res = authRepo.signIn()) {
                 is Resource.Success -> {
                     navigateToRepositoriesList()
                 }
-                is Resource.Error ->{
-                    if (res.code == Constants.WRONG_TOKEN_CODE){
+                is Resource.Error -> {
+                    if (res.code == Constants.WRONG_TOKEN_CODE) {
                         navigateToAuth()
-                    }else{
+                    } else {
                         navigateToRepositoriesList()
                     }
                 }
@@ -85,13 +82,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    private fun navigateToRepositoriesList(){
+    private fun navigateToRepositoriesList() {
         val action = SplashFragmentDirections
             .splashFragmentToRepositoriesListFragment()
         navController.navigate(action)
     }
 
-    private fun navigateToAuth(){
+    private fun navigateToAuth() {
         val action = SplashFragmentDirections
             .splashFragmentToAuthFragment()
         navController.navigate(action)

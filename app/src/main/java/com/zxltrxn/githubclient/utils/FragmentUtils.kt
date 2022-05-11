@@ -1,6 +1,5 @@
 package com.zxltrxn.githubclient.utils
 
-import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -17,17 +16,17 @@ fun setErrorMessage(view: TextInputLayout, errorMessage: String?) {
     view.error = errorMessage
 }
 
-fun <T> Fragment.collectLatestLifecycleFlow(flow: Flow<T>, collect: suspend (T)->Unit){
-    viewLifecycleOwner.lifecycleScope.launch{
-        repeatOnLifecycle(Lifecycle.State.STARTED){
+fun <T> Fragment.collectLatestLifecycleFlow(flow: Flow<T>, collect: suspend (T) -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
             flow.collectLatest(collect)
         }
     }
 }
 
-fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collect: FlowCollector<T>){
-    viewLifecycleOwner.lifecycleScope.launch{
-        repeatOnLifecycle(Lifecycle.State.STARTED){
+fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collect: FlowCollector<T>) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
             flow.collect(collect)
         }
     }

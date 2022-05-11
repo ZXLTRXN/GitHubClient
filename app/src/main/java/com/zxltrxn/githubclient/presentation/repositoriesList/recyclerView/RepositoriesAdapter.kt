@@ -1,19 +1,17 @@
 package com.zxltrxn.githubclient.presentation.repositoriesList.recyclerView
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.databinding.RepositoryElementBinding
-import com.zxltrxn.githubclient.utils.Constants.TAG
 
 
 class RepositoriesAdapter(
-    private val onItemClick:(Int, String)->Unit
+    private val onItemClick: (Int, String) -> Unit
 ) : ListAdapter<Repo, RepositoriesAdapter.RepoViewHolder>(RepoDiffUtilCallback()) {
 
     class RepoViewHolder(
@@ -31,18 +29,18 @@ class RepositoriesAdapter(
         }
 
         private fun bindLanguage(text: String?, color: String?) {
-            binding.rvElementRepoLanguage.let{
+            binding.rvElementRepoLanguage.let {
                 it.text = text
-                color?.let{ color ->
+                color?.let { color ->
                     it.setTextColor(Color.parseColor(color))
                 }
             }
         }
 
         private fun bindDescription(text: String?) {
-            if(text == null){
+            if (text == null) {
                 binding.rvElementRepoDescription.visibility = View.GONE
-            }else{
+            } else {
                 binding.rvElementRepoDescription.text = text
             }
         }
@@ -55,19 +53,14 @@ class RepositoriesAdapter(
     }
 
     override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
-        getItem(position).let{ repo ->
+        getItem(position).let { repo ->
             holder.bind(repo)
-            holder.itemView.setOnClickListener{
+            holder.itemView.setOnClickListener {
                 onItemClick(repo.id!!, repo.name!!)
             }
         }
     }
 }
-
-
-
-
-
 
 
 //class RepositoriesAdapter(

@@ -6,10 +6,10 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.repository.IDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class RepositoriesListViewModel @Inject constructor(
@@ -19,21 +19,21 @@ class RepositoriesListViewModel @Inject constructor(
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
     val state = _state.asStateFlow()
 
-    init{
+    init {
         getRepos()
     }
 
-    private fun getRepos(){
+    private fun getRepos() {
         viewModelScope.launch {
-            when (val res = repository.getRepositories()){
+            when (val res = repository.getRepositories()) {
                 is Resource.Success -> {
-                    if (res.data!!.isEmpty()){
+                    if (res.data!!.isEmpty()) {
                         _state.value = State.Empty
-                    }else{
+                    } else {
                         _state.value = State.Loaded(repos = res.data)
                     }
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     _state.value = State.Error(res.message!!)
                 }
             }

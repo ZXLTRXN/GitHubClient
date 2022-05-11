@@ -28,7 +28,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = FragmentAuthBinding.inflate(inflater,container,false)
+        _binding = FragmentAuthBinding.inflate(inflater, container, false)
         val view = binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
@@ -47,9 +47,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         _binding = null
     }
 
-    private fun observe(){
-        collectLifecycleFlow(viewModel.actions){ action ->
-            when (action){
+    private fun observe() {
+        collectLifecycleFlow(viewModel.actions) { action ->
+            when (action) {
                 is Action.ShowError ->
                     Toast.makeText(requireContext(), action.message, Toast.LENGTH_SHORT).show()
                 is Action.RouteToMain -> navigateToRepositoriesList()
@@ -57,7 +57,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         }
     }
 
-    private fun navigateToRepositoriesList(){
+    private fun navigateToRepositoriesList() {
         val action = AuthFragmentDirections
             .authFragmentToRepositoriesListFragment()
         this.findNavController().navigate(action)

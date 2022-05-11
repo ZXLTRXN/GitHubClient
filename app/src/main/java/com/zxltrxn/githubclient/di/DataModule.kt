@@ -16,7 +16,7 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideIDataRepository(appRepository: AppRepository): IDataRepository{
+    fun provideIDataRepository(appRepository: AppRepository): IDataRepository {
         return appRepository
     }
 

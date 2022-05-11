@@ -6,24 +6,24 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.repository.IDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class RepositoryInfoViewModel @Inject constructor(
     private val repository: IDataRepository
-): ViewModel(){
+) : ViewModel() {
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
     val state = _state.asStateFlow()
 
-    fun getInfo(repoId:Int){
+    fun getInfo(repoId: Int) {
         viewModelScope.launch {
-            when (val repositoryResource = repository.getRepository(repoId)){
+            when (val repositoryResource = repository.getRepository(repoId)) {
                 is Resource.Success -> {
-                    val readmeState = when (val readmeResource = repositoryResource.data!!.readme){
-                        is Resource.Success ->{
+                    val readmeState = when (val readmeResource = repositoryResource.data!!.readme) {
+                        is Resource.Success -> {
                             if (readmeResource.data!!.isEmpty()) ReadmeState.Empty
                             else ReadmeState.Loaded(readmeResource.data)
                         }

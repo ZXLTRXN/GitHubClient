@@ -10,12 +10,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -24,7 +24,8 @@ class NetworkModule {
     @AuthInterceptorOkHttpClient
     @Singleton
     @Provides
-    fun providesAuthInterceptor(userStorage: KeyValueStorage): Interceptor = AuthInterceptor(userStorage)
+    fun providesAuthInterceptor(userStorage: KeyValueStorage): Interceptor =
+        AuthInterceptor(userStorage)
 
     @AcceptInterceptorOkHttpClient
     @Singleton
@@ -45,8 +46,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideJson(): Json{
-        return Json{
+    fun provideJson(): Json {
+        return Json {
             ignoreUnknownKeys = true
         }
     }

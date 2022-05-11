@@ -12,8 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentDetailInfoBinding
 import com.zxltrxn.githubclient.presentation.MainActivity
-import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.State
 import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.ReadmeState
+import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.State
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
 import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
@@ -35,7 +35,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = FragmentDetailInfoBinding.inflate(inflater,container,false)
+        _binding = FragmentDetailInfoBinding.inflate(inflater, container, false)
         val view = binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
@@ -43,7 +43,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         markwon = Markwon.create(requireContext())
         viewModel.getInfo(args.repoId)
 
-        (requireActivity() as MainActivity).supportActionBar?.run{
+        (requireActivity() as MainActivity).supportActionBar?.run {
             title = args.repoName
             setDisplayHomeAsUpEnabled(true)
             show()
@@ -62,36 +62,39 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         markwon = null
     }
 
-    private fun observe(){
-        collectLatestLifecycleFlow(viewModel.state){ state ->
-            when (state){
+    private fun observe() {
+        collectLatestLifecycleFlow(viewModel.state) { state ->
+            when (state) {
                 is State.Error -> binding.tvInfoError.text = state.error
-                is State.Loaded ->{
-                    with(binding){
+                is State.Loaded -> {
+                    with(binding) {
                         tvLicense.text = state.githubRepo.license?.name ?: "-"
                         tvStars.text = state.githubRepo.stars.toString()
                         tvForks.text = state.githubRepo.forks.toString()
                         tvWatchers.text = state.githubRepo.watchers.toString()
                         tvLink.text = state.githubRepo.htmlUrl
-                        tvLink.setOnClickListener{
+                        tvLink.setOnClickListener {
                             state.githubRepo.htmlUrl?.let { url -> openUrl(url) }
                         }
                     }
-                    when (val readmeState = state.readmeState){
+                    when (val readmeState = state.readmeState) {
                         is ReadmeState.Error -> binding.tvReadme.text = readmeState.error
-                        is ReadmeState.Empty -> binding.tvReadme.text = getString(R.string.empty_readme)
+                        is ReadmeState.Empty -> binding.tvReadme.text =
+                            getString(R.string.empty_readme)
                         is ReadmeState.Loaded -> {
                             markwon?.setMarkdown(binding.tvReadme, readmeState.markdown)
                         }
-                        is ReadmeState.Loading -> {}
+                        is ReadmeState.Loading -> {
+                        }
                     }
                 }
-                else -> {}
+                else -> {
+                }
             }
         }
     }
 
-    private fun openUrl(url: String){
+    private fun openUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
         startActivity(intent)
     }

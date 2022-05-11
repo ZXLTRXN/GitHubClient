@@ -1,11 +1,9 @@
 package com.zxltrxn.githubclient.presentation.repositoriesList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,7 +14,6 @@ import com.zxltrxn.githubclient.databinding.FragmentRepositoriesListBinding
 import com.zxltrxn.githubclient.presentation.MainActivity
 import com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListViewModel.State
 import com.zxltrxn.githubclient.presentation.repositoriesList.recyclerView.RepositoriesAdapter
-import com.zxltrxn.githubclient.utils.Constants.TAG
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,14 +31,14 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = FragmentRepositoriesListBinding.inflate(inflater,container,false)
+        _binding = FragmentRepositoriesListBinding.inflate(inflater, container, false)
         val view = binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
             rvRepositoriesList.addItemDecoration(DividerItemDecoration(context, VERTICAL))
         }
 
-        (requireActivity() as MainActivity).supportActionBar?.run{
+        (requireActivity() as MainActivity).supportActionBar?.run {
             title = getString(R.string.repositories_list_header)
             setDisplayHomeAsUpEnabled(false)
             show()
@@ -62,16 +59,16 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         _binding = null
     }
 
-    private fun setUpAdapter(){
-        adapter = RepositoriesAdapter{ id, name ->
+    private fun setUpAdapter() {
+        adapter = RepositoriesAdapter { id, name ->
             navigateToDetailInfo(id, name)
         }
         binding.rvRepositoriesList.adapter = adapter
     }
 
-    private fun observe(){
-        collectLatestLifecycleFlow(viewModel.state){ state ->
-            when(state){
+    private fun observe() {
+        collectLatestLifecycleFlow(viewModel.state) { state ->
+            when (state) {
                 is State.Loaded -> {
                     adapter.submitList(state.repos)
                 }
@@ -81,12 +78,13 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
                 is State.Empty -> {
                     binding.tvRepositoriesError.text = getString(R.string.empty_repositories_list)
                 }
-                else -> {}
+                else -> {
+                }
             }
         }
     }
 
-    private fun navigateToDetailInfo(repoId: Int, repoName: String){
+    private fun navigateToDetailInfo(repoId: Int, repoName: String) {
         val action = RepositoriesListFragmentDirections
             .repositoriesListFragmentToDetailInfoFragment(repoId = repoId, repoName = repoName)
         this.findNavController().navigate(action)

@@ -9,7 +9,7 @@ private const val SHARED_PREFS_NAME = "shared_prefs_user_data"
 private const val KEY_NAME = "name"
 private const val KEY_TOKEN = "token"
 
-class KeyValueStorage @Inject constructor(@ApplicationContext context: Context){
+class KeyValueStorage @Inject constructor(@ApplicationContext context: Context) {
     private val prefs = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
 
     var authToken: String?
@@ -23,13 +23,13 @@ class KeyValueStorage @Inject constructor(@ApplicationContext context: Context){
 
     var userName: String?
         get() = prefs.getString(KEY_NAME, null)
-        set(name){
+        set(name) {
             prefs.edit()
                 .putString(KEY_NAME, name)
                 .apply()
         }
 
-    fun clearUserData(){
+    fun clearUserData() {
         authToken = null
         userName = null
     }

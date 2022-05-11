@@ -1,23 +1,28 @@
 package com.zxltrxn.githubclient.presentation.auth
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepo : IAuthRepository
-    ) : ViewModel() {
+    private val authRepo: IAuthRepository
+) : ViewModel() {
 
     val token = MutableStateFlow("")
 
-    private val _state:MutableStateFlow<State> = MutableStateFlow(State.Idle)
+    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Idle)
     val state = _state.asStateFlow()
 
     private val _actions = MutableSharedFlow<Action>()
@@ -32,25 +37,29 @@ class AuthViewModel @Inject constructor(
     }
 
     fun onSignButtonPressed() {
-        when(val validationResult = validate()){
-            ValidationState.VALID ->{ trySignIn() }
-            ValidationState.EMPTY ->{
-            _state.value = (State.InvalidInput(validationResult.reason))
+        when (val validationResult = validate()) {
+            ValidationState.VALID -> {
+                trySignIn()
             }
-            else ->{}
+            ValidationState.EMPTY -> {
+                _state.value = (State.InvalidInput(validationResult.reason))
+            }
+            else -> {
+            }
         }
     }
 
-    private fun validate(): ValidationState{
+    private fun validate(): ValidationState {
         val validationResult = token.value.validateToken()
-        when (validationResult){
-            ValidationState.INVALID ->{
+        when (validationResult) {
+            ValidationState.INVALID -> {
                 _state.value = (State.InvalidInput(validationResult.reason))
             }
             ValidationState.VALID -> {
                 _state.value = State.Idle
             }
-            ValidationState.EMPTY ->{}
+            ValidationState.EMPTY -> {
+            }
         }
         return validationResult
     }
@@ -67,10 +76,10 @@ class AuthViewModel @Inject constructor(
 //        }
 //    }
 
-    private fun trySignIn(){
+    private fun trySignIn() {
         viewModelScope.launch {
             _state.value = State.Loading
-            when (val res = authRepo.signIn(token.value)){
+            when (val res = authRepo.signIn(token.value)) {
                 is Resource.Success -> {
                     _actions.emit(Action.RouteToMain)
                     _state.value = State.Idle
@@ -83,7 +92,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    sealed interface State{
+    sealed interface State {
         object Idle : State
         object Loading : State
         data class InvalidInput(val reason: String) : State
@@ -96,7 +105,7 @@ class AuthViewModel @Inject constructor(
         object RouteToMain : Action
     }
 
-    enum class ValidationState(val reason: String){
+    enum class ValidationState(val reason: String) {
         EMPTY("Empty input"),
         INVALID("Invalid input"),
         VALID("Valid input")
