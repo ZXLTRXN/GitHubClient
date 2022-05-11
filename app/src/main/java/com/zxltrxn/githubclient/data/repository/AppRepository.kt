@@ -42,9 +42,9 @@ class AppRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             val repo = repositoriesRequestResult.data!!.find { it.id == repoId }
             repo?.let {
-                val ownerName: String = repo.owner?.name ?: ""
-                val repoName: String = repo.name ?: ""
-                val branchName: String = repo.branch ?: ""
+                val ownerName: String = repo.owner.name
+                val repoName: String = repo.name
+                val branchName: String = repo.branch
 
                 val readme = getRepositoryReadme(
                     ownerName = ownerName,

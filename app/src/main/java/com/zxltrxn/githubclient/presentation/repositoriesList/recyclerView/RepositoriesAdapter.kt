@@ -56,7 +56,7 @@ class RepositoriesAdapter(
         getItem(position).let { repo ->
             holder.bind(repo)
             holder.itemView.setOnClickListener {
-                onItemClick(repo.id!!, repo.name!!)
+                onItemClick(repo.id, repo.name)
             }
         }
     }

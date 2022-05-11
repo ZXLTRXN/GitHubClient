@@ -74,7 +74,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                         tvWatchers.text = state.githubRepo.watchers.toString()
                         tvLink.text = state.githubRepo.htmlUrl
                         tvLink.setOnClickListener {
-                            state.githubRepo.htmlUrl?.let { url -> openUrl(url) }
+                            openUrl(state.githubRepo.htmlUrl)
                         }
                     }
                     when (val readmeState = state.readmeState) {
