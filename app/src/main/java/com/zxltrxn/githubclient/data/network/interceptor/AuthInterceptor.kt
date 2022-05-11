@@ -7,10 +7,12 @@ import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(private val userStorage: KeyValueStorage) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = userStorage.authToken
-        val request = chain.request().newBuilder()
-            .header("Authorization", "token $token")
-            .build()
+        val token: String? = userStorage.authToken
+        val request = token?.let { t ->
+            chain.request().newBuilder()
+                .header("Authorization", "token $t")
+                .build()
+        } ?: chain.request()
         return chain.proceed(request)
     }
 }
