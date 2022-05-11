@@ -19,6 +19,8 @@
         <entry key="app/src/main/res/drawable/circular.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.1405" />
+        <entry key="app/src/main/res/drawable/ic_github_circular.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.14447463768115942" />
       </map>
     </option>
   </component>
