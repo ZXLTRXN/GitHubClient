@@ -2,10 +2,10 @@ package com.zxltrxn.githubclient.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.zxltrxn.githubclient.data.network.APIService
+import com.zxltrxn.githubclient.data.network.APIService.Companion.BASE_URL
 import com.zxltrxn.githubclient.data.network.interceptor.AcceptInterceptor
 import com.zxltrxn.githubclient.data.network.interceptor.AuthInterceptor
 import com.zxltrxn.githubclient.data.storage.KeyValueStorage
-import com.zxltrxn.githubclient.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +34,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    @OkHttpClientWithInterceptors
     fun provideOkHttpClientWithInterceptors(
         @AcceptInterceptorOkHttpClient acceptInterceptor: Interceptor,
         @AuthInterceptorOkHttpClient authInterceptor: Interceptor
@@ -46,6 +47,10 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient()
+
+    @Singleton
+    @Provides
     fun provideJson(): Json {
         return Json {
             ignoreUnknownKeys = true
@@ -55,11 +60,13 @@ class NetworkModule {
     @Singleton
     @Provides
     @kotlinx.serialization.ExperimentalSerializationApi
-    fun provideAPIService(client: OkHttpClient, json: Json): APIService {
-
+    fun provideAPIService(
+        @OkHttpClientWithInterceptors client: OkHttpClient,
+        json: Json
+    ): APIService {
         val contentType = MediaType.get("application/json")
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(json.asConverterFactory(contentType))
             .client(client)
             .build()

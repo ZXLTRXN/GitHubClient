@@ -6,11 +6,9 @@ import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.model.RepoDetails
 import com.zxltrxn.githubclient.data.network.APIService
+import com.zxltrxn.githubclient.data.network.APIService.Companion.BASE_URL_README
+import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CODE
 import com.zxltrxn.githubclient.data.storage.KeyValueStorage
-import com.zxltrxn.githubclient.utils.Constants.BASE_URL_README
-import com.zxltrxn.githubclient.utils.Constants.COLORS_FILE_NAME
-import com.zxltrxn.githubclient.utils.Constants.TAG
-import com.zxltrxn.githubclient.utils.Constants.WRONG_TOKEN_CODE
 import com.zxltrxn.githubclient.utils.NetworkUtils.okHttpRequest
 import com.zxltrxn.githubclient.utils.NetworkUtils.tryRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -30,7 +28,7 @@ class AppRepository @Inject constructor(
     private val api: APIService,
     private val client: OkHttpClient
 ) : IAuthRepository, IDataRepository {
-
+    private val COLORS_FILE_NAME = "github_colors.json"
     private var repositoriesRequestResult: Resource<List<Repo>> = Resource.Error("")
 
     ////////////IDataRepository
@@ -60,7 +58,7 @@ class AppRepository @Inject constructor(
         branchName: String
     ): Resource<String> {
         val fileName = "README.md"
-        val url = BASE_URL_README + "$ownerName/$repositoryName/$branchName/$fileName"
+        val url = "$BASE_URL_README$ownerName/$repositoryName/$branchName/$fileName"
         return okHttpRequest(client, url)
     }
 
@@ -68,7 +66,7 @@ class AppRepository @Inject constructor(
         return try {
             context.assets.open(COLORS_FILE_NAME).bufferedReader().use { it.readText() }
         } catch (e: IOException) {
-            Log.e(TAG, "AppRepository.readFromAssets: $e")
+            Log.e(javaClass.simpleName, "readFromAssets: $e")
             null
         }
     }
@@ -78,7 +76,7 @@ class AppRepository @Inject constructor(
         val colors = try {
             JSONObject(colorsString)
         } catch (e: JSONException) {
-            Log.e(TAG, "AppRepository.addLanguageColor: $e")
+            Log.e(javaClass.simpleName, "addLanguageColor: $e")
             return repos
         }
         return repos.map {

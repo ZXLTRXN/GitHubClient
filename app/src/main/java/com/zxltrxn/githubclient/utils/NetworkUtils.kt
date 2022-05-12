@@ -2,7 +2,7 @@ package com.zxltrxn.githubclient.utils
 
 import android.util.Log
 import com.zxltrxn.githubclient.data.Resource
-import com.zxltrxn.githubclient.utils.Constants.TAG
+import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CODE
 import java.io.IOException
 import java.net.UnknownHostException
 import kotlinx.coroutines.CancellationException
@@ -21,21 +21,21 @@ object NetworkUtils {
                 } ?: Resource.Error("Empty data from server")
             }
             when (response.code()) {
-                Constants.WRONG_TOKEN_CODE -> Resource.Error(
+                WRONG_TOKEN_CODE -> Resource.Error(
                     "Wrong token",
-                    code = Constants.WRONG_TOKEN_CODE
+                    code = WRONG_TOKEN_CODE
                 )
                 else -> Resource.Error("Service Unavailable")
             }
         } catch (e: SerializationException) {
-            Log.e(TAG, "NetworkUtils.tryRequest: ${e}")
+            Log.e(javaClass.simpleName, "tryRequest: $e")
             Resource.Error("Data from server unreadable")
         } catch (e: UnknownHostException) {
             Resource.Error("No internet connection")
         } catch (e: CancellationException) {
             Resource.Error("Cancelled")
         } catch (e: Exception) {
-            Log.e(TAG, "NetworkUtils.tryRequest: ${e}")
+            Log.e(javaClass.simpleName, "tryRequest: $e")
             Resource.Error("Unknown error")
         }
     }
@@ -57,10 +57,10 @@ object NetworkUtils {
         } catch (e: UnknownHostException) {
             return Resource.Error("No internet connection to get README")
         } catch (e: IOException) {
-            Log.e(TAG, "okHttpRequest: $e")
+            Log.e(javaClass.simpleName, "okHttpRequest: $e")
             return Resource.Error("No README file")
         } catch (e: OutOfMemoryError) {
-            Log.e(TAG, "okHttpRequest: $e")
+            Log.e(javaClass.simpleName, "okHttpRequest: $e")
             return Resource.Error("No README file")
         }
     }

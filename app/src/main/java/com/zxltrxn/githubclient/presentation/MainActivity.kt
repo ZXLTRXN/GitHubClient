@@ -9,16 +9,17 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CODE
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.presentation.splash.SplashFragmentDirections
-import com.zxltrxn.githubclient.utils.Constants
-import com.zxltrxn.githubclient.utils.Constants.IS_ENTERED_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    val IS_ENTERED_KEY = "isEntered"
+
     @Inject
     lateinit var authRepo: IAuthRepository
     private val navController: NavController by lazy { getNavigationController() }
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     navigateToRepositoriesList()
                 }
                 is Resource.Error -> {
-                    if (res.code == Constants.WRONG_TOKEN_CODE) {
+                    if (res.code == WRONG_TOKEN_CODE) {
                         navigateToAuth()
                     } else {
                         navigateToRepositoriesList()
