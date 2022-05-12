@@ -21,6 +21,7 @@
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_github_circular.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_repositories_list.xml" value="0.21822916666666667" />
       </map>
     </option>
   </component>

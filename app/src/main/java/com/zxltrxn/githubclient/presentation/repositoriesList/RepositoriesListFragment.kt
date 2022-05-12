@@ -23,7 +23,6 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<RepositoriesListViewModel>()
-    private lateinit var adapter: RepositoriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,24 +32,20 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentRepositoriesListBinding.inflate(inflater, container, false)
         val view = binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            vm = viewModel
             rvRepositoriesList.addItemDecoration(DividerItemDecoration(context, VERTICAL))
         }
-
         (requireActivity() as MainActivity).supportActionBar?.run {
             title = getString(R.string.repositories_list_header)
             setDisplayHomeAsUpEnabled(false)
             show()
         }
-
         return view.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpAdapter()
-        observe()
+        val adapter = setUpAdapter()
+        observe(adapter)
     }
 
     override fun onDestroyView() {
@@ -59,28 +54,25 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         _binding = null
     }
 
-    private fun setUpAdapter() {
-        adapter = RepositoriesAdapter { id, name ->
+    private fun setUpAdapter(): RepositoriesAdapter {
+        val adapter = RepositoriesAdapter { id, name ->
             navigateToDetailInfo(id, name)
         }
         binding.rvRepositoriesList.adapter = adapter
+        return adapter
     }
 
-    private fun observe() {
+    private fun observe(adapter: RepositoriesAdapter) {
         collectLatestLifecycleFlow(viewModel.state) { state ->
-            when (state) {
-                is State.Loaded -> {
-                    adapter.submitList(state.repos)
-                }
-                is State.Error -> {
-                    binding.tvRepositoriesError.text = state.error
-                }
-                is State.Empty -> {
-                    binding.tvRepositoriesError.text = getString(R.string.empty_repositories_list)
-                }
-                else -> {
-                }
-            }
+            if (state is State.Loaded) adapter.submitList(state.repos)
+            binding.rvRepositoriesList.visibility =
+                if (state is State.Loaded) View.VISIBLE else View.GONE
+
+            binding.tvRepositoriesError.visibility =
+                if (state is State.Error || state is State.Empty) View.VISIBLE else View.GONE
+            binding.tvRepositoriesError.text = if (state is State.Error) state.error else null
+            binding.tvRepositoriesError.text =
+                if (state is State.Empty) getString(R.string.empty_repositories_list) else null
         }
     }
 
