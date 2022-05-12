@@ -1,11 +1,13 @@
 package com.zxltrxn.githubclient.presentation.detailInfo
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -15,6 +17,7 @@ import com.zxltrxn.githubclient.presentation.MainActivity
 import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.ReadmeState
 import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.State
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
+import com.zxltrxn.githubclient.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 
@@ -27,8 +30,6 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
 
     private val args: DetailInfoFragmentArgs by navArgs()
 
-    private var markwon: Markwon? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +41,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
         }
-        markwon = Markwon.create(requireContext())
+
         viewModel.getInfo(args.repoId)
 
         (requireActivity() as MainActivity).supportActionBar?.run {
@@ -59,7 +60,6 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        markwon = null
     }
 
     private fun observe() {
@@ -82,7 +82,10 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                         is ReadmeState.Empty -> binding.tvReadme.text =
                             getString(R.string.empty_readme)
                         is ReadmeState.Loaded -> {
-                            markwon?.setMarkdown(binding.tvReadme, readmeState.markdown)
+                            context?.let{ context ->
+                                val markwon = Markwon.create(context)
+                                markwon.setMarkdown(binding.tvReadme, readmeState.markdown)
+                            }
                         }
                         is ReadmeState.Loading -> {
                         }
@@ -95,7 +98,13 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     }
 
     private fun openUrl(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
-        startActivity(intent)
+        try {
+            val intent = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) }
+            startActivity(intent)
+        } catch (e: NullPointerException) {
+            showToast(getString(R.string.bad_url_repo))
+        } catch (e: ActivityNotFoundException){
+            showToast(getString(R.string.bad_url_repo))
+        }
     }
 }

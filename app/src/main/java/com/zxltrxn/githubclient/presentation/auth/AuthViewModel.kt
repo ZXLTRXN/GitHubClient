@@ -20,7 +20,7 @@ class AuthViewModel @Inject constructor(
     private val authRepo: IAuthRepository
 ) : ViewModel() {
 
-    val token = MutableStateFlow("")
+    val token: MutableStateFlow<String> = MutableStateFlow("")
 
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Idle)
     val state = _state.asStateFlow()
@@ -41,6 +41,8 @@ class AuthViewModel @Inject constructor(
             ValidationState.VALID -> {
                 trySignIn()
             }
+            /* чтобы сообщение о пустом поле не горело со старта
+            а лишь после нажатия кнопки */
             ValidationState.EMPTY -> {
                 _state.value = (State.InvalidInput(validationResult.reason))
             }
