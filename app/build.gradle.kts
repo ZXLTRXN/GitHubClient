@@ -49,7 +49,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Dependencies.lifecycleVersion}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Dependencies.lifecycleVersion}")
 
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("com.google.android.material:material:1.6.0")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:${Dependencies.truthVersion}")
