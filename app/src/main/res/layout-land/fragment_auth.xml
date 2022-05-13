@@ -31,10 +31,10 @@
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular"
         style="@style/ProgressIndicator"
-        app:layout_constraintTop_toTopOf="@+id/submit_button"
         app:layout_constraintBottom_toBottomOf="@+id/submit_button"
         app:layout_constraintEnd_toEndOf="@+id/submit_button"
-        app:layout_constraintStart_toStartOf="@+id/submit_button" />
+        app:layout_constraintStart_toStartOf="@+id/submit_button"
+        app:layout_constraintTop_toTopOf="@+id/submit_button" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/submit_button"

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -37,10 +36,6 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentDetailInfoBinding.inflate(inflater, container, false)
-        val view = binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            vm = viewModel
-        }
 
         viewModel.getInfo(args.repoId)
 
@@ -49,7 +44,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
             setDisplayHomeAsUpEnabled(true)
             show()
         }
-        return view.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,34 +59,39 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
 
     private fun observe() {
         collectLatestLifecycleFlow(viewModel.state) { state ->
-            when (state) {
-                is State.Error -> binding.tvInfoError.text = state.error
-                is State.Loaded -> {
-                    with(binding) {
-                        tvLicense.text = state.githubRepo.license?.name ?: "-"
-                        tvStars.text = state.githubRepo.stars.toString()
-                        tvForks.text = state.githubRepo.forks.toString()
-                        tvWatchers.text = state.githubRepo.watchers.toString()
-                        tvLink.text = state.githubRepo.htmlUrl
-                        tvLink.setOnClickListener {
-                            openUrl(state.githubRepo.htmlUrl)
-                        }
-                    }
-                    when (val readmeState = state.readmeState) {
-                        is ReadmeState.Error -> binding.tvReadme.text = readmeState.error
-                        is ReadmeState.Empty -> binding.tvReadme.text =
-                            getString(R.string.empty_readme)
-                        is ReadmeState.Loaded -> {
-                            context?.let{ context ->
-                                val markwon = Markwon.create(context)
-                                markwon.setMarkdown(binding.tvReadme, readmeState.markdown)
-                            }
-                        }
-                        is ReadmeState.Loading -> {
-                        }
-                    }
+            binding.tvInfoError.visibility = if (state is State.Error) View.VISIBLE else View.GONE
+            binding.tvInfoError.text = if (state is State.Error) state.error else null
+
+            binding.progressCircular.visibility =
+                if (state is State.Loading) View.VISIBLE else View.GONE
+
+            binding.allSections.visibility = if (state is State.Loaded) View.VISIBLE else View.GONE
+            binding.tvLicense.text =
+                if (state is State.Loaded) state.githubRepo.license?.name ?: "-" else null
+            binding.tvStars.text =
+                if (state is State.Loaded) state.githubRepo.stars.toString() else null
+            binding.tvForks.text =
+                if (state is State.Loaded) state.githubRepo.forks.toString() else null
+            binding.tvWatchers.text =
+                if (state is State.Loaded) state.githubRepo.watchers.toString() else null
+            binding.tvLink.text = if (state is State.Loaded) state.githubRepo.htmlUrl else null
+            if (state is State.Loaded) {
+                binding.tvLink.setOnClickListener {
+                    openUrl(state.githubRepo.htmlUrl)
                 }
-                else -> {
+            }
+            if (state is State.Loaded) {
+                val readmeState = state.readmeState
+                binding.tvReadme.text =
+                    if (readmeState is ReadmeState.Error) readmeState.error else null
+                binding.tvReadme.text =
+                    if (readmeState is ReadmeState.Empty) getString(R.string.empty_readme) else null
+
+                if (readmeState is ReadmeState.Loaded) {
+                    context?.let { context ->
+                        val markwon = Markwon.create(context)
+                        markwon.setMarkdown(binding.tvReadme, readmeState.markdown)
+                    }
                 }
             }
         }
@@ -103,7 +103,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
             startActivity(intent)
         } catch (e: NullPointerException) {
             showToast(getString(R.string.bad_url_repo))
-        } catch (e: ActivityNotFoundException){
+        } catch (e: ActivityNotFoundException) {
             showToast(getString(R.string.bad_url_repo))
         }
     }
