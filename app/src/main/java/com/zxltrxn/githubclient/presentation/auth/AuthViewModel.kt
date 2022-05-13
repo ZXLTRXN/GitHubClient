@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepo: IAuthRepository
@@ -37,17 +36,8 @@ class AuthViewModel @Inject constructor(
     }
 
     fun onSignButtonPressed() {
-        when (val validationResult = validate()) {
-            ValidationState.VALID -> {
-                trySignIn()
-            }
-            /* чтобы сообщение о пустом поле не горело со старта
-            а лишь после нажатия кнопки */
-            ValidationState.EMPTY -> {
-                _state.value = (State.InvalidInput(validationResult.reason))
-            }
-            else -> {
-            }
+        if (state.value is State.Idle) {
+            trySignIn()
         }
     }
 
@@ -61,22 +51,11 @@ class AuthViewModel @Inject constructor(
                 _state.value = State.Idle
             }
             ValidationState.EMPTY -> {
+                _state.value = (State.InvalidInput(validationResult.reason))
             }
         }
         return validationResult
     }
-
-//    when (val validationResult = token.value.validateToken()){
-//        ValidationState.INVALID ->{
-//            _state.value = (State.InvalidInput(validationResult.reason))
-//        }
-//        ValidationState.EMPTY ->{
-//            _state.value = (State.InvalidInput(validationResult.reason))
-//        }
-//        ValidationState.VALID ->{
-//            trySignIn()
-//        }
-//    }
 
     private fun trySignIn() {
         viewModelScope.launch {
@@ -98,8 +77,6 @@ class AuthViewModel @Inject constructor(
         object Idle : State
         object Loading : State
         data class InvalidInput(val reason: String) : State
-
-        fun getErrorReason(): String? = if (this is InvalidInput) this.reason else null
     }
 
     sealed interface Action {

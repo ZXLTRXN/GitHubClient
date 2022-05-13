@@ -1,4 +1,4 @@
-package com.zxltrxn.githubclient.data
+package com.zxltrxn.githubclient.utils
 
 import android.content.Context
 import androidx.annotation.StringRes
