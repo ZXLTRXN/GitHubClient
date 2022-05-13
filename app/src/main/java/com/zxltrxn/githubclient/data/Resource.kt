@@ -14,5 +14,5 @@ sealed class Resource<T>(val data: T? = null, val message: String? = null, val c
 
 //sealed interface Resource<T> {
 //    data class Success<T>(val data: T) : Resource<T>
-//    data class Error(val message: String, val code: Int? = null) : Resource<Nothing>
+//    data class Error(val message: LocalizeString, val code: Int? = null) : Resource<Nothing>
 //}

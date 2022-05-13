@@ -51,17 +51,14 @@ object NetworkUtils {
                 response.body()?.let {
                     return Resource.Success(it.string())
                 }
-                return Resource.Error("Empty readme")
+                return Resource.Error("Empty data")
             }
-            return Resource.Error("No README file", code = response.code())
+            return Resource.Error("No data", code = response.code())
         } catch (e: UnknownHostException) {
-            return Resource.Error("No internet connection to get README")
+            return Resource.Error("No internet connection")
         } catch (e: IOException) {
             Log.e(javaClass.simpleName, "okHttpRequest: $e")
-            return Resource.Error("No README file")
-        } catch (e: OutOfMemoryError) {
-            Log.e(javaClass.simpleName, "okHttpRequest: $e")
-            return Resource.Error("No README file")
+            return Resource.Error("No data")
         }
     }
 }
