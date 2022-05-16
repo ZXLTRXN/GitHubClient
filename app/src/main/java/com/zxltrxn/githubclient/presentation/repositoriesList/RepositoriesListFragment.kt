@@ -70,7 +70,8 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
 
             binding.tvRepositoriesError.visibility =
                 if (state is State.Error || state is State.Empty) View.VISIBLE else View.GONE
-            binding.tvRepositoriesError.text = if (state is State.Error) state.error else null
+            binding.tvRepositoriesError.text =
+                if (state is State.Error) state.error.getString(requireContext()) else null
             binding.tvRepositoriesError.text =
                 if (state is State.Empty) getString(R.string.empty_repositories_list) else null
         }

@@ -4,6 +4,7 @@ object Dependencies {
 
     const val fragmentVersion = "1.4.1"
     const val lifecycleVersion = "2.4.1"
+    const val splashVersion = "1.0.0-beta02"
     const val retrofitVersion = "2.9.0"
     const val serializationVersion = "1.3.2"
     const val serializationConverterVersion = "0.8.0"

@@ -2,23 +2,31 @@
     <string name="app_name">GitHubClient</string>
     <!-- Strings related to login -->
     <string name="et_token">Personal access token</string>
+    <string name="empty_input">Empty input</string>
+    <string name="invalid_input">Invalid input</string>
     <string name="btn_sign_in">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="logo_description">GitHub logo</string>
-    <string name="log_out">Log out</string>
     <string name="sign_out">Sign out</string>
     <string name="repositories_list_header">Repositories</string>
-    <string name="empty_repositories_list">Nothing to show, no repositories available</string>
     <string name="tv_watchers_title">watchers</string>
     <string name="tv_forks_title">forks</string>
     <string name="tv_stars_title">stars</string>
     <string name="tv_license_label">License</string>
-    <string name="empty_readme">Readme is empty</string>
-    <string name="bad_url_repo">Link is unavailable</string>
+
+    <string name="logo_description">GitHub logo</string>
     <string name="link_icon">link icon</string>
     <string name="license_icon">license icon</string>
     <string name="star_icon">star icon</string>
     <string name="fork_icon">fork icon</string>
     <string name="eye_icon">eye icon</string>
+
+    <string name="empty_repositories_list">Nothing to show, no repositories available</string>
+    <string name="empty_readme">Readme is empty</string>
+    <string name="bad_url_repo">Link is unavailable</string>
+    <string name="empty_server_data">No data</string>
+    <string name="wrong_token">Wrong token</string>
+    <string name="service_unavailable">Service Unavailable</string>
+    <string name="network_error">No Internet connection</string>
+    <string name="unknown_error">Unknown error</string>
+
 
 </resources>

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.databinding.RepositoryElementBinding
+import com.zxltrxn.githubclient.domain.model.Repo
 
 
 class RepositoriesAdapter(

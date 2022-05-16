@@ -2,10 +2,9 @@ package com.zxltrxn.githubclient.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
-data class Repo(
+data class RepoData(
     val id: Int,
     val name: String,
     val owner: Owner,
@@ -13,7 +12,6 @@ data class Repo(
     val description: String? = null,
     val language: String? = null,
     val license: License? = null,
-    @Transient var languageColor: String? = null,
     @SerialName("forks_count") val forks: Int = 0,
     @SerialName("stargazers_count") val stars: Int = 0,
     @SerialName("watchers_count") val watchers: Int = 0,

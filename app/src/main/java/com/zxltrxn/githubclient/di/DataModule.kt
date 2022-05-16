@@ -1,6 +1,6 @@
 package com.zxltrxn.githubclient.di
 
-import com.zxltrxn.githubclient.data.repository.AppRepository
+import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.data.repository.IDataRepository
 import dagger.Binds

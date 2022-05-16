@@ -2,8 +2,10 @@ package com.zxltrxn.githubclient.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
+import com.zxltrxn.githubclient.domain.LocalizeString
+import com.zxltrxn.githubclient.domain.Resource
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,7 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthScreenViewModel @Inject constructor(
     private val authRepo: IAuthRepository
 ) : ViewModel() {
 
@@ -67,7 +69,7 @@ class AuthViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = State.Idle
-                    _actions.emit(Action.ShowError(res.message!!))
+                    _actions.emit(Action.ShowError(res.message))
                 }
             }
         }
@@ -76,17 +78,17 @@ class AuthViewModel @Inject constructor(
     sealed interface State {
         object Idle : State
         object Loading : State
-        data class InvalidInput(val reason: String) : State
+        data class InvalidInput(val reason: LocalizeString) : State
     }
 
     sealed interface Action {
-        data class ShowError(val message: String) : Action
+        data class ShowError(val message: LocalizeString) : Action
         object RouteToMain : Action
     }
 
-    enum class ValidationState(val reason: String) {
-        EMPTY("Empty input"),
-        INVALID("Invalid input"),
-        VALID("Valid input")
+    enum class ValidationState(val reason: LocalizeString) {
+        EMPTY(LocalizeString.Resource(R.string.empty_input)),
+        INVALID(LocalizeString.Resource(R.string.invalid_input)),
+        VALID(LocalizeString.Raw("")) // не используется
     }
 }

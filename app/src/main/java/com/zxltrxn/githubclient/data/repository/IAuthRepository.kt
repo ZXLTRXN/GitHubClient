@@ -1,8 +1,10 @@
 package com.zxltrxn.githubclient.data.repository
 
-import com.zxltrxn.githubclient.data.Resource
+import com.zxltrxn.githubclient.domain.Resource
+import com.zxltrxn.githubclient.domain.model.UserInfo
 
 interface IAuthRepository {
-    suspend fun signIn(token: String? = null): Resource<Unit>
+    fun isTokenSaved(): Boolean
+    suspend fun signIn(token: String?): Resource<UserInfo>
     suspend fun signOut()
 }

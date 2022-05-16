@@ -2,9 +2,10 @@ package com.zxltrxn.githubclient.presentation.repositoriesList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zxltrxn.githubclient.data.Resource
-import com.zxltrxn.githubclient.data.model.Repo
 import com.zxltrxn.githubclient.data.repository.IDataRepository
+import com.zxltrxn.githubclient.domain.LocalizeString
+import com.zxltrxn.githubclient.domain.Resource
+import com.zxltrxn.githubclient.domain.model.Repo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,14 +28,14 @@ class RepositoriesListViewModel @Inject constructor(
         viewModelScope.launch {
             when (val res = repository.getRepositories()) {
                 is Resource.Success -> {
-                    if (res.data!!.isEmpty()) {
+                    if (res.data.isEmpty()) {
                         _state.value = State.Empty
                     } else {
                         _state.value = State.Loaded(repos = res.data)
                     }
                 }
                 is Resource.Error -> {
-                    _state.value = State.Error(res.message!!)
+                    _state.value = State.Error(res.message)
                 }
             }
         }
@@ -43,7 +44,7 @@ class RepositoriesListViewModel @Inject constructor(
     sealed interface State {
         object Loading : State
         data class Loaded(val repos: List<Repo>) : State
-        data class Error(val error: String) : State
+        data class Error(val error: LocalizeString) : State
         object Empty : State
     }
 }

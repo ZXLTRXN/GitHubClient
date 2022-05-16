@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-splashscreen:${Dependencies.splashVersion}")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation("androidx.fragment:fragment-ktx:${Dependencies.fragmentVersion}")

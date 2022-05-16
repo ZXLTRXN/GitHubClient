@@ -60,7 +60,8 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     private fun observe() {
         collectLatestLifecycleFlow(viewModel.state) { state ->
             binding.tvInfoError.visibility = if (state is State.Error) View.VISIBLE else View.GONE
-            binding.tvInfoError.text = if (state is State.Error) state.error else null
+            binding.tvInfoError.text =
+                if (state is State.Error) state.error.getString(requireContext()) else null
 
             binding.progressCircular.visibility =
                 if (state is State.Loading) View.VISIBLE else View.GONE
@@ -83,7 +84,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
             if (state is State.Loaded) {
                 val readmeState = state.readmeState
                 binding.tvReadme.text =
-                    if (readmeState is ReadmeState.Error) readmeState.error else null
+                    if (readmeState is ReadmeState.Error) readmeState.error.getString(requireContext()) else null
                 binding.tvReadme.text =
                     if (readmeState is ReadmeState.Empty) getString(R.string.empty_readme) else null
 

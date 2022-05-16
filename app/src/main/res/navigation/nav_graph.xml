@@ -3,28 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/authFragment">
-
-    <!--    <fragment-->
-    <!--        android:id="@+id/splashFragment"-->
-    <!--        android:name="com.zxltrxn.githubclient.presentation.splash.SplashFragment"-->
-    <!--        android:label="SplashFragment"-->
-    <!--        tools:layout="@layout/fragment_splash" >-->
-    <!--        <action-->
-    <!--            android:id="@+id/splashFragment_to_authFragment"-->
-    <!--            app:destination="@id/authFragment"-->
-    <!--            app:enterAnim="@anim/slide_in_right"-->
-    <!--            app:exitAnim="@anim/slide_out_left"-->
-    <!--            app:popUpTo="@id/splashFragment"-->
-    <!--            app:popUpToInclusive="true" />-->
-    <!--        <action-->
-    <!--            android:id="@+id/splashFragment_to_repositoriesListFragment"-->
-    <!--            app:destination="@id/repositoriesListFragment"-->
-    <!--            app:enterAnim="@anim/slide_in_right"-->
-    <!--            app:exitAnim="@anim/slide_out_left"-->
-    <!--            app:popUpTo="@id/splashFragment"-->
-    <!--            app:popUpToInclusive="true" />-->
-    <!--    </fragment>-->
+    app:startDestination="@id/repositoriesListFragment">
 
     <fragment
         android:id="@+id/authFragment"
@@ -46,6 +25,9 @@
         android:name="com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragment"
         android:label="fragment_repositories_list"
         tools:layout="@layout/fragment_repositories_list">
+        <action
+            android:id="@+id/repositoriesListFragment_to_AuthFragment"
+            app:destination="@id/authFragment"/>
         <action
             android:id="@+id/repositoriesListFragment_to_detailInfoFragment"
             app:destination="@id/detailInfoFragment"

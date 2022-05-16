@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
 import com.zxltrxn.githubclient.presentation.MainActivity
-import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action
-import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.State
+import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.Action
+import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.State
 import com.zxltrxn.githubclient.utils.bindTextTwoWay
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
 import com.zxltrxn.githubclient.utils.collectLifecycleFlow
@@ -23,7 +23,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<AuthViewModel>()
+    private val viewModel by viewModels<AuthScreenViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +48,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private fun observe() {
         collectLatestLifecycleFlow(viewModel.state) { state ->
-            binding.inputLayout.error = if (state is State.InvalidInput) state.reason else null
+
+            binding.inputLayout.error =
+                if (state is State.InvalidInput) state.reason.getString(requireContext()) else null
             binding.progressCircular.visibility =
                 if (state is State.Loading) View.VISIBLE else View.GONE
             binding.submitButton.isEnabled = state !is State.Loading
@@ -65,7 +67,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         collectLifecycleFlow(viewModel.actions) { action ->
             when (action) {
                 is Action.ShowError ->
-                    showToast(action.message)
+                    showToast(action.message.getString(requireContext()))
                 is Action.RouteToMain -> navigateToRepositoriesList()
             }
         }
