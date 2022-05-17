@@ -43,4 +43,9 @@
         <item name="android:indeterminate">true</item>
         <item name="indicatorColor">@color/white</item>
     </style>
+
+    <style name="Button.TextStyle" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

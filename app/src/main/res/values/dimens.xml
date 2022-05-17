@@ -5,7 +5,7 @@
     <dimen name="vertical_logo_margin">48dp</dimen>
 
     <dimen name="et_min_height">48dp</dimen>
-    <dimen name="iv_logo_size">180dp</dimen>
+    <dimen name="iv_logo_size">96dp</dimen>
     <dimen name="iv_splash_padding">50dp</dimen>
     <dimen name="btn_sign_in_height">55dp</dimen>
     <dimen name="elevation">6dp</dimen>

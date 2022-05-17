@@ -43,6 +43,7 @@
         android:backgroundTint="@color/green"
         android:elevation="@dimen/elevation"
         app:cornerRadius="@dimen/corner_radius"
+        android:textAppearance="@style/Button.TextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
