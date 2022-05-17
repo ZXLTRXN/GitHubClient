@@ -79,7 +79,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
 
     private fun navigateToDetailInfo(repoId: Int, repoName: String) {
         val action = RepositoriesListFragmentDirections
-            .repositoriesListFragmentToDetailInfoFragment(repoId = repoId, repoName = repoName)
+            .toDetailInfoFragment(repoId = repoId, repoName = repoName)
         this.findNavController().navigate(action)
     }
 }

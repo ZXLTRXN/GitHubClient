@@ -5,6 +5,7 @@ import com.zxltrxn.githubclient.domain.model.UserInfo
 
 interface IAuthRepository {
     fun isTokenSaved(): Boolean
-    suspend fun signIn(token: String?): Resource<UserInfo>
+    suspend fun signIn(token: String): Resource<UserInfo>
+    suspend fun signInWithSavedToken(): Resource<UserInfo>
     suspend fun signOut()
 }

@@ -19,6 +19,7 @@
     <string name="fork_icon">fork icon</string>
     <string name="eye_icon">eye icon</string>
 
+    <string name="no_saved_token">No saved token</string>
     <string name="empty_repositories_list">Nothing to show, no repositories available</string>
     <string name="empty_readme">Readme is empty</string>
     <string name="bad_url_repo">Link is unavailable</string>
@@ -27,6 +28,8 @@
     <string name="service_unavailable">Service Unavailable</string>
     <string name="network_error">No Internet connection</string>
     <string name="unknown_error">Unknown error</string>
+
+
 
 
 </resources>

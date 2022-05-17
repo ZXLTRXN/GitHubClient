@@ -75,7 +75,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private fun navigateToRepositoriesList() {
         val action = AuthFragmentDirections
-            .authFragmentToRepositoriesListFragment()
+            .toRepositoriesListFragment()
         this.findNavController().navigate(action)
     }
 

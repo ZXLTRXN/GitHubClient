@@ -109,11 +109,21 @@ class AppRepository @Inject constructor(
     ////////////IAuthRepository
     override fun isTokenSaved(): Boolean = userStorage.authToken != null
 
-    override suspend fun signIn(token: String?): Resource<UserInfo> =
+    override suspend fun signInWithSavedToken(): Resource<UserInfo> = signInRequest()
+
+    override suspend fun signIn(token: String): Resource<UserInfo> {
         withContext(Dispatchers.IO) {
-            token?.let {
-                userStorage.authToken = it
-            }
+            userStorage.authToken = token
+        }
+        return signInRequest()
+    }
+
+    override suspend fun signOut() = withContext(Dispatchers.IO) {
+        userStorage.clearUserData()
+    }
+
+    private suspend fun signInRequest(): Resource<UserInfo> =
+        withContext(Dispatchers.IO) {
             val res: Resource<RepoData.Owner> = tryRequest { api.getUser() }
             return@withContext when (res) {
                 is Resource.Success -> {
@@ -126,8 +136,4 @@ class AppRepository @Inject constructor(
                 }
             }
         }
-
-    override suspend fun signOut() = withContext(Dispatchers.IO) {
-        userStorage.clearUserData()
-    }
 }

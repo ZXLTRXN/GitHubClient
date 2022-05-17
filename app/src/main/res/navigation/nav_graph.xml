@@ -6,12 +6,37 @@
     app:startDestination="@id/repositoriesListFragment">
 
     <fragment
+        android:id="@+id/repositoriesListFragment"
+        android:name="com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragment"
+        android:label="RepositoriesList"
+        tools:layout="@layout/fragment_repositories_list">
+        <action
+            android:id="@+id/to_AuthFragment"
+            app:destination="@id/authFragment"
+            app:popUpTo="@id/repositoriesListFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/to_AuthFragment_with_anim"
+            app:destination="@id/authFragment"
+            app:popUpTo="@id/repositoriesListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/to_detailInfoFragment"
+            app:destination="@id/detailInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left" />
+    </fragment>
+
+    <fragment
         android:id="@+id/authFragment"
         android:name="com.zxltrxn.githubclient.presentation.auth.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth">
         <action
-            android:id="@+id/authFragment_to_repositoriesListFragment"
+            android:id="@+id/to_repositoriesListFragment"
             app:destination="@id/repositoriesListFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -21,25 +46,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/repositoriesListFragment"
-        android:name="com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragment"
-        android:label="fragment_repositories_list"
-        tools:layout="@layout/fragment_repositories_list">
-        <action
-            android:id="@+id/repositoriesListFragment_to_AuthFragment"
-            app:destination="@id/authFragment"/>
-        <action
-            android:id="@+id/repositoriesListFragment_to_detailInfoFragment"
-            app:destination="@id/detailInfoFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left" />
-    </fragment>
-
-    <fragment
         android:id="@+id/detailInfoFragment"
         android:name="com.zxltrxn.githubclient.presentation.detailInfo.DetailInfoFragment"
-        android:label="fragment_detail_info"
+        android:label="detailInfo"
         tools:layout="@layout/fragment_detail_info">
         <argument
             android:name="repoId"

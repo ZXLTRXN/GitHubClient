@@ -1,7 +1,6 @@
 package com.zxltrxn.githubclient.presentation
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -9,38 +8,47 @@ import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.zxltrxn.githubclient.R
-import com.zxltrxn.githubclient.presentation.auth.AuthFragmentDirections
-import com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragment
+import com.zxltrxn.githubclient.presentation.AuthViewModel.State
 import com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val auth by viewModels<AuthViewModel>()
     private val navController: NavController by lazy { getNavigationController() }
 
+    val TAG = javaClass.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-//        val content: View = findViewById(android.R.id.content)
-//        content.viewTreeObserver.addOnPreDrawListener(
-//            object : ViewTreeObserver.OnPreDrawListener {
-//                override fun onPreDraw(): Boolean {
-//                    return if (auth.isAuthenticated()) {
-//                        content.viewTreeObserver.removeOnPreDrawListener(this)
-//                        true
-//                    } else {
-//                        navigateToAuth()
-//                        false
-//                    }
-//                }
-//            })
         super.onCreate(savedInstanceState)
+        setPredrawListener()
         setSupportActionBar(findViewById(R.id.my_toolbar))
+    }
+
+    private fun setPredrawListener() {
+        if (auth.state is State.NotReady) {
+            auth.trySignInWithSaved()
+            val content: View = findViewById(android.R.id.content)
+            content.viewTreeObserver.addOnPreDrawListener(
+                object : ViewTreeObserver.OnPreDrawListener {
+                    override fun onPreDraw(): Boolean {
+                        return if (auth.state !is State.NotReady) {
+                            if (auth.state is State.NotAuthenticated) {
+                                navigateToAuth()
+                            }
+                            content.viewTreeObserver.removeOnPreDrawListener(this)
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                }
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,11 +59,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_sign_out -> {
-                lifecycleScope.launch {
-                    auth.signOut()
-                }
-                navController.popBackStack(R.id.repositoriesListFragment, true)
-                navController.navigate(R.id.authFragment)
+                auth.signOut()
+                navigateToAuth(withAnim = true)
             }
             android.R.id.home -> {
                 onBackPressed()
@@ -70,10 +75,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return navHostFragment.navController
     }
 
-
-    private fun navigateToAuth() {
-        val action = RepositoriesListFragmentDirections
-            .repositoriesListFragmentToAuthFragment()
+    private fun navigateToAuth(withAnim: Boolean = false) {
+        val action = if (withAnim) RepositoriesListFragmentDirections.toAuthFragmentWithAnim()
+        else RepositoriesListFragmentDirections.toAuthFragment()
         navController.navigate(action)
     }
 }
