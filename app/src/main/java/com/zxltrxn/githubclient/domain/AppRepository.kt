@@ -51,8 +51,14 @@ class AppRepository @Inject constructor(
             }
         }
 
-    override suspend fun getRepository(repoId: Int): Resource<Repo> =
+    override suspend fun getRepository(repoName: String): Resource<Repo> =
         withContext(Dispatchers.IO) {
+            val owner = userStorage.userName!!
+            val res: Resource<RepoData> = tryRequest { api.getRepo(owner, repoName) }
+            return@withContext when (res) {
+                is Resource.Success -> Resource.Success(data = res.data.toRepo())
+                is Resource.Error -> res
+            }
 
 //            val repo = repositoriesRequestResult.data!!.find { it.id == repoId }
 //            repo?.let {
@@ -66,11 +72,11 @@ class AppRepository @Inject constructor(
 //                )
 //                return@withContext Resource.Success(RepoDetails(repo, readme))
 //            }
-            return@withContext Resource.Error(LocalizeString.Raw("No repository with current id"))
         }
 
     override suspend fun getRepositoryReadme(
-        ownerName: String, repositoryName: String,
+        ownerName: String,
+        repositoryName: String,
         branchName: String
     ): Resource<String> {
         val fileName = "README.md"

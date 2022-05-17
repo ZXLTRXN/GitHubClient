@@ -6,7 +6,7 @@ import com.zxltrxn.githubclient.domain.model.Repo
 
 interface IDataRepository {
     suspend fun getRepositories(): Resource<List<Repo>>
-    suspend fun getRepository(repoId: Int): Resource<Repo>
+    suspend fun getRepository(repoName: String): Resource<Repo>
     suspend fun getRepositoryReadme(
         ownerName: String,
         repositoryName: String,

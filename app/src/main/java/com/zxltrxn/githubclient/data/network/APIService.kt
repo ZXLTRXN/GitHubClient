@@ -18,7 +18,7 @@ interface APIService {
     ): Response<List<RepoData>>
 
     @GET("/repos/{owner}/{repo}")
-    suspend fun getRepo(owner: String, repo: String):Response<Repo>
+    suspend fun getRepo(owner: String, repo: String):Response<RepoData>
 
     companion object{
         const val BASE_URL = "https://api.github.com/"

@@ -19,11 +19,10 @@ class RepositoryInfoViewModel @Inject constructor(
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
     val state = _state.asStateFlow()
 
-    fun getInfo(repoId: Int) {
+    fun getInfo(repoName: String) {
         viewModelScope.launch {
-            when (val res: Resource<Repo> = repository.getRepository(repoId)) {
+            when (val res: Resource<Repo> = repository.getRepository(repoName)) {
                 is Resource.Success -> {
-
 //                    val readmeState = when (val readmeResource = repositoryResource.data!!.readme) {
 //                        is Resource.Success -> {
 //                            if (readmeResource.data!!.isEmpty()) ReadmeState.Empty

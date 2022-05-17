@@ -21,7 +21,7 @@
             app:popUpTo="@id/repositoriesListFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/to_detailInfoFragment"
             app:destination="@id/detailInfoFragment"
