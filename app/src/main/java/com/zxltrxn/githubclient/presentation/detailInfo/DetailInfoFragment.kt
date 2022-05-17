@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentDetailInfoBinding.inflate(inflater, container, false)
 
-        viewModel.getInfo(args.repoName)
+        viewModel.getInfo(args.repoName, args.branch)
 
         (requireActivity() as MainActivity).supportActionBar?.run {
             title = args.repoName
@@ -81,12 +82,18 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                     openUrl(state.githubRepo.htmlUrl)
                 }
             }
+
             if (state is State.Loaded) {
                 val readmeState = state.readmeState
-                binding.tvReadme.text =
-                    if (readmeState is ReadmeState.Error) readmeState.error.getString(requireContext()) else null
-                binding.tvReadme.text =
-                    if (readmeState is ReadmeState.Empty) getString(R.string.empty_readme) else null
+
+                binding.progressCircular.visibility =
+                    if (readmeState is ReadmeState.Loading) View.VISIBLE else View.GONE
+
+                if (readmeState is ReadmeState.Error) binding.tvReadme.text =
+                    readmeState.error.getString(requireContext())
+
+                if (readmeState is ReadmeState.Empty) binding.tvReadme.text =
+                    getString(R.string.empty_readme)
 
                 if (readmeState is ReadmeState.Loaded) {
                     context?.let { context ->

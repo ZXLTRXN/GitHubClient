@@ -8,8 +8,7 @@ interface IDataRepository {
     suspend fun getRepositories(): Resource<List<Repo>>
     suspend fun getRepository(repoName: String): Resource<Repo>
     suspend fun getRepositoryReadme(
-        ownerName: String,
-        repositoryName: String,
-        branchName: String
+        repoName: String,
+        branch: String
     ): Resource<String>
 }

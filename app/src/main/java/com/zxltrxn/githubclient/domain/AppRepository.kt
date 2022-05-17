@@ -11,6 +11,7 @@ import com.zxltrxn.githubclient.data.network.NetworkUtils.tryRequest
 import com.zxltrxn.githubclient.data.repository.IAuthRepository
 import com.zxltrxn.githubclient.data.repository.IDataRepository
 import com.zxltrxn.githubclient.data.storage.KeyValueStorage
+import com.zxltrxn.githubclient.di.OkHttpClientWithInterceptors
 import com.zxltrxn.githubclient.domain.model.Repo
 import com.zxltrxn.githubclient.domain.model.UserInfo
 import com.zxltrxn.githubclient.utils.toRepo
@@ -53,35 +54,23 @@ class AppRepository @Inject constructor(
 
     override suspend fun getRepository(repoName: String): Resource<Repo> =
         withContext(Dispatchers.IO) {
-            val owner = userStorage.userName!!
-            val res: Resource<RepoData> = tryRequest { api.getRepo(owner, repoName) }
+            val ownerName = userStorage.userName!!
+
+            val res: Resource<RepoData> = tryRequest { api.getRepo(ownerName, repoName) }
             return@withContext when (res) {
                 is Resource.Success -> Resource.Success(data = res.data.toRepo())
                 is Resource.Error -> res
             }
-
-//            val repo = repositoriesRequestResult.data!!.find { it.id == repoId }
-//            repo?.let {
-//                val ownerName: String = repo.owner.name
-//                val repoName: String = repo.name
-//                val branchName: String = repo.branch
-//
-//                val readme = getRepositoryReadme(
-//                    ownerName = ownerName,
-//                    repositoryName = repoName, branchName = branchName
-//                )
-//                return@withContext Resource.Success(RepoDetails(repo, readme))
-//            }
         }
 
     override suspend fun getRepositoryReadme(
-        ownerName: String,
-        repositoryName: String,
-        branchName: String
-    ): Resource<String> {
+        repoName: String,
+        branch: String
+    ): Resource<String> = withContext(Dispatchers.IO) {
+        val ownerName: String = userStorage.userName!!
         val fileName = "README.md"
-        val url = "$BASE_URL_README$ownerName/$repositoryName/$branchName/$fileName"
-        return okHttpRequest(client, url)
+        val url = "$BASE_URL_README$ownerName/$repoName/$branch/$fileName"
+        return@withContext okHttpRequest(client, url)
     }
 
     private fun readFromAssets(): String? {

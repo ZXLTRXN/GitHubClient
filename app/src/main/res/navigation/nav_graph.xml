@@ -51,10 +51,10 @@
         android:label="detailInfo"
         tools:layout="@layout/fragment_detail_info">
         <argument
-            android:name="repoId"
-            app:argType="integer" />
-        <argument
             android:name="repoName"
+            app:argType="string" />
+        <argument
+            android:name="branch"
             app:argType="string" />
     </fragment>
 

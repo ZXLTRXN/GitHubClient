@@ -2,6 +2,7 @@ package com.zxltrxn.githubclient.presentation.detailInfo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.domain.Resource
 import com.zxltrxn.githubclient.data.repository.IDataRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
@@ -19,24 +20,26 @@ class RepositoryInfoViewModel @Inject constructor(
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
     val state = _state.asStateFlow()
 
-    fun getInfo(repoName: String) {
+    fun getInfo(repoName: String, branch: String) {
         viewModelScope.launch {
-            when (val res: Resource<Repo> = repository.getRepository(repoName)) {
+            val repoRes: Resource<Repo> = repository.getRepository(repoName)
+            val readmeRes: Resource<String> = repository.getRepositoryReadme(repoName, branch)
+            when (repoRes) {
                 is Resource.Success -> {
-//                    val readmeState = when (val readmeResource = repositoryResource.data!!.readme) {
-//                        is Resource.Success -> {
-//                            if (readmeResource.data!!.isEmpty()) ReadmeState.Empty
-//                            else ReadmeState.Loaded(readmeResource.data)
-//                        }
-//                        is Resource.Error -> {
-//                            ReadmeState.Error(repositoryResource.data.readme.message!!)
-//                        }
-//                    }
-                    val readmeState =  ReadmeState.Error(LocalizeString.Raw("net readme"))
-                    _state.value = State.Loaded(res.data, readmeState)
+                    val readmeState = when (readmeRes) {
+                        is Resource.Success -> {
+                            if (readmeRes.data.isEmpty()) ReadmeState.Empty
+                            else ReadmeState.Loaded(readmeRes.data)
+                        }
+                        is Resource.Error -> {
+                            if (readmeRes.code == APIService.NOT_FOUND) ReadmeState.Empty
+                            else ReadmeState.Error(readmeRes.message)
+                        }
+                    }
+                    _state.value = State.Loaded(repoRes.data, readmeState)
                 }
                 is Resource.Error -> {
-                    _state.value = State.Error(res.message)
+                    _state.value = State.Error(repoRes.message)
                 }
             }
         }

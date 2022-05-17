@@ -55,8 +55,8 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
     }
 
     private fun setUpAdapter(): RepositoriesAdapter {
-        val adapter = RepositoriesAdapter { id, name ->
-            navigateToDetailInfo(id, name)
+        val adapter = RepositoriesAdapter { name, branch ->
+            navigateToDetailInfo(name, branch)
         }
         binding.rvRepositoriesList.adapter = adapter
         return adapter
@@ -77,9 +77,9 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         }
     }
 
-    private fun navigateToDetailInfo(repoId: Int, repoName: String) {
+    private fun navigateToDetailInfo(repoName: String, branch: String) {
         val action = RepositoriesListFragmentDirections
-            .toDetailInfoFragment(repoId = repoId, repoName = repoName)
+            .toDetailInfoFragment(repoName = repoName, branch = branch)
         this.findNavController().navigate(action)
     }
 }

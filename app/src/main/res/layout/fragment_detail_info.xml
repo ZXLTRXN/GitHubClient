@@ -37,7 +37,7 @@
             android:id="@+id/all_sections"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="iv_link,tv_link,iv_license,license_label,tv_license,iv_stars,tv_stars,tv_stars_label,iv_forks,tv_forks,tv_forks_label, iv_watchers,tv_watchers,tv_watchers_label,tv_readme"
+            app:constraint_referenced_ids="iv_link,tv_link,iv_license,license_label,tv_license,iv_stars,tv_stars,tv_stars_label,iv_forks,tv_forks,tv_forks_label,iv_watchers,tv_watchers,tv_watchers_label,tv_readme"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="20dp" />
 
@@ -210,7 +210,7 @@
             style="@style/ProgressIndicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_stars" />
 
         <TextView
             android:id="@+id/tv_info_error"

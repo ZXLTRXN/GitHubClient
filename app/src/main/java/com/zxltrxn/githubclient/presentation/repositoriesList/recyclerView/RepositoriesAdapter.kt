@@ -11,7 +11,7 @@ import com.zxltrxn.githubclient.domain.model.Repo
 
 
 class RepositoriesAdapter(
-    private val onItemClick: (Int, String) -> Unit
+    private val onItemClick: (String, String) -> Unit
 ) : ListAdapter<Repo, RepositoriesAdapter.RepoViewHolder>(RepoDiffUtilCallback()) {
 
     class RepoViewHolder(
@@ -56,7 +56,7 @@ class RepositoriesAdapter(
         getItem(position).let { repo ->
             holder.bind(repo)
             holder.itemView.setOnClickListener {
-                onItemClick(repo.id, repo.name)
+                onItemClick(repo.name, repo.branch)
             }
         }
     }
