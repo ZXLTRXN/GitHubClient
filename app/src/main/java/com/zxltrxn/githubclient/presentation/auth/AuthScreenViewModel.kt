@@ -29,9 +29,6 @@ class AuthScreenViewModel @Inject constructor(
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Idle)
     val state = _state.asStateFlow()
 
-//    private val _actions = MutableSharedFlow<Action>()
-//    val actions = _actions.asSharedFlow()
-
     private val _actions: Channel<Action> = Channel(Channel.BUFFERED)
     val actions: Flow<Action> = _actions.receiveAsFlow()
 
