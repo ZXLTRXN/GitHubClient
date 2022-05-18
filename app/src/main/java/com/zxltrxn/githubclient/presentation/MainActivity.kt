@@ -1,8 +1,6 @@
 package com.zxltrxn.githubclient.presentation
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
@@ -12,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.presentation.AuthViewModel.State
-import com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,14 +22,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-//        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-//        navGraph.setStartDestination(R.id.repositoriesListFragment)
-//        navController.graph = navGraph
-        setPredrawListener()
+        setPreDrawListener()
     }
 
-    private fun setPredrawListener() {
-//        var destination: Int = R.id.repositoriesListFragment
+    private fun setPreDrawListener() {
+        var destination: Int = R.id.repositoriesListFragment
         if (auth.state is State.NotReady) {
             auth.trySignInWithSaved()
             val content: View = findViewById(android.R.id.content)
@@ -44,7 +38,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                                 navigateToAuth()
 //                                destination = R.id.authFragment
                             }
-
+//                            setStartDestination(destination)
                             content.viewTreeObserver.removeOnPreDrawListener(this)
                             true
                         } else {
@@ -56,6 +50,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
+//    private fun setStartDestination(destination: Int) {
+//        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+//        navGraph.setStartDestination(R.id.repositoriesListFragment)
+//        navController.graph = navGraph
+//    }
+
     private fun getNavigationController(): NavController {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -63,8 +63,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun navigateToAuth() {
-//        navController.navigate(R.id.to_AuthFragment)
-        val action = RepositoriesListFragmentDirections.toAuthFragment()
-        navController.navigate(action)
+        navController.navigate(R.id.to_AuthFragment)
     }
 }

@@ -7,8 +7,8 @@
     <dimen name="et_min_height">48dp</dimen>
     <dimen name="iv_logo_size">96dp</dimen>
     <dimen name="iv_splash_padding">50dp</dimen>
-    <dimen name="li_small_size">55dp</dimen>
-    <dimen name="li_large_size">85dp</dimen>
+    <dimen name="li_small_size">24dp</dimen>
+    <dimen name="li_large_size">56dp</dimen>
     <dimen name="elevation">6dp</dimen>
     <dimen name="corner_radius">8dp</dimen>
 

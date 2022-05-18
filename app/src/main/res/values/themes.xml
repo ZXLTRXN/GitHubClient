@@ -13,18 +13,10 @@
         <item name="android:statusBarColor" >@color/gray</item>
     </style>
 
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+    <style name="Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/gray</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.GitHubClient</item>
-    </style>
-
-    <style name="Theme.GitHubClient.Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@color/gray</item>
-        <item name="android:elevation">@dimen/elevation</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="Fragment.Padding" parent="Theme.AppCompat">
@@ -34,29 +26,51 @@
         <item name="android:paddingBottom">@dimen/fragment_vertical_padding</item>
     </style>
 
-    <style name="ProgressIndicator" parent="Theme.MaterialComponents">
-        <item name="android:layout_gravity">center</item>
+    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/gray</item>
+        <item name="android:elevation">@dimen/elevation</item>
+        <item name="android:textAppearance">@style/Widget.Toolbar.Text</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="Widget.Toolbar.Text" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Widget.ProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="android:elevation">@dimen/elevation</item>
         <item name="android:indeterminate">true</item>
         <item name="indicatorColor">@color/white</item>
     </style>
 
-    <style name="ProgressIndicator.Inner" >
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
-    <style name="ProgressIndicator.Small"  >
+    <style name="Widget.ProgressIndicator.Small"  >
         <item name="android:layout_width">@dimen/li_small_size</item>
         <item name="android:layout_height">@dimen/li_small_size</item>
+        <item name="indicatorSize">@dimen/li_small_size</item>
     </style>
 
-    <style name="ProgressIndicator.Large" >
+    <style name="Widget.ProgressIndicator.Large" >
         <item name="android:layout_width">@dimen/li_large_size</item>
         <item name="android:layout_height">@dimen/li_large_size</item>
+        <item name="indicatorSize">@dimen/li_large_size</item>
     </style>
 
-    <style name="Button.TextStyle" parent="TextAppearance.MaterialComponents.Button">
+    <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:backgroundTint">@color/green</item>
+        <item name="android:elevation">@dimen/elevation</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="android:textAppearance">@style/Widget.Button.TextStyle</item>
+    </style>
+
+    <style name="Widget.Button.TextStyle" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
     </style>

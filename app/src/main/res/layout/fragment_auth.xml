@@ -41,7 +41,7 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular"
-        style="@style/ProgressIndicator.Small"
+        style="@style/Widget.ProgressIndicator.Small"
         app:layout_constraintBottom_toBottomOf="@+id/submit_button"
         app:layout_constraintEnd_toEndOf="@+id/submit_button"
         app:layout_constraintStart_toStartOf="@+id/submit_button"
@@ -49,12 +49,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/submit_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:elevation="@dimen/elevation"
-        app:cornerRadius="@dimen/corner_radius"
-        android:textAppearance="@style/Button.TextStyle"
+        style="@style/Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
