@@ -9,12 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
-import com.zxltrxn.githubclient.presentation.MainActivity
 import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.Action
 import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.State
 import com.zxltrxn.githubclient.utils.bindTextTwoWay
+import com.zxltrxn.githubclient.utils.collectActions
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
-import com.zxltrxn.githubclient.utils.collectLifecycleFlow
 import com.zxltrxn.githubclient.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +32,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
         setHasOptionsMenu(false)
-//        (requireActivity() as MainActivity).supportActionBar?.hide()
         return binding.root
     }
 
@@ -65,7 +63,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             lifecycleOwner = viewLifecycleOwner
         )
 
-        collectLifecycleFlow(viewModel.actions) { action ->
+        collectActions(viewModel.actions) { action ->
             when (action) {
                 is Action.ShowError ->
                     showToast(action.message.getString(requireContext()))

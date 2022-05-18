@@ -9,11 +9,14 @@ import com.zxltrxn.githubclient.domain.Resource
 import com.zxltrxn.githubclient.utils.validateToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -26,8 +29,11 @@ class AuthScreenViewModel @Inject constructor(
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Idle)
     val state = _state.asStateFlow()
 
-    private val _actions = MutableSharedFlow<Action>()
-    val actions = _actions.asSharedFlow()
+//    private val _actions = MutableSharedFlow<Action>()
+//    val actions = _actions.asSharedFlow()
+
+    private val _actions: Channel<Action> = Channel(Channel.BUFFERED)
+    val actions: Flow<Action> = _actions.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -64,12 +70,12 @@ class AuthScreenViewModel @Inject constructor(
             _state.value = State.Loading
             when (val res = repository.signIn(token.value)) {
                 is Resource.Success -> {
-                    _actions.emit(Action.RouteToMain)
+                    _actions.send(Action.RouteToMain)
                     _state.value = State.Idle
                 }
                 is Resource.Error -> {
                     _state.value = State.Idle
-                    _actions.emit(Action.ShowError(res.message))
+                    _actions.send(Action.ShowError(res.message))
                 }
             }
         }

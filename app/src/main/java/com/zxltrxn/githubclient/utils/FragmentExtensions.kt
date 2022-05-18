@@ -30,6 +30,12 @@ fun <T> Fragment.collectLifecycleFlow(flow: Flow<T>, collect: FlowCollector<T>) 
     }
 }
 
+fun <T> Fragment.collectActions(actions: Flow<T>, handleAction:(T) -> Unit){
+    lifecycleScope.launch {
+        actions.collect { handleAction(it) }
+    }
+}
+
 fun Fragment.signOut(viewModelSignOut:()-> Unit) {
     viewModelSignOut()
     val navOption = NavOptions
