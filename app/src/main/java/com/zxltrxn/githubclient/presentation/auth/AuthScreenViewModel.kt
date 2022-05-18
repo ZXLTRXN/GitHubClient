@@ -35,7 +35,7 @@ class AuthScreenViewModel @Inject constructor(
     private val _actions: Channel<Action> = Channel(Channel.BUFFERED)
     val actions: Flow<Action> = _actions.receiveAsFlow()
 
-    init {
+    private fun startValidation(){
         viewModelScope.launch {
             token.collectLatest {
                 validate()
@@ -44,6 +44,7 @@ class AuthScreenViewModel @Inject constructor(
     }
 
     fun onSignButtonPressed() {
+        startValidation()
         if (state.value is State.Idle) {
             trySignIn()
         }
