@@ -3,7 +3,7 @@ package com.zxltrxn.githubclient.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.R
-import com.zxltrxn.githubclient.data.repository.IAuthRepository
+import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository: IAuthRepository
+    private val repository: AppRepository
 ) : ViewModel() {
     private var _state: State = State.NotReady
     val state get() = _state
@@ -27,22 +27,6 @@ class AuthViewModel @Inject constructor(
                 }
             }
         } else {
-            _state = State.NotAuthenticated(LocalizeString.Resource(R.string.no_saved_token))
-        }
-    }
-
-    fun signIn(token: String) {
-        viewModelScope.launch {
-            _state = when (val res = repository.signIn(token)) {
-                is Resource.Success -> State.Authenticated
-                is Resource.Error -> State.NotAuthenticated(res.message)
-            }
-        }
-    }
-
-    fun signOut() {
-        viewModelScope.launch {
-            repository.signOut()
             _state = State.NotAuthenticated(LocalizeString.Resource(R.string.no_saved_token))
         }
     }

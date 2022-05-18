@@ -2,7 +2,7 @@ package com.zxltrxn.githubclient.presentation.repositoriesList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zxltrxn.githubclient.data.repository.IDataRepository
+import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
 import com.zxltrxn.githubclient.domain.model.Repo
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RepositoriesListViewModel @Inject constructor(
-    private val repository: IDataRepository
+    private val repository: AppRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
@@ -25,7 +25,9 @@ class RepositoriesListViewModel @Inject constructor(
     }
 
     fun signOut() {
-
+        viewModelScope.launch {
+            repository.signOut()
+        }
     }
 
     private fun getRepos() {

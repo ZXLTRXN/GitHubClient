@@ -3,7 +3,7 @@ package com.zxltrxn.githubclient.presentation.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.R
-import com.zxltrxn.githubclient.data.repository.IAuthRepository
+import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
 import com.zxltrxn.githubclient.utils.validateToken
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AuthScreenViewModel @Inject constructor(
-    private val authRepo: IAuthRepository
+    private val repository: AppRepository
 ) : ViewModel() {
 
     val token: MutableStateFlow<String> = MutableStateFlow("")
@@ -62,7 +62,7 @@ class AuthScreenViewModel @Inject constructor(
     private fun trySignIn() {
         viewModelScope.launch {
             _state.value = State.Loading
-            when (val res = authRepo.signIn(token.value)) {
+            when (val res = repository.signIn(token.value)) {
                 is Resource.Success -> {
                     _actions.emit(Action.RouteToMain)
                     _state.value = State.Idle

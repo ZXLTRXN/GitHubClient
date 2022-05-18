@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.network.APIService
-import com.zxltrxn.githubclient.data.repository.IDataRepository
+import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
 import com.zxltrxn.githubclient.domain.model.Repo
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RepositoryInfoViewModel @Inject constructor(
-    private val repository: IDataRepository,
+    private val repository: AppRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
@@ -37,7 +37,9 @@ class RepositoryInfoViewModel @Inject constructor(
     }
 
     fun signOut() {
-
+        viewModelScope.launch {
+            repository.signOut()
+        }
     }
 
     private fun getInfo(ownerName: String, repoName: String, branch: String) {

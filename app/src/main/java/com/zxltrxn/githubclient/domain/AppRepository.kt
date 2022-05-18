@@ -8,10 +8,7 @@ import com.zxltrxn.githubclient.data.network.APIService.Companion.BASE_URL_READM
 import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CODE
 import com.zxltrxn.githubclient.data.network.NetworkUtils.okHttpRequest
 import com.zxltrxn.githubclient.data.network.NetworkUtils.tryRequest
-import com.zxltrxn.githubclient.data.repository.IAuthRepository
-import com.zxltrxn.githubclient.data.repository.IDataRepository
 import com.zxltrxn.githubclient.data.storage.KeyValueStorage
-import com.zxltrxn.githubclient.di.OkHttpClientWithInterceptors
 import com.zxltrxn.githubclient.domain.model.Repo
 import com.zxltrxn.githubclient.domain.model.UserInfo
 import com.zxltrxn.githubclient.utils.toRepo
@@ -32,11 +29,11 @@ class AppRepository @Inject constructor(
     private val userStorage: KeyValueStorage,
     private val api: APIService,
     private val client: OkHttpClient
-) : IAuthRepository, IDataRepository {
+) {
     private val COLORS_FILE_NAME = "github_colors.json"
 
-    ////////////IDataRepository
-    override suspend fun getRepositories(): Resource<List<Repo>> =
+    ////////////Data
+    suspend fun getRepositories(): Resource<List<Repo>> =
         withContext(Dispatchers.IO) {
             val res: Resource<List<RepoData>> = tryRequest { api.getRepos() }
             return@withContext when (res) {
@@ -52,7 +49,7 @@ class AppRepository @Inject constructor(
             }
         }
 
-    override suspend fun getRepository(ownerName: String, repoName: String): Resource<Repo> =
+    suspend fun getRepository(ownerName: String, repoName: String): Resource<Repo> =
         withContext(Dispatchers.IO) {
             val res: Resource<RepoData> = tryRequest { api.getRepo(ownerName, repoName) }
             return@withContext when (res) {
@@ -61,7 +58,7 @@ class AppRepository @Inject constructor(
             }
         }
 
-    override suspend fun getRepositoryReadme(
+    suspend fun getRepositoryReadme(
         ownerName: String,
         repoName: String,
         branch: String
@@ -69,6 +66,22 @@ class AppRepository @Inject constructor(
         val fileName = "README.md"
         val url = "$BASE_URL_README$ownerName/$repoName/$branch/$fileName"
         return@withContext okHttpRequest(client, url)
+    }
+
+    ////////////Auth
+    fun isTokenSaved(): Boolean = userStorage.authToken != null
+
+    suspend fun signInWithSavedToken(): Resource<UserInfo> = signInRequest()
+
+    suspend fun signIn(token: String): Resource<UserInfo> {
+        withContext(Dispatchers.IO) {
+            userStorage.authToken = token
+        }
+        return signInRequest()
+    }
+
+    suspend fun signOut() = withContext(Dispatchers.IO) {
+        userStorage.clearUserData()
     }
 
     private fun readFromAssets(): String? {
@@ -97,22 +110,6 @@ class AppRepository @Inject constructor(
             }
             it
         }
-    }
-
-    ////////////IAuthRepository
-    override fun isTokenSaved(): Boolean = userStorage.authToken != null
-
-    override suspend fun signInWithSavedToken(): Resource<UserInfo> = signInRequest()
-
-    override suspend fun signIn(token: String): Resource<UserInfo> {
-        withContext(Dispatchers.IO) {
-            userStorage.authToken = token
-        }
-        return signInRequest()
-    }
-
-    override suspend fun signOut() = withContext(Dispatchers.IO) {
-        userStorage.clearUserData()
     }
 
     private suspend fun signInRequest(): Resource<UserInfo> =
