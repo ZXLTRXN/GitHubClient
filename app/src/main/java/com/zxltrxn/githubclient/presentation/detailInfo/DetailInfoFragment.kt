@@ -38,8 +38,6 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentDetailInfoBinding.inflate(inflater, container, false)
 
-        viewModel.getInfo(args.repoName, args.branch)
-
         (requireActivity() as MainActivity).supportActionBar?.run {
             title = args.repoName
             setDisplayHomeAsUpEnabled(true)
