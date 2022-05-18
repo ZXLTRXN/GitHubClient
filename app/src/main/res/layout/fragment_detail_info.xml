@@ -216,7 +216,7 @@
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_circular"
-                style="@style/ProgressIndicator"
+                style="@style/ProgressIndicator.Small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_stars" />

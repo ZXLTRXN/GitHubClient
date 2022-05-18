@@ -35,12 +35,25 @@
     </style>
 
     <style name="ProgressIndicator" parent="Theme.MaterialComponents">
-        <item name="android:layout_width">@dimen/btn_sign_in_height</item>
-        <item name="android:layout_height">@dimen/btn_sign_in_height</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:elevation">@dimen/elevation</item>
         <item name="android:indeterminate">true</item>
         <item name="indicatorColor">@color/white</item>
+    </style>
+
+    <style name="ProgressIndicator.Inner" >
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="ProgressIndicator.Small"  >
+        <item name="android:layout_width">@dimen/li_small_size</item>
+        <item name="android:layout_height">@dimen/li_small_size</item>
+    </style>
+
+    <style name="ProgressIndicator.Large" >
+        <item name="android:layout_width">@dimen/li_large_size</item>
+        <item name="android:layout_height">@dimen/li_large_size</item>
     </style>
 
     <style name="Button.TextStyle" parent="TextAppearance.MaterialComponents.Button">

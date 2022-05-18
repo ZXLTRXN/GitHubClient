@@ -14,7 +14,7 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular"
-        style="@style/ProgressIndicator"/>
+        style="@style/ProgressIndicator.Small"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_repositories_list"
