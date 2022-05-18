@@ -25,10 +25,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+//        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+//        navGraph.setStartDestination(R.id.repositoriesListFragment)
+//        navController.graph = navGraph
         setPredrawListener()
     }
 
     private fun setPredrawListener() {
+//        var destination: Int = R.id.repositoriesListFragment
         if (auth.state is State.NotReady) {
             auth.trySignInWithSaved()
             val content: View = findViewById(android.R.id.content)
@@ -38,7 +42,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         return if (auth.state !is State.NotReady) {
                             if (auth.state is State.NotAuthenticated) {
                                 navigateToAuth()
+//                                destination = R.id.authFragment
                             }
+
                             content.viewTreeObserver.removeOnPreDrawListener(this)
                             true
                         } else {
@@ -56,9 +62,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return navHostFragment.navController
     }
 
-    private fun navigateToAuth(withAnim: Boolean = false) {
-        val action = if (withAnim) RepositoriesListFragmentDirections.toAuthFragmentWithAnim()
-        else RepositoriesListFragmentDirections.toAuthFragment()
+    private fun navigateToAuth() {
+//        navController.navigate(R.id.to_AuthFragment)
+        val action = RepositoriesListFragmentDirections.toAuthFragment()
         navController.navigate(action)
     }
 }

@@ -38,16 +38,7 @@ fun <T> Fragment.collectActions(actions: Flow<T>, handleAction:(T) -> Unit){
 
 fun Fragment.signOut(viewModelSignOut:()-> Unit) {
     viewModelSignOut()
-    val navOption = NavOptions
-        .Builder()
-        .setPopUpTo(R.id.repositoriesListFragment, true)
-        .setExitAnim(R.anim.slide_out_right)
-        .setEnterAnim(R.anim.slide_in_left)
-        .build()
-    findNavController().navigate(
-        resId = R.id.authFragment,
-        args = Bundle.EMPTY, navOptions = navOption
-    )
+    findNavController().navigate(R.id.to_AuthFragment_with_anim)
 }
 
 fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT){

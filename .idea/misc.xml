@@ -24,6 +24,7 @@
         <entry key="app/src/main/res/drawable/ic_splash_logo.xml" value="0.197" />
         <entry key="app/src/main/res/layout-land/fragment_auth.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19701086956521738" />
+        <entry key="app/src/main/res/layout/error.xml" value="0.1671195652173913" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_detail_info.xml" value="0.22282608695652173" />
         <entry key="app/src/main/res/layout/fragment_repositories_list.xml" value="0.21822916666666667" />
