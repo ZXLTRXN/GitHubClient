@@ -32,7 +32,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
-        (requireActivity() as MainActivity).supportActionBar?.hide()
+        setHasOptionsMenu(false)
+//        (requireActivity() as MainActivity).supportActionBar?.hide()
         return binding.root
     }
 

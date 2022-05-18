@@ -19,16 +19,15 @@
         <item name="postSplashScreenTheme">@style/Theme.GitHubClient</item>
     </style>
 
-    <style name="Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="Theme.GitHubClient.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">@color/gray</item>
         <item name="android:elevation">@dimen/elevation</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <style name="FragmentPadding" parent="Theme.AppCompat">
+    <style name="Fragment.Padding" parent="Theme.AppCompat">
         <item name="android:paddingStart">@dimen/fragment_horizontal_padding</item>
         <item name="android:paddingEnd">@dimen/fragment_horizontal_padding</item>
         <item name="android:paddingTop">@dimen/fragment_vertical_padding</item>

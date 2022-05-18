@@ -4,20 +4,20 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentDetailInfoBinding
-import com.zxltrxn.githubclient.presentation.MainActivity
 import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.ReadmeState
 import com.zxltrxn.githubclient.presentation.detailInfo.RepositoryInfoViewModel.State
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
 import com.zxltrxn.githubclient.utils.showToast
+import com.zxltrxn.githubclient.utils.signOut
 import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 
@@ -37,23 +37,35 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentDetailInfoBinding.inflate(inflater, container, false)
-
-        (requireActivity() as MainActivity).supportActionBar?.run {
-            title = args.repoName
-            setDisplayHomeAsUpEnabled(true)
-            show()
-        }
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpToolbar(args.repoName)
         observe()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setUpToolbar(title: String) {
+        binding.run {
+            toolbar.root.title = title
+            toolbar.root.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            toolbar.root.setNavigationOnClickListener {
+                navigateBack()
+            }
+            toolbar.root.setOnMenuItemClickListener { menuItem ->
+                if (menuItem.itemId == R.id.action_sign_out) {
+                    signOut { viewModel.signOut() }
+                }
+                super.onOptionsItemSelected(menuItem)
+            }
+        }
     }
 
     private fun observe() {
@@ -101,6 +113,10 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                 }
             }
         }
+    }
+
+    private fun navigateBack() {
+        findNavController().navigateUp()
     }
 
     private fun openUrl(url: String) {

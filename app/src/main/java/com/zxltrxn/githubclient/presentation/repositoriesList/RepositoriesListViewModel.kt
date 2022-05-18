@@ -24,6 +24,10 @@ class RepositoriesListViewModel @Inject constructor(
         getRepos()
     }
 
+    fun signOut() {
+
+    }
+
     private fun getRepos() {
         viewModelScope.launch {
             when (val res = repository.getRepositories()) {

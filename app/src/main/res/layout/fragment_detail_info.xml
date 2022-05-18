@@ -1,224 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/FragmentPadding"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/main_toolbar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".presentation.detailInfo.DetailInfoFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/right_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.98" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/center_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.48" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/left_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.02" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/all_sections"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="iv_link,tv_link,iv_license,license_label,tv_license,iv_stars,tv_stars,tv_stars_label,iv_forks,tv_forks,tv_forks_label,iv_watchers,tv_watchers,tv_watchers_label,tv_readme"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="20dp" />
-
-        <ImageView
-            android:id="@+id/iv_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/link_icon"
-            app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_link" />
-
-        <TextView
-            android:id="@+id/tv_link"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_between_iv_tv"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="@dimen/detail_info_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_link"
-            app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_link"
-            app:layout_constraintTop_toTopOf="@+id/iv_link"
-            tools:text="https://github.com/icerockdev/moko-resources" />
-
-        <ImageView
-            android:id="@+id/iv_license"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/sections_vertical_margin"
-            android:contentDescription="@string/license_icon"
-            app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/iv_link"
-            app:srcCompat="@drawable/ic_license" />
-
-        <TextView
-            android:id="@+id/license_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_between_iv_tv"
-            android:text="@string/tv_license_label"
-            android:textSize="@dimen/detail_info_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_license"
-            app:layout_constraintStart_toEndOf="@+id/iv_license"
-            app:layout_constraintTop_toTopOf="@+id/iv_license" />
-
-        <TextView
-            android:id="@+id/tv_license"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/detail_info_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/license_label"
-            app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/license_label"
-            app:layout_constraintTop_toTopOf="@+id/license_label"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="Apache-2.0" />
-
-
-        <ImageView
-            android:id="@+id/iv_stars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/sections_vertical_margin"
-            android:contentDescription="@string/star_icon"
-            app:layout_constraintEnd_toStartOf="@+id/tv_stars"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@id/iv_license"
-            app:srcCompat="@drawable/ic_star" />
-
-        <TextView
-            android:id="@+id/tv_stars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_between_one_statistic"
-            android:textColor="@color/gold"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_stars"
-            app:layout_constraintStart_toEndOf="@+id/iv_stars"
-            app:layout_constraintTop_toTopOf="@+id/iv_stars"
-            tools:text="999" />
-
-        <TextView
-            android:id="@+id/tv_stars_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_between_one_statistic"
-            android:text="@string/tv_stars_title"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_stars"
-            app:layout_constraintStart_toEndOf="@+id/tv_stars"
-            app:layout_constraintTop_toTopOf="@+id/tv_stars" />
-
-        <ImageView
-            android:id="@+id/iv_forks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/sections_vertical_margin"
-            android:layout_marginEnd="@dimen/margin_between_one_statistic"
-            android:contentDescription="@string/fork_icon"
-            app:layout_constraintEnd_toStartOf="@+id/tv_forks"
-            app:layout_constraintTop_toBottomOf="@id/iv_license"
-            app:srcCompat="@drawable/ic_fork" />
-
-        <TextView
-            android:id="@+id/tv_forks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_between_one_statistic"
-            android:textColor="@color/green"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_forks"
-            app:layout_constraintEnd_toStartOf="@+id/tv_forks_label"
-            app:layout_constraintTop_toTopOf="@+id/iv_forks"
-            tools:text="999" />
-
-        <TextView
-            android:id="@+id/tv_forks_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_forks_title"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_forks"
-            app:layout_constraintStart_toEndOf="@+id/center_guideline"
-            app:layout_constraintTop_toTopOf="@+id/tv_forks" />
-
-        <ImageView
-            android:id="@+id/iv_watchers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/sections_vertical_margin"
-            android:layout_marginEnd="@dimen/margin_between_one_statistic"
-            android:contentDescription="@string/eye_icon"
-            app:layout_constraintEnd_toStartOf="@+id/tv_watchers"
-            app:layout_constraintTop_toBottomOf="@id/iv_license"
-            app:srcCompat="@drawable/ic_watcher" />
-
-        <TextView
-            android:id="@+id/tv_watchers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_between_one_statistic"
-            android:textColor="@color/cyan"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_watchers"
-            app:layout_constraintEnd_toStartOf="@+id/tv_watchers_label"
-            app:layout_constraintTop_toTopOf="@+id/iv_watchers"
-            tools:text="999" />
-
-        <TextView
-            android:id="@+id/tv_watchers_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_watchers_title"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_watchers"
-            app:layout_constraintEnd_toEndOf="@id/right_guideline"
-            app:layout_constraintTop_toTopOf="@+id/tv_watchers" />
-
-        <TextView
-            android:id="@+id/tv_readme"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Fragment.Padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/sections_vertical_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_stars" />
+            tools:context=".presentation.detailInfo.DetailInfoFragment">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress_circular"
-            style="@style/ProgressIndicator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_stars" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/right_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.98" />
 
-        <TextView
-            android:id="@+id/tv_info_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.48" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/left_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/all_sections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="iv_link,tv_link,iv_license,license_label,tv_license,iv_stars,tv_stars,tv_stars_label,iv_forks,tv_forks,tv_forks_label,iv_watchers,tv_watchers,tv_watchers_label,tv_readme"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/link_icon"
+                app:layout_constraintStart_toStartOf="@+id/left_guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_link" />
+
+            <TextView
+                android:id="@+id/tv_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_iv_tv"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/detail_info_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_link"
+                app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/iv_link"
+                app:layout_constraintTop_toTopOf="@+id/iv_link"
+                tools:text="https://github.com/icerockdev/moko-resources" />
+
+            <ImageView
+                android:id="@+id/iv_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sections_vertical_margin"
+                android:contentDescription="@string/license_icon"
+                app:layout_constraintStart_toStartOf="@+id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/iv_link"
+                app:srcCompat="@drawable/ic_license" />
+
+            <TextView
+                android:id="@+id/license_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_iv_tv"
+                android:text="@string/tv_license_label"
+                android:textSize="@dimen/detail_info_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_license"
+                app:layout_constraintStart_toEndOf="@+id/iv_license"
+                app:layout_constraintTop_toTopOf="@+id/iv_license" />
+
+            <TextView
+                android:id="@+id/tv_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/detail_info_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/license_label"
+                app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/license_label"
+                app:layout_constraintTop_toTopOf="@+id/license_label"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="Apache-2.0" />
+
+
+            <ImageView
+                android:id="@+id/iv_stars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sections_vertical_margin"
+                android:contentDescription="@string/star_icon"
+                app:layout_constraintEnd_toStartOf="@+id/tv_stars"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/iv_license"
+                app:srcCompat="@drawable/ic_star" />
+
+            <TextView
+                android:id="@+id/tv_stars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_one_statistic"
+                android:textColor="@color/gold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_stars"
+                app:layout_constraintStart_toEndOf="@+id/iv_stars"
+                app:layout_constraintTop_toTopOf="@+id/iv_stars"
+                tools:text="999" />
+
+            <TextView
+                android:id="@+id/tv_stars_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_between_one_statistic"
+                android:text="@string/tv_stars_title"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_stars"
+                app:layout_constraintStart_toEndOf="@+id/tv_stars"
+                app:layout_constraintTop_toTopOf="@+id/tv_stars" />
+
+            <ImageView
+                android:id="@+id/iv_forks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sections_vertical_margin"
+                android:layout_marginEnd="@dimen/margin_between_one_statistic"
+                android:contentDescription="@string/fork_icon"
+                app:layout_constraintEnd_toStartOf="@+id/tv_forks"
+                app:layout_constraintTop_toBottomOf="@id/iv_license"
+                app:srcCompat="@drawable/ic_fork" />
+
+            <TextView
+                android:id="@+id/tv_forks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_between_one_statistic"
+                android:textColor="@color/green"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_forks"
+                app:layout_constraintEnd_toStartOf="@+id/tv_forks_label"
+                app:layout_constraintTop_toTopOf="@+id/iv_forks"
+                tools:text="999" />
+
+            <TextView
+                android:id="@+id/tv_forks_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_forks_title"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_forks"
+                app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/tv_forks" />
+
+            <ImageView
+                android:id="@+id/iv_watchers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sections_vertical_margin"
+                android:layout_marginEnd="@dimen/margin_between_one_statistic"
+                android:contentDescription="@string/eye_icon"
+                app:layout_constraintEnd_toStartOf="@+id/tv_watchers"
+                app:layout_constraintTop_toBottomOf="@id/iv_license"
+                app:srcCompat="@drawable/ic_watcher" />
+
+            <TextView
+                android:id="@+id/tv_watchers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_between_one_statistic"
+                android:textColor="@color/cyan"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_watchers"
+                app:layout_constraintEnd_toStartOf="@+id/tv_watchers_label"
+                app:layout_constraintTop_toTopOf="@+id/iv_watchers"
+                tools:text="999" />
+
+            <TextView
+                android:id="@+id/tv_watchers_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_watchers_title"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_watchers"
+                app:layout_constraintEnd_toEndOf="@id/right_guideline"
+                app:layout_constraintTop_toTopOf="@+id/tv_watchers" />
+
+            <TextView
+                android:id="@+id/tv_readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sections_vertical_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_stars" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_circular"
+                style="@style/ProgressIndicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_stars" />
+
+            <TextView
+                android:id="@+id/tv_info_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>
+

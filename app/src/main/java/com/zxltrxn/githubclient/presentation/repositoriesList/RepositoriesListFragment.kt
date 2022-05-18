@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentRepositoriesListBinding
-import com.zxltrxn.githubclient.presentation.MainActivity
 import com.zxltrxn.githubclient.presentation.repositoriesList.RepositoriesListViewModel.State
 import com.zxltrxn.githubclient.presentation.repositoriesList.recyclerView.RepositoriesAdapter
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
+import com.zxltrxn.githubclient.utils.signOut
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,24 +34,35 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         val view = binding.apply {
             rvRepositoriesList.addItemDecoration(DividerItemDecoration(context, VERTICAL))
         }
-        (requireActivity() as MainActivity).supportActionBar?.run {
-            title = getString(R.string.repositories_list_header)
-            setDisplayHomeAsUpEnabled(false)
-            show()
-        }
+        setHasOptionsMenu(true)
         return view.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpTollbar(getString(R.string.repositories_list_header))
         val adapter = setUpAdapter()
         observe(adapter)
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding.rvRepositoriesList.adapter = null
         _binding = null
+    }
+
+    private fun setUpTollbar(title: String) {
+        binding.run {
+            toolbar.root.title = title
+
+            toolbar.root.setOnMenuItemClickListener { menuItem ->
+                if (menuItem.itemId == R.id.action_sign_out) {
+                    signOut { viewModel.signOut() }
+                }
+                super.onOptionsItemSelected(menuItem)
+            }
+        }
     }
 
     private fun setUpAdapter(): RepositoriesAdapter {

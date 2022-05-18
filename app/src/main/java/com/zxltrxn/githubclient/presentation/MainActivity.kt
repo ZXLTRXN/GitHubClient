@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setPredrawListener()
-        setSupportActionBar(findViewById(R.id.my_toolbar))
     }
 
     private fun setPredrawListener() {
@@ -49,24 +48,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
             )
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_sign_out -> {
-                auth.signOut()
-                navigateToAuth(withAnim = true)
-            }
-            android.R.id.home -> {
-                onBackPressed()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun getNavigationController(): NavController {
