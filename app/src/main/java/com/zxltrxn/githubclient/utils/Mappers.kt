@@ -1,11 +1,6 @@
 package com.zxltrxn.githubclient.utils
-
-
 import com.zxltrxn.githubclient.data.model.RepoData
 import com.zxltrxn.githubclient.domain.model.Repo
-import com.zxltrxn.githubclient.domain.model.UserInfo
-
-fun RepoData.Owner.toUserInfo(): UserInfo = UserInfo(name = this.name)
 
 fun RepoData.toRepo(): Repo {
     return Repo(

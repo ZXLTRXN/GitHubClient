@@ -10,9 +10,9 @@ import com.zxltrxn.githubclient.data.network.NetworkUtils.okHttpRequest
 import com.zxltrxn.githubclient.data.network.NetworkUtils.tryRequest
 import com.zxltrxn.githubclient.data.storage.KeyValueStorage
 import com.zxltrxn.githubclient.domain.model.Repo
-import com.zxltrxn.githubclient.domain.model.UserInfo
+
 import com.zxltrxn.githubclient.utils.toRepo
-import com.zxltrxn.githubclient.utils.toUserInfo
+
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
 import javax.inject.Inject
@@ -71,9 +71,9 @@ class AppRepository @Inject constructor(
     ////////////Auth
     fun isTokenSaved(): Boolean = userStorage.authToken != null
 
-    suspend fun signInWithSavedToken(): Resource<UserInfo> = signInRequest()
+    suspend fun signInWithSavedToken(): Resource<Unit> = signInRequest()
 
-    suspend fun signIn(token: String): Resource<UserInfo> {
+    suspend fun signIn(token: String): Resource<Unit> {
         withContext(Dispatchers.IO) {
             userStorage.authToken = token
         }
@@ -112,13 +112,13 @@ class AppRepository @Inject constructor(
         }
     }
 
-    private suspend fun signInRequest(): Resource<UserInfo> =
+    private suspend fun signInRequest(): Resource<Unit> =
         withContext(Dispatchers.IO) {
             val res: Resource<RepoData.Owner> = tryRequest { api.getUser() }
             return@withContext when (res) {
                 is Resource.Success -> {
                     userStorage.userName = res.data.name
-                    Resource.Success(data = res.data.toUserInfo())
+                    Resource.Success(Unit)
                 }
                 is Resource.Error -> {
                     if (res.code == WRONG_TOKEN_CODE) userStorage.clearUserData()
