@@ -75,6 +75,9 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
 
     private fun observe(adapter: RepositoriesAdapter) {
         collectLatestLifecycleFlow(viewModel.state) { state ->
+            binding.progressCircular.visibility =
+                if (state is State.Loading) View.VISIBLE else View.GONE
+
             if (state is State.Loaded) adapter.submitList(state.repos)
             binding.rvRepositoriesList.visibility =
                 if (state is State.Loaded) View.VISIBLE else View.GONE
@@ -88,7 +91,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         }
     }
 
-    private fun navigateToDetailInfo(ownerName:String, repoName: String, branch: String) {
+    private fun navigateToDetailInfo(ownerName: String, repoName: String, branch: String) {
         val action = RepositoriesListFragmentDirections
             .toDetailInfoFragment(ownerName = ownerName, repoName = repoName, branch = branch)
         this.findNavController().navigate(action)

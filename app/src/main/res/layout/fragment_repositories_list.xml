@@ -12,6 +12,10 @@
         android:id="@+id/toolbar"
         layout="@layout/main_toolbar" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        style="@style/ProgressIndicator"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_repositories_list"
         android:layout_width="match_parent"
