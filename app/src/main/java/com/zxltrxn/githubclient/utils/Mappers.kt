@@ -10,6 +10,7 @@ fun RepoData.Owner.toUserInfo(): UserInfo = UserInfo(name = this.name)
 fun RepoData.toRepo(): Repo {
     return Repo(
         id = this.id,
+        owner = this.owner.toRepoOwner(),
         name = this.name,
         htmlUrl = this.htmlUrl,
         description = this.description,
@@ -25,4 +26,8 @@ fun RepoData.toRepo(): Repo {
 
 fun RepoData.License.toRepoLicense(): Repo.License {
     return Repo.License(name = this.name)
+}
+
+fun RepoData.Owner.toRepoOwner(): Repo.Owner {
+    return Repo.Owner(name = this.name)
 }

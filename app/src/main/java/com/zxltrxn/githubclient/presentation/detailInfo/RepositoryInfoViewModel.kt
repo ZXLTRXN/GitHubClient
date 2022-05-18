@@ -25,10 +25,11 @@ class RepositoryInfoViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
+        val ownerName: String? = savedStateHandle.get<String>("ownerName")
         val repoName: String? = savedStateHandle.get<String>("repoName")
         val branch: String? = savedStateHandle.get<String>("branch")
-        if (repoName != null && branch != null) {
-            getInfo(repoName, branch)
+        if (ownerName != null && repoName != null && branch != null) {
+            getInfo(ownerName, repoName, branch)
         } else {
             _state.value = State.Error(LocalizeString.Resource(R.string.unknown_error))
             Log.e(javaClass.simpleName, "init: no arguments in ViewModel")
@@ -39,10 +40,10 @@ class RepositoryInfoViewModel @Inject constructor(
 
     }
 
-    private fun getInfo(repoName: String, branch: String) {
+    private fun getInfo(ownerName: String, repoName: String, branch: String) {
         viewModelScope.launch {
-            val repoRes: Resource<Repo> = repository.getRepository(repoName)
-            val readmeRes: Resource<String> = repository.getRepositoryReadme(repoName, branch)
+            val repoRes: Resource<Repo> = repository.getRepository(ownerName, repoName)
+            val readmeRes: Resource<String> = repository.getRepositoryReadme(ownerName, repoName, branch)
             when (repoRes) {
                 is Resource.Success -> {
                     val readmeState = when (readmeRes) {

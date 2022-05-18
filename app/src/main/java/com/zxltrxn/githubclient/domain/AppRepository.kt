@@ -52,10 +52,8 @@ class AppRepository @Inject constructor(
             }
         }
 
-    override suspend fun getRepository(repoName: String): Resource<Repo> =
+    override suspend fun getRepository(ownerName: String, repoName: String): Resource<Repo> =
         withContext(Dispatchers.IO) {
-            val ownerName = userStorage.userName!!
-
             val res: Resource<RepoData> = tryRequest { api.getRepo(ownerName, repoName) }
             return@withContext when (res) {
                 is Resource.Success -> Resource.Success(data = res.data.toRepo())
@@ -64,10 +62,10 @@ class AppRepository @Inject constructor(
         }
 
     override suspend fun getRepositoryReadme(
+        ownerName: String,
         repoName: String,
         branch: String
     ): Resource<String> = withContext(Dispatchers.IO) {
-        val ownerName: String = userStorage.userName!!
         val fileName = "README.md"
         val url = "$BASE_URL_README$ownerName/$repoName/$branch/$fileName"
         return@withContext okHttpRequest(client, url)
