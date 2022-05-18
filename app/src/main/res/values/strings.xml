@@ -26,6 +26,7 @@
     <string name="empty_server_data">No data</string>
     <string name="wrong_token">Wrong token</string>
     <string name="service_unavailable">Service Unavailable</string>
+    <string name="no_rights">No rights to view</string>
     <string name="network_error">No Internet connection</string>
     <string name="unknown_error">Unknown error</string>
 

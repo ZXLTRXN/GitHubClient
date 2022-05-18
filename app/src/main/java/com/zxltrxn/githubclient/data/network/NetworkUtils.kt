@@ -2,9 +2,10 @@ package com.zxltrxn.githubclient.data.network
 
 import android.util.Log
 import com.zxltrxn.githubclient.R
-import com.zxltrxn.githubclient.domain.Resource
+import com.zxltrxn.githubclient.data.network.APIService.Companion.NO_RIGHTS_CODE
 import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CODE
 import com.zxltrxn.githubclient.domain.LocalizeString
+import com.zxltrxn.githubclient.domain.Resource
 import java.io.IOException
 import java.net.UnknownHostException
 import kotlinx.serialization.SerializationException
@@ -13,28 +14,37 @@ import okhttp3.Request
 import retrofit2.Response
 
 object NetworkUtils {
+    val TAG = javaClass.simpleName
     suspend fun <T> tryRequest(request: suspend () -> Response<T>): Resource<T> {
+        var errorCode: Int? = null
         val errorMessage: Int = try {
             val response = request.invoke()
             if (response.isSuccessful) {
-                return response.body()?.let {
-                    Resource.Success(it)
+                return response.body()?.let { responseData ->
+                    Resource.Success(responseData)
                 } ?: Resource.Error(LocalizeString.Resource(R.string.empty_server_data))
             }
-            return if (response.code() == WRONG_TOKEN_CODE)
-                Resource.Error(LocalizeString.Resource(R.string.wrong_token), WRONG_TOKEN_CODE)
-            else
-                Resource.Error(LocalizeString.Resource(R.string.service_unavailable))
+            when (response.code()) {
+                WRONG_TOKEN_CODE -> {
+                    errorCode = WRONG_TOKEN_CODE
+                    R.string.wrong_token
+                }
+                NO_RIGHTS_CODE -> {
+                    errorCode = NO_RIGHTS_CODE
+                    R.string.no_rights
+                }
+                else -> R.string.service_unavailable
+            }
         } catch (e: SerializationException) {
-            Log.e(javaClass.simpleName, "tryRequest: $e")
+            Log.e(TAG, "tryRequest: $e")
             R.string.service_unavailable
         } catch (e: UnknownHostException) {
             R.string.network_error
         } catch (e: Exception) {
-            Log.e(javaClass.simpleName, "tryRequest: $e")
+            Log.e(TAG, "tryRequest: $e")
             R.string.unknown_error
         }
-        return Resource.Error(LocalizeString.Resource(errorMessage))
+        return Resource.Error(LocalizeString.Resource(errorMessage), code = errorCode)
     }
 
     fun okHttpRequest(client: OkHttpClient, url: String): Resource<String> {
@@ -43,25 +53,27 @@ object NetworkUtils {
             .build()
         val call = client.newCall(request)
 
+        var errorCode: Int? = null
         val errorMessage: Int = try {
             val response = call.execute()
 
-            return if (response.isSuccessful) {
-                response.body()?.let {
-                    Resource.Success(it.string())
-                } ?: Resource.Error(LocalizeString.Resource(R.string.empty_server_data))
+            if (response.isSuccessful) {
+                response.body()?.let { data ->
+                    return Resource.Success(data.string())
+                }
             } else {
-                Resource.Error(LocalizeString.Resource(R.string.empty_server_data), code = response.code())
+                errorCode = response.code()
             }
+            R.string.empty_server_data
         } catch (e: UnknownHostException) {
             R.string.network_error
         } catch (e: IOException) {
-            Log.e(javaClass.simpleName, "okHttpRequest: $e")
+            Log.e(TAG, "okHttpRequest: $e")
             R.string.empty_server_data
         } catch (e: Exception) {
-            Log.e(javaClass.simpleName, "tryRequest: $e")
+            Log.e(TAG, "tryRequest: $e")
             R.string.unknown_error
         }
-        return  Resource.Error(LocalizeString.Resource(errorMessage))
+        return Resource.Error(LocalizeString.Resource(errorMessage), errorCode)
     }
 }

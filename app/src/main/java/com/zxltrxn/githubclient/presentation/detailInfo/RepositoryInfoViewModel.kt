@@ -54,7 +54,7 @@ class RepositoryInfoViewModel @Inject constructor(
                             else ReadmeState.Loaded(readmeRes.data)
                         }
                         is Resource.Error -> {
-                            if (readmeRes.code == APIService.NOT_FOUND) ReadmeState.Empty
+                            if (readmeRes.code == APIService.NOT_FOUND_CODE) ReadmeState.Empty
                             else ReadmeState.Error(readmeRes.message)
                         }
                     }
