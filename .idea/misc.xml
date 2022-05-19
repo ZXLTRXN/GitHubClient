@@ -24,10 +24,14 @@
         <entry key="app/src/main/res/drawable/ic_splash_logo.xml" value="0.197" />
         <entry key="app/src/main/res/layout-land/fragment_auth.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19701086956521738" />
-        <entry key="app/src/main/res/layout/error.xml" value="0.1671195652173913" />
+        <entry key="app/src/main/res/layout/error.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_detail_info.xml" value="0.22282608695652173" />
+        <entry key="app/src/main/res/layout/fragment_detail_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_repositories_list.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/layout_empty.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_error.xml" value="0.1671195652173913" />
+        <entry key="app/src/main/res/layout/layout_loading.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_toolbar.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/layout/main_toolbar.xml" value="0.33211678832116787" />
         <entry key="app/src/main/res/layout/repository_element.xml" value="0.22282608695652173" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.284375" />

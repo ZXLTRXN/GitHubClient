@@ -6,6 +6,8 @@
     <string name="invalid_input">Invalid input</string>
     <string name="btn_sign_in">Sign in</string>
     <string name="sign_out">Sign out</string>
+    <string name="retry_request">Retry</string>
+
     <string name="repositories_list_header">Repositories</string>
     <string name="tv_watchers_title">watchers</string>
     <string name="tv_forks_title">forks</string>
@@ -19,6 +21,9 @@
     <string name="fork_icon">fork icon</string>
     <string name="eye_icon">eye icon</string>
 
+    <string name="empty_error_label">Empty</string>
+    <string name="network_error_label">Network Error</string>
+    <string name="something_error_label">Error</string>
     <string name="no_saved_token">No saved token</string>
     <string name="empty_repositories_list">Nothing to show, no repositories available</string>
     <string name="empty_readme">Readme is empty</string>
@@ -27,10 +32,6 @@
     <string name="wrong_token">Wrong token</string>
     <string name="service_unavailable">Service Unavailable</string>
     <string name="no_rights">No rights to view</string>
-    <string name="network_error">No Internet connection</string>
+    <string name="network_error">Check your Internet connection</string>
     <string name="unknown_error">Unknown error</string>
-
-
-
-
 </resources>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.GitHubClient" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
@@ -19,7 +19,20 @@
         <item name="postSplashScreenTheme">@style/Theme.GitHubClient</item>
     </style>
 
-    <style name="Fragment.Padding" parent="Theme.AppCompat">
+    <style name="App.Text" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">roboto</item>
+    </style>
+
+    <style name="App.Text.Label" >
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="App.Text.Bold" >
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="App.Layout.Padding" parent="Theme.AppCompat">
         <item name="android:paddingStart">@dimen/fragment_horizontal_padding</item>
         <item name="android:paddingEnd">@dimen/fragment_horizontal_padding</item>
         <item name="android:paddingTop">@dimen/fragment_vertical_padding</item>

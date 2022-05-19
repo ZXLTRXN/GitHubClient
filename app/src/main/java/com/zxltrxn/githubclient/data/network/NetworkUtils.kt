@@ -7,6 +7,7 @@ import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CO
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
 import java.io.IOException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlinx.serialization.SerializationException
 import okhttp3.OkHttpClient
@@ -15,6 +16,8 @@ import retrofit2.Response
 
 object NetworkUtils {
     val TAG = javaClass.simpleName
+    const val NO_INTERNET_CODE = 0
+
     suspend fun <T> tryRequest(request: suspend () -> Response<T>): Resource<T> {
         var errorCode: Int? = null
         val errorMessage: Int = try {
@@ -39,6 +42,10 @@ object NetworkUtils {
             Log.e(TAG, "tryRequest: $e")
             R.string.service_unavailable
         } catch (e: UnknownHostException) {
+            errorCode = NO_INTERNET_CODE
+            R.string.network_error
+        } catch (e: SocketTimeoutException) {
+            errorCode = NO_INTERNET_CODE
             R.string.network_error
         } catch (e: Exception) {
             Log.e(TAG, "tryRequest: $e")
@@ -66,6 +73,10 @@ object NetworkUtils {
             }
             R.string.empty_server_data
         } catch (e: UnknownHostException) {
+            errorCode = NO_INTERNET_CODE
+            R.string.network_error
+        } catch (e: SocketTimeoutException) {
+            errorCode = NO_INTERNET_CODE
             R.string.network_error
         } catch (e: IOException) {
             Log.e(TAG, "okHttpRequest: $e")

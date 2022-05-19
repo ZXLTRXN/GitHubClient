@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/main_toolbar" />
+        layout="@layout/widget_toolbar" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:layout_gravity="center"

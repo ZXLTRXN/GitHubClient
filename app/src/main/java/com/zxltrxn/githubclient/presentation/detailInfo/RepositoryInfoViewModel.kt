@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.network.APIService
+import com.zxltrxn.githubclient.data.network.NetworkUtils.NO_INTERNET_CODE
 import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
@@ -24,16 +25,12 @@ class RepositoryInfoViewModel @Inject constructor(
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
     val state = _state.asStateFlow()
 
+    private val ownerName: String? = savedStateHandle.get<String>("ownerName")
+    private val repoName: String? = savedStateHandle.get<String>("repoName")
+    private val branch: String? = savedStateHandle.get<String>("branch")
+
     init {
-        val ownerName: String? = savedStateHandle.get<String>("ownerName")
-        val repoName: String? = savedStateHandle.get<String>("repoName")
-        val branch: String? = savedStateHandle.get<String>("branch")
-        if (ownerName != null && repoName != null && branch != null) {
-            getInfo(ownerName, repoName, branch)
-        } else {
-            _state.value = State.Error(LocalizeString.Resource(R.string.unknown_error))
-            Log.e(javaClass.simpleName, "init: no arguments in ViewModel")
-        }
+        tryGetInfo()
     }
 
     fun signOut() {
@@ -42,10 +39,29 @@ class RepositoryInfoViewModel @Inject constructor(
         }
     }
 
+    fun retry() {
+        tryGetInfo()
+    }
+
+    private fun tryGetInfo(){
+        if (ownerName != null && repoName != null && branch != null) {
+            getInfo(ownerName, repoName, branch)
+        } else {
+            _state.value = State.Error(
+                LocalizeString.Resource(R.string.something_error_label),
+                LocalizeString.Resource(R.string.unknown_error)
+            )
+            Log.e(javaClass.simpleName, "tryGetInfo: no arguments in ViewModel")
+        }
+    }
+
     private fun getInfo(ownerName: String, repoName: String, branch: String) {
         viewModelScope.launch {
             val repoRes: Resource<Repo> = repository.getRepository(ownerName, repoName)
-            val readmeRes: Resource<String> = repository.getRepositoryReadme(ownerName, repoName, branch)
+            Log.d(javaClass.simpleName, "getInfo: getRepo")
+            val readmeRes: Resource<String> =
+                repository.getRepositoryReadme(ownerName, repoName, branch)
+            Log.d(javaClass.simpleName, "getInfo: getReadme")
             when (repoRes) {
                 is Resource.Success -> {
                     val readmeState = when (readmeRes) {
@@ -54,14 +70,28 @@ class RepositoryInfoViewModel @Inject constructor(
                             else ReadmeState.Loaded(readmeRes.data)
                         }
                         is Resource.Error -> {
-                            if (readmeRes.code == APIService.NOT_FOUND_CODE) ReadmeState.Empty
-                            else ReadmeState.Error(readmeRes.message)
+                            when (readmeRes.code) {
+                                APIService.NOT_FOUND_CODE -> ReadmeState.Empty
+                                NO_INTERNET_CODE -> ReadmeState.Error(
+                                    LocalizeString.Resource(R.string.network_error_label),
+                                    readmeRes.message
+                                )
+                                else -> ReadmeState.Error(
+                                    LocalizeString.Resource(R.string.something_error_label),
+                                    readmeRes.message
+                                )
+                            }
                         }
                     }
                     _state.value = State.Loaded(repoRes.data, readmeState)
                 }
                 is Resource.Error -> {
-                    _state.value = State.Error(repoRes.message)
+                    val errorType = when (repoRes.code) {
+                        NO_INTERNET_CODE -> LocalizeString.Resource(R.string.network_error_label)
+                        else -> LocalizeString.Resource(R.string.something_error_label)
+
+                    }
+                    _state.value = State.Error(errorType, repoRes.message)
                 }
             }
         }
@@ -69,7 +99,10 @@ class RepositoryInfoViewModel @Inject constructor(
 
     sealed interface State {
         object Loading : State
-        data class Error(val error: LocalizeString) : State
+        data class Error(
+            val errorType: LocalizeString,
+            val errorMessage: LocalizeString
+        ) : State
 
         data class Loaded(
             val githubRepo: Repo,
@@ -80,7 +113,13 @@ class RepositoryInfoViewModel @Inject constructor(
     sealed interface ReadmeState {
         object Loading : ReadmeState
         object Empty : ReadmeState
-        data class Error(val error: LocalizeString) : ReadmeState
+        data class Error(
+            val errorType: LocalizeString,
+            val errorMessage: LocalizeString
+        ) : ReadmeState
+
         data class Loaded(val markdown: String) : ReadmeState
     }
+
+
 }
