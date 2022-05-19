@@ -2,6 +2,8 @@ package com.zxltrxn.githubclient.presentation.repositoriesList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zxltrxn.githubclient.R
+import com.zxltrxn.githubclient.data.network.NetworkUtils
 import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
@@ -38,7 +40,15 @@ class RepositoriesListViewModel @Inject constructor(
                     }
                 }
                 is Resource.Error -> {
-                    _state.value = State.Error(res.message)
+                    var icon = R.drawable.ic_something_error
+                    val label = when (res.code) {
+                        NetworkUtils.NO_INTERNET_CODE -> {
+                            icon = R.drawable.ic_network_error
+                            LocalizeString.Resource(R.string.network_error_label)
+                        }
+                        else -> LocalizeString.Resource(R.string.something_error_label)
+                    }
+                    _state.value = State.Error(icon, label, res.message)
                 }
             }
         }
@@ -47,7 +57,12 @@ class RepositoriesListViewModel @Inject constructor(
     sealed interface State {
         object Loading : State
         data class Loaded(val repos: List<Repo>) : State
-        data class Error(val error: LocalizeString) : State
+        data class Error(
+            val errorIcon: Int,
+            val errorLabel: LocalizeString,
+            val errorMessage: LocalizeString
+        ) : State
+
         object Empty : State
     }
 }

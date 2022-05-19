@@ -45,17 +45,22 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         _binding = null
     }
 
+    private fun setUpViews(state: State) {
+        with(binding) {
+            inputLayout.error =
+                if (state is State.InvalidInput) state.reason.getString(requireContext()) else null
+            progressCircular.visibility =
+                if (state is State.Loading) View.VISIBLE else View.GONE
+            submitButton.isEnabled = state !is State.Loading
+            submitButton.setOnClickListener { viewModel.onSignButtonPressed() }
+            submitButton.text =
+                if (state is State.Loading) "" else getString(R.string.btn_sign_in)
+        }
+    }
+
     private fun observe() {
         collectLatestLifecycleFlow(viewModel.state) { state ->
-
-            binding.inputLayout.error =
-                if (state is State.InvalidInput) state.reason.getString(requireContext()) else null
-            binding.progressCircular.visibility =
-                if (state is State.Loading) View.VISIBLE else View.GONE
-            binding.submitButton.isEnabled = state !is State.Loading
-            binding.submitButton.setOnClickListener { viewModel.onSignButtonPressed() }
-            binding.submitButton.text =
-                if (state is State.Loading) "" else getString(R.string.btn_sign_in)
+            setUpViews(state)
         }
 
         binding.inputEditText.bindTextTwoWay(

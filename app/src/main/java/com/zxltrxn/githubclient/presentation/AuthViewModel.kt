@@ -3,6 +3,7 @@ package com.zxltrxn.githubclient.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.R
+import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.domain.AppRepository
 import com.zxltrxn.githubclient.domain.LocalizeString
 import com.zxltrxn.githubclient.domain.Resource
@@ -23,7 +24,10 @@ class AuthViewModel @Inject constructor(
                 val res = repository.signInWithSavedToken()
                 _state = when (res) {
                     is Resource.Success -> State.Authenticated
-                    is Resource.Error -> State.NotAuthenticated(res.message)
+                    is Resource.Error -> {
+                        if (res.code == APIService.WRONG_TOKEN_CODE) State.Authenticated
+                        else State.NotAuthenticated(res.message)
+                    }
                 }
             }
         } else {

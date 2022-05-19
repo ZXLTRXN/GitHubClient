@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     override fun onPreDraw(): Boolean {
                         return if (auth.state !is State.NotReady) {
                             if (auth.state is State.NotAuthenticated) {
-                                navigateToAuth()
-//                                destination = R.id.authFragment
+//                                navigateToAuth()
+                                destination = R.id.authFragment
                             }
-//                            setStartDestination(destination)
+                            setStartDestination(destination)
                             content.viewTreeObserver.removeOnPreDrawListener(this)
                             true
                         } else {
@@ -50,11 +50,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-//    private fun setStartDestination(destination: Int) {
-//        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-//        navGraph.setStartDestination(R.id.repositoriesListFragment)
-//        navController.graph = navGraph
-//    }
+    private fun setStartDestination(destination: Int) {
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+        navGraph.setStartDestination(destination)
+        navController.graph = navGraph
+    }
 
     private fun getNavigationController(): NavController {
         val navHostFragment = supportFragmentManager

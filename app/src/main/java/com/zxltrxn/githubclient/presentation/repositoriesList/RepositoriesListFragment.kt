@@ -73,21 +73,37 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         return adapter
     }
 
-    private fun observe(adapter: RepositoriesAdapter) {
-        collectLatestLifecycleFlow(viewModel.state) { state ->
-            binding.progressCircular.visibility =
+    private fun setUpViews(state: State, adapter: RepositoriesAdapter){
+        with(binding){
+            loadingLayout.root.visibility =
                 if (state is State.Loading) View.VISIBLE else View.GONE
 
             if (state is State.Loaded) adapter.submitList(state.repos)
-            binding.rvRepositoriesList.visibility =
+            rvRepositoriesList.visibility =
                 if (state is State.Loaded) View.VISIBLE else View.GONE
 
-            binding.tvRepositoriesError.visibility =
-                if (state is State.Error || state is State.Empty) View.VISIBLE else View.GONE
-            binding.tvRepositoriesError.text =
-                if (state is State.Error) state.error.getString(requireContext()) else null
-            binding.tvRepositoriesError.text =
-                if (state is State.Empty) getString(R.string.empty_repositories_list) else null
+            errorLayout.root.visibility =
+                if (state is State.Error) View.VISIBLE else View.GONE
+            if (state is State.Error) {
+                errorLayout.ivError.setImageResource(state.errorIcon)
+            }
+            errorLayout.tvLabelError.text =
+                if (state is State.Error) state.errorLabel.getString(requireContext()) else null
+            errorLayout.tvInfoError.text =
+                if (state is State.Error) state.errorMessage.getString(requireContext()) else null
+
+            emptyLayout.root.visibility =
+                if (state is State.Empty) View.VISIBLE else View.GONE
+            emptyLayout.tvInfoEmpty.text =
+                if (state is State.Error) getString(R.string.empty_repositories_list) else null
+        }
+
+
+    }
+
+    private fun observe(adapter: RepositoriesAdapter) {
+        collectLatestLifecycleFlow(viewModel.state) { state ->
+            setUpViews(state, adapter)
         }
     }
 
