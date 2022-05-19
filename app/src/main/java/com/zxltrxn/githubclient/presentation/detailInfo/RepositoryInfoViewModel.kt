@@ -33,21 +33,16 @@ class RepositoryInfoViewModel @Inject constructor(
         tryGetInfo()
     }
 
-    fun signOut() {
-        viewModelScope.launch {
-            repository.signOut()
-        }
-    }
+    fun signOut() = repository.signOut()
 
-    fun retry() {
-        tryGetInfo()
-    }
+    fun retry() = tryGetInfo()
 
-    private fun tryGetInfo(){
+    private fun tryGetInfo() {
         if (ownerName != null && repoName != null && branch != null) {
             getInfo(ownerName, repoName, branch)
         } else {
             _state.value = State.Error(
+                R.drawable.ic_something_error,
                 LocalizeString.Resource(R.string.something_error_label),
                 LocalizeString.Resource(R.string.unknown_error)
             )
@@ -58,41 +53,45 @@ class RepositoryInfoViewModel @Inject constructor(
     private fun getInfo(ownerName: String, repoName: String, branch: String) {
         viewModelScope.launch {
             val repoRes: Resource<Repo> = repository.getRepository(ownerName, repoName)
-            Log.d(javaClass.simpleName, "getInfo: getRepo")
             val readmeRes: Resource<String> =
                 repository.getRepositoryReadme(ownerName, repoName, branch)
-            Log.d(javaClass.simpleName, "getInfo: getReadme")
             when (repoRes) {
                 is Resource.Success -> {
-                    val readmeState = when (readmeRes) {
-                        is Resource.Success -> {
-                            if (readmeRes.data.isEmpty()) ReadmeState.Empty
-                            else ReadmeState.Loaded(readmeRes.data)
-                        }
-                        is Resource.Error -> {
-                            when (readmeRes.code) {
-                                APIService.NOT_FOUND_CODE -> ReadmeState.Empty
-                                NO_INTERNET_CODE -> ReadmeState.Error(
-                                    LocalizeString.Resource(R.string.network_error_label),
-                                    readmeRes.message
-                                )
-                                else -> ReadmeState.Error(
-                                    LocalizeString.Resource(R.string.something_error_label),
-                                    readmeRes.message
-                                )
-                            }
-                        }
-                    }
+                    val readmeState = getReadmeState(readmeRes)
                     _state.value = State.Loaded(repoRes.data, readmeState)
                 }
                 is Resource.Error -> {
-                    val errorType = when (repoRes.code) {
-                        NO_INTERNET_CODE -> LocalizeString.Resource(R.string.network_error_label)
+                    var icon = R.drawable.ic_something_error
+                    val label = when (repoRes.code) {
+                        NO_INTERNET_CODE -> {
+                            icon = R.drawable.ic_network_error
+                            LocalizeString.Resource(R.string.network_error_label)
+                        }
                         else -> LocalizeString.Resource(R.string.something_error_label)
-
                     }
-                    _state.value = State.Error(errorType, repoRes.message)
+                    _state.value = State.Error(icon, label, repoRes.message)
                 }
+            }
+        }
+    }
+
+    private fun getReadmeState(readmeRes: Resource<String>): ReadmeState {
+        when (readmeRes) {
+            is Resource.Success -> {
+                return if (readmeRes.data.isEmpty()) ReadmeState.Empty
+                else ReadmeState.Loaded(readmeRes.data)
+            }
+            is Resource.Error -> {
+                var icon = R.drawable.ic_something_error
+                val label: LocalizeString = when (readmeRes.code) {
+                    APIService.NOT_FOUND_CODE -> return ReadmeState.Empty
+                    NO_INTERNET_CODE -> {
+                        icon = R.drawable.ic_network_error
+                        LocalizeString.Resource(R.string.network_error_label)
+                    }
+                    else -> LocalizeString.Resource(R.string.something_error_label)
+                }
+                return ReadmeState.Error(icon, label, readmeRes.message)
             }
         }
     }
@@ -100,7 +99,8 @@ class RepositoryInfoViewModel @Inject constructor(
     sealed interface State {
         object Loading : State
         data class Error(
-            val errorType: LocalizeString,
+            val errorIcon: Int,
+            val errorLabel: LocalizeString,
             val errorMessage: LocalizeString
         ) : State
 
@@ -114,7 +114,8 @@ class RepositoryInfoViewModel @Inject constructor(
         object Loading : ReadmeState
         object Empty : ReadmeState
         data class Error(
-            val errorType: LocalizeString,
+            val errorIcon: Int,
+            val errorLabel: LocalizeString,
             val errorMessage: LocalizeString
         ) : ReadmeState
 

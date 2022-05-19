@@ -71,9 +71,15 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     private fun setUpViews(state: State) {
         binding.errorLayout.root.visibility = if (state is State.Error) View.VISIBLE else View.GONE
         binding.errorLayout.tvLabelError.text =
-            if (state is State.Error) state.errorType.getString(requireContext()) else null
+            if (state is State.Error) state.errorLabel.getString(requireContext()) else null
         binding.errorLayout.tvInfoError.text =
             if (state is State.Error) state.errorMessage.getString(requireContext()) else null
+        if (state is State.Error) {
+            binding.errorLayout.ivError.setImageResource(state.errorIcon)
+        }
+
+        binding.loadingLayout.root.visibility =
+            if (state is State.Loading) View.VISIBLE else View.GONE
 
         binding.content.visibility = if (state is State.Loaded) View.VISIBLE else View.GONE
         binding.allSections.visibility = if (state is State.Loaded) View.VISIBLE else View.GONE
@@ -110,8 +116,6 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                 }
             }
         }
-        binding.loadingLayout.root.visibility =
-            if (state is State.Loading) View.VISIBLE else View.GONE
     }
 
     private fun observe() {

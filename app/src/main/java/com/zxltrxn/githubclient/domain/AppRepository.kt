@@ -74,15 +74,11 @@ class AppRepository @Inject constructor(
     suspend fun signInWithSavedToken(): Resource<Unit> = signInRequest()
 
     suspend fun signIn(token: String): Resource<Unit> {
-        withContext(Dispatchers.IO) {
-            userStorage.authToken = token
-        }
+        userStorage.authToken = token
         return signInRequest()
     }
 
-    suspend fun signOut() = withContext(Dispatchers.IO) {
-        userStorage.clearUserData()
-    }
+    fun signOut() = userStorage.clearUserData()
 
     private fun readFromAssets(): String? {
         return try {

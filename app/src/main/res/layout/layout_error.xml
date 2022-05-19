@@ -40,7 +40,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
         style="@style/Widget.Button"
-        android:text="@string/retry_request"
+        android:text="@string/btn_retry"
         android:layout_marginHorizontal="@dimen/fragment_horizontal_padding"
         android:layout_marginVertical="@dimen/fragment_horizontal_padding"
         app:layout_constraintBottom_toBottomOf="parent"

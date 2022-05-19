@@ -24,11 +24,8 @@ class RepositoriesListViewModel @Inject constructor(
         getRepos()
     }
 
-    fun signOut() {
-        viewModelScope.launch {
-            repository.signOut()
-        }
-    }
+    fun signOut() = repository.signOut()
+
 
     private fun getRepos() {
         viewModelScope.launch {
