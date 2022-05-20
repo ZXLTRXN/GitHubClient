@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -105,6 +107,8 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                 progressCircularReadme.visibility =
                     if (readmeState is ReadmeState.Loading) View.VISIBLE else View.GONE
 
+                if (readmeState is ReadmeState.Error) exposeErrorConstraintsForReadme()
+
                 errorLayout.root.visibility =
                     if (readmeState is ReadmeState.Error) View.VISIBLE else View.GONE
                 errorLayout.tvLabelError.text =
@@ -128,6 +132,20 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                         markwon.setMarkdown(tvReadme, readmeState.markdown)
                     }
                 }
+            }
+        }
+    }
+
+    private fun exposeErrorConstraintsForReadme() {
+            with(binding){
+            val constraintLayout: ConstraintLayout = parentLayout
+            ConstraintSet().apply {
+                clone(constraintLayout)
+                connect(
+                    errorLayout.root.id, ConstraintSet.TOP,
+                    toolbar.root.id, ConstraintSet.BOTTOM, 0
+                )
+                applyTo(constraintLayout)
             }
         }
     }
