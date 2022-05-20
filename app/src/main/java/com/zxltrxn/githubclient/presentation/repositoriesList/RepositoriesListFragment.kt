@@ -40,7 +40,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpTollbar(getString(R.string.repositories_list_header))
+        setUpToolbar(getString(R.string.repositories_list_header))
         val adapter = setUpAdapter()
         observe(adapter)
 
@@ -52,10 +52,13 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         _binding = null
     }
 
-    private fun setUpTollbar(title: String) {
+    private fun setUpToolbar(title: String) {
         binding.run {
             toolbar.root.title = title
-
+            toolbar.root.setTitleTextAppearance(
+                requireContext(),
+                R.style.TextAppearance_Widget_Toolbar_Title
+            )
             toolbar.root.setOnMenuItemClickListener { menuItem ->
                 if (menuItem.itemId == R.id.action_sign_out) {
                     signOut { viewModel.signOut() }
@@ -73,8 +76,8 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         return adapter
     }
 
-    private fun setUpViews(state: State, adapter: RepositoriesAdapter){
-        with(binding){
+    private fun setUpViews(state: State, adapter: RepositoriesAdapter) {
+        with(binding) {
             loadingLayout.root.visibility =
                 if (state is State.Loading) View.VISIBLE else View.GONE
 

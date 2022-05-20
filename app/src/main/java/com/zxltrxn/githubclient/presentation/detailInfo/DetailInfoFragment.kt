@@ -57,6 +57,10 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     private fun setUpToolbar(title: String) {
         binding.run {
             toolbar.root.title = title
+            toolbar.root.setTitleTextAppearance(
+                requireContext(),
+                R.style.TextAppearance_Widget_Toolbar_Title
+            )
             toolbar.root.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
             toolbar.root.setNavigationOnClickListener {
                 navigateBack()

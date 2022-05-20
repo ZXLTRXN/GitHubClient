@@ -16,6 +16,12 @@
         <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/fragment_splash.xml" value="0.262890625" />
         <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/layout/repository_element.xml" value="0.35052083333333334" />
         <entry key="..\:/AndroidApp/GitHubClient/app/src/main/res/menu/action_bar.xml" value="0.259375" />
+        <entry key="..\:/AndroidApp/Work/githubclient/app/src/main/res/layout/fragment_detail_info.xml" value="0.264" />
+        <entry key="..\:/AndroidApp/Work/githubclient/app/src/main/res/layout/layout_empty.xml" value="0.1734375" />
+        <entry key="..\:/AndroidApp/Work/githubclient/app/src/main/res/layout/layout_error.xml" value="0.1734375" />
+        <entry key="..\:/AndroidApp/Work/githubclient/app/src/main/res/layout/layout_loading.xml" value="0.1734375" />
+        <entry key="..\:/AndroidApp/Work/githubclient/app/src/main/res/layout/repository_element.xml" value="0.1734375" />
+        <entry key="..\:/AndroidApp/Work/githubclient/app/src/main/res/layout/widget_toolbar.xml" value="0.1734375" />
         <entry key="app/src/main/res/drawable/circular.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.1405" />
