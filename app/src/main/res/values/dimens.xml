@@ -12,7 +12,7 @@
     <dimen name="elevation">6dp</dimen>
     <dimen name="corner_radius">8dp</dimen>
 
-    <dimen name="rv_element_vertical_margin">10dp</dimen>
+    <dimen name="rv_element_vertical_margin">6dp</dimen>
     <dimen name="rv_element_horizontal_margin">8dp</dimen>
 
 <!--    detail info fragment-->

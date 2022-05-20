@@ -20,6 +20,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_github_circular.xml" value="0.18" />
+        <entry key="app/src/main/res/drawable/ic_groupwatch.xml" value="0.1345" />
+        <entry key="app/src/main/res/drawable/ic_license.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/ic_splash.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/ic_splash_logo.xml" value="0.197" />
         <entry key="app/src/main/res/layout-land/fragment_auth.xml" value="0.33" />
@@ -33,7 +35,7 @@
         <entry key="app/src/main/res/layout/layout_loading.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_toolbar.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/layout/main_toolbar.xml" value="0.33211678832116787" />
-        <entry key="app/src/main/res/layout/repository_element.xml" value="0.22282608695652173" />
+        <entry key="app/src/main/res/layout/repository_element.xml" value="0.22" />
         <entry key="app/src/main/res/layout/widget_toolbar.xml" value="0.18568840579710144" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.284375" />
       </map>

@@ -14,7 +14,6 @@ import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.State
 import com.zxltrxn.githubclient.utils.bindTextTwoWay
 import com.zxltrxn.githubclient.utils.collectActions
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
-import com.zxltrxn.githubclient.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,7 +70,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         collectActions(viewModel.actions) { action ->
             when (action) {
                 is Action.ShowError ->
-                    showToast(action.message.getString(requireContext()))
+                    ErrorDialogFragment(action.message, action.code).show(
+                        childFragmentManager, ErrorDialogFragment.TAG
+                    )
                 is Action.RouteToMain -> navigateToRepositoriesList()
             }
         }

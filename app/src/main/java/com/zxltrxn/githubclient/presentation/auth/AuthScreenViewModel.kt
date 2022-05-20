@@ -73,7 +73,7 @@ class AuthScreenViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = State.Idle
-                    _actions.send(Action.ShowError(res.message))
+                    _actions.send(Action.ShowError(res.message, res.code))
                 }
             }
         }
@@ -86,7 +86,7 @@ class AuthScreenViewModel @Inject constructor(
     }
 
     sealed interface Action {
-        data class ShowError(val message: LocalizeString) : Action
+        data class ShowError(val message: LocalizeString, val code: Int?) : Action
         object RouteToMain : Action
     }
 

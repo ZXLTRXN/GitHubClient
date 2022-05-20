@@ -12,8 +12,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/rv_element_horizontal_margin"
+        android:textAppearance="@style/App.Text.Label"
         android:textColor="?attr/colorPrimary"
-        android:textSize="16sp"
+        android:paddingVertical="6dp"
         app:layout_constraintEnd_toStartOf="@+id/rv_element_repo_language"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +24,7 @@
         android:id="@+id/rv_element_repo_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/App.Text"
         app:layout_constraintBottom_toBottomOf="@+id/rv_element_repo_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -33,7 +35,8 @@
         android:id="@+id/rv_element_repo_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/rv_element_vertical_margin"
+        android:textAppearance="@style/App.Text"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_element_repo_name" />

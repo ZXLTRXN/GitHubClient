@@ -34,6 +34,7 @@
             android:id="@+id/input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textAppearance="@style/App.Text.Label"
             android:imeOptions="actionDone"
             android:inputType="text" />
 
