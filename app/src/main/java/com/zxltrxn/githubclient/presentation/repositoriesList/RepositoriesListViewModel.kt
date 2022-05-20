@@ -28,9 +28,11 @@ class RepositoriesListViewModel @Inject constructor(
 
     fun signOut() = repository.signOut()
 
+    fun retry() = getRepos()
 
     private fun getRepos() {
         viewModelScope.launch {
+            _state.value = State.Loading
             when (val res = repository.getRepositories()) {
                 is Resource.Success -> {
                     if (res.data.isEmpty()) {

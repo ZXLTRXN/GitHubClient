@@ -105,6 +105,7 @@ class RepositoriesListFragment : Fragment(R.layout.fragment_repositories_list) {
         collectLatestLifecycleFlow(viewModel.state) { state ->
             setUpViews(state, adapter)
         }
+        binding.errorLayout.retryButton.setOnClickListener { viewModel.retry() }
     }
 
     private fun navigateToDetailInfo(ownerName: String, repoName: String, branch: String) {

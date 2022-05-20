@@ -27,10 +27,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-//        if (savedInstanceState == null) {
-//            setPreDrawListener()
-//        }
-//        setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             val destinationId = if (storage.authToken != null) {
                 R.id.repositoriesListFragment
@@ -39,6 +35,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
             setStartDestination(destinationId)
         }
+
+
+        //        if (savedInstanceState == null) {
+//            setPreDrawListener()
+//        }
+//        setContentView(R.layout.activity_main)
     }
 
 //    private fun setPreDrawListener() {
