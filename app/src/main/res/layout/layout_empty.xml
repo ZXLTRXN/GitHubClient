@@ -41,8 +41,8 @@
         android:id="@+id/refresh_button"
         style="@style/Widget.Button"
         android:text="@string/btn_refresh"
-        android:layout_marginHorizontal="@dimen/fragment_horizontal_padding"
-        android:layout_marginVertical="@dimen/fragment_horizontal_padding"
+        android:layout_marginHorizontal="@dimen/fragment_horizontal_margin"
+        android:layout_marginVertical="@dimen/fragment_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

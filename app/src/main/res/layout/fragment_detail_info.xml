@@ -21,13 +21,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
- >
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/App.Layout.Padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fragment_horizontal_margin"
+            android:layout_marginStart="@dimen/fragment_horizontal_margin"
             tools:context=".presentation.detailInfo.DetailInfoFragment">
 
             <androidx.constraintlayout.widget.Guideline
@@ -235,7 +235,7 @@
     <include
         android:id="@+id/error_layout"
         layout="@layout/layout_error"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
@@ -247,7 +247,7 @@
     <include
         android:id="@+id/loading_layout"
         layout="@layout/layout_loading"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
