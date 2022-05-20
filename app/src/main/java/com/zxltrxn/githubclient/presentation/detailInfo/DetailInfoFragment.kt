@@ -68,6 +68,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         }
     }
 
+
     private fun setUpViews(state: State) {
         with(binding) {
             errorLayout.root.visibility = if (state is State.Error) View.VISIBLE else View.GONE
@@ -104,8 +105,19 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
                 progressCircularReadme.visibility =
                     if (readmeState is ReadmeState.Loading) View.VISIBLE else View.GONE
 
-                if (readmeState is ReadmeState.Error) tvReadme.text =
-                    readmeState.errorMessage.getString(requireContext())
+                errorLayout.root.visibility =
+                    if (readmeState is ReadmeState.Error) View.VISIBLE else View.GONE
+                errorLayout.tvLabelError.text =
+                    if (readmeState is ReadmeState.Error) readmeState.errorLabel.getString(
+                        requireContext()
+                    ) else null
+                errorLayout.tvInfoError.text =
+                    if (readmeState is ReadmeState.Error) readmeState.errorMessage.getString(
+                        requireContext()
+                    ) else null
+                if (readmeState is ReadmeState.Error) {
+                    errorLayout.ivError.setImageResource(readmeState.errorIcon)
+                }
 
                 if (readmeState is ReadmeState.Empty) tvReadme.text =
                     getString(R.string.empty_readme)
