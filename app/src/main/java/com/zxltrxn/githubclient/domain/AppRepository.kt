@@ -69,14 +69,20 @@ class AppRepository @Inject constructor(
     }
 
     ////////////Auth
-    fun isTokenSaved(): Boolean = userStorage.authToken != null
-
-    suspend fun signInWithSavedToken(): Resource<Unit> = signInRequest()
-
-    suspend fun signIn(token: String): Resource<Unit> {
-        userStorage.authToken = token
-        return signInRequest()
-    }
+    suspend fun signIn(token: String): Resource<Unit> =
+        withContext(Dispatchers.IO) {
+            userStorage.authToken = token
+            val res: Resource<RepoData.Owner> = tryRequest { api.getUser() }
+            return@withContext when (res) {
+                is Resource.Success -> {
+                    Resource.Success(Unit)
+                }
+                is Resource.Error -> {
+                    if (res.code == WRONG_TOKEN_CODE) userStorage.clearUserData()
+                    res
+                }
+            }
+        }
 
     fun signOut() = userStorage.clearUserData()
 
@@ -107,19 +113,4 @@ class AppRepository @Inject constructor(
             it
         }
     }
-
-    private suspend fun signInRequest(): Resource<Unit> =
-        withContext(Dispatchers.IO) {
-            val res: Resource<RepoData.Owner> = tryRequest { api.getUser() }
-            return@withContext when (res) {
-                is Resource.Success -> {
-                    userStorage.userName = res.data.name
-                    Resource.Success(Unit)
-                }
-                is Resource.Error -> {
-                    if (res.code == WRONG_TOKEN_CODE) userStorage.clearUserData()
-                    res
-                }
-            }
-        }
 }

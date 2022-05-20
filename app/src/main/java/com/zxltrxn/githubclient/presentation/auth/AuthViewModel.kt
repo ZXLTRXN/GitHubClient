@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AuthScreenViewModel @Inject constructor(
+class AuthViewModel @Inject constructor(
     private val repository: AppRepository
 ) : ViewModel() {
 

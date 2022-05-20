@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.databinding.FragmentAuthBinding
-import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.Action
-import com.zxltrxn.githubclient.presentation.auth.AuthScreenViewModel.State
+import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.Action
+import com.zxltrxn.githubclient.presentation.auth.AuthViewModel.State
 import com.zxltrxn.githubclient.utils.bindTextTwoWay
 import com.zxltrxn.githubclient.utils.collectActions
 import com.zxltrxn.githubclient.utils.collectLatestLifecycleFlow
@@ -21,7 +21,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<AuthScreenViewModel>()
+    private val viewModel by viewModels<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

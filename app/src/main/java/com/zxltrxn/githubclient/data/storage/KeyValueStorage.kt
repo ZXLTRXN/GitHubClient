@@ -15,22 +15,12 @@ class KeyValueStorage @Inject constructor(@ApplicationContext context: Context) 
                 .apply()
         }
 
-    var userName: String?
-        get() = prefs.getString(KEY_NAME, null)
-        set(name) {
-            prefs.edit()
-                .putString(KEY_NAME, name)
-                .apply()
-        }
-
     fun clearUserData() {
         authToken = null
-        userName = null
     }
 
-    companion object{
+    companion object {
         private const val SHARED_PREFS_NAME = "shared_prefs_user_data"
-        private const val KEY_NAME = "name"
         private const val KEY_TOKEN = "token"
     }
 }

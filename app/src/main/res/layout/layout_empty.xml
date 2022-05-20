@@ -9,20 +9,20 @@
         android:id="@+id/iv_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/empty_error_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_empty"
-        android:contentDescription="@string/empty_error_label" />
+        app:srcCompat="@drawable/ic_empty" />
 
     <TextView
         android:id="@+id/tv_label_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/empty_error_label"
         android:textAppearance="@style/TextAppearance.App.Text.Label"
         android:textColor="@color/blue"
-        android:text="@string/empty_error_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
@@ -40,9 +40,9 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/refresh_button"
         style="@style/Widget.Button"
-        android:text="@string/btn_refresh"
         android:layout_marginHorizontal="@dimen/fragment_horizontal_margin"
         android:layout_marginVertical="@dimen/fragment_horizontal_margin"
+        android:text="@string/btn_refresh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

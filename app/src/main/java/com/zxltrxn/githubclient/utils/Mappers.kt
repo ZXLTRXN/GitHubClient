@@ -1,4 +1,5 @@
 package com.zxltrxn.githubclient.utils
+
 import com.zxltrxn.githubclient.data.model.RepoData
 import com.zxltrxn.githubclient.domain.model.Repo
 

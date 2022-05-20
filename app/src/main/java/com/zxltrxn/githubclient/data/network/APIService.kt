@@ -1,7 +1,6 @@
 package com.zxltrxn.githubclient.data.network
 
 import com.zxltrxn.githubclient.data.model.RepoData
-import com.zxltrxn.githubclient.domain.model.Repo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,7 +22,7 @@ interface APIService {
         @Path("repo") repoName: String
     ): Response<RepoData>
 
-    companion object{
+    companion object {
         const val BASE_URL = "https://api.github.com/"
         const val BASE_URL_README = "https://raw.githubusercontent.com/"
         const val WRONG_TOKEN_CODE = 401

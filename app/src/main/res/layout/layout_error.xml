@@ -9,12 +9,12 @@
         android:id="@+id/iv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/network_error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_network_error"
-        android:contentDescription="@string/network_error" />
+        app:srcCompat="@drawable/ic_network_error" />
 
     <TextView
         android:id="@+id/tv_label_error"
@@ -40,9 +40,9 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
         style="@style/Widget.Button"
-        android:text="@string/btn_retry"
         android:layout_marginHorizontal="@dimen/fragment_horizontal_margin"
         android:layout_marginVertical="@dimen/fragment_horizontal_margin"
+        android:text="@string/btn_retry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

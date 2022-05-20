@@ -34,9 +34,9 @@
             android:id="@+id/input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAppearance="@style/TextAppearance.App.Text.Label"
             android:imeOptions="actionDone"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.App.Text.Label" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

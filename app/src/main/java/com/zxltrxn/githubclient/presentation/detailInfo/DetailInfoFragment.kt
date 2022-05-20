@@ -141,7 +141,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
     }
 
     private fun exposeErrorConstraintsForReadme() {
-            with(binding){
+        with(binding) {
             val constraintLayout: ConstraintLayout = parentLayout
             ConstraintSet().apply {
                 clone(constraintLayout)
