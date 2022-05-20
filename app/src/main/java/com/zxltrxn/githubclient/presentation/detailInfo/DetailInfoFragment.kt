@@ -136,6 +136,7 @@ class DetailInfoFragment : Fragment(R.layout.fragment_detail_info) {
         collectLatestLifecycleFlow(viewModel.state) { state ->
             setUpViews(state)
         }
+        binding.errorLayout.retryButton.setOnClickListener { viewModel.retry() }
     }
 
     private fun navigateBack() {

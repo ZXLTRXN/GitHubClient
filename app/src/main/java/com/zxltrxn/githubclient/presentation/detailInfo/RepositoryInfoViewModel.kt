@@ -52,6 +52,7 @@ class RepositoryInfoViewModel @Inject constructor(
 
     private fun getInfo(ownerName: String, repoName: String, branch: String) {
         viewModelScope.launch {
+            _state.value = State.Loading
             val repoRes: Resource<Repo> = repository.getRepository(ownerName, repoName)
             val readmeRes: Resource<String> =
                 repository.getRepositoryReadme(ownerName, repoName, branch)
