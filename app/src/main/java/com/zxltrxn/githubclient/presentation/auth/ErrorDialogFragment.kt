@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.network.APIService
 import com.zxltrxn.githubclient.data.network.NetworkUtils
-import com.zxltrxn.githubclient.domain.LocalizeString
+import com.zxltrxn.githubclient.data.LocalizeString
 
 
 class ErrorDialogFragment(private val message: LocalizeString, private val code: Int?) :

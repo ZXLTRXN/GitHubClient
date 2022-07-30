@@ -4,8 +4,8 @@ import android.util.Log
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.network.APIService.Companion.NO_RIGHTS_CODE
 import com.zxltrxn.githubclient.data.network.APIService.Companion.WRONG_TOKEN_CODE
-import com.zxltrxn.githubclient.domain.LocalizeString
-import com.zxltrxn.githubclient.domain.Resource
+import com.zxltrxn.githubclient.data.LocalizeString
+import com.zxltrxn.githubclient.data.Resource
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

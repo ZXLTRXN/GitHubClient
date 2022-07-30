@@ -1,4 +1,4 @@
-package com.zxltrxn.githubclient.domain
+package com.zxltrxn.githubclient.data
 
 sealed interface Resource<out T> {
     data class Success<T>(val data: T) : Resource<T>

@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zxltrxn.githubclient.R
 import com.zxltrxn.githubclient.data.network.NetworkUtils
-import com.zxltrxn.githubclient.domain.AppRepository
-import com.zxltrxn.githubclient.domain.LocalizeString
-import com.zxltrxn.githubclient.domain.Resource
+import com.zxltrxn.githubclient.data.AppRepository
+import com.zxltrxn.githubclient.data.LocalizeString
+import com.zxltrxn.githubclient.data.Resource
 import com.zxltrxn.githubclient.domain.model.Repo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
